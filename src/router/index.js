@@ -9,55 +9,55 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        meta: { layout: First, 'name': 'Home' },
+        meta: { layout: First, 'par': '', 'name': 'Home' },
         component: () => import('../views/HomeView.vue')
     },
     {
         path: '/user-login',
         name: 'userLogin',
-        meta: { layout: Login, 'name': 'Login' },
+        meta: { layout: Login, 'par': '', 'name': 'Login' },
         component: () => import('../views/LoginView.vue')
     },
     {
         path: '/user-register',
         name: 'userRegister',
-        meta: { layout: Login, 'name': 'Register' },
+        meta: { layout: Login, 'par': '', 'name': 'Register' },
         component: () => import('../views/RegisterView.vue')
     },
     {
         path: '/user-activation',
         name: 'userActivation',
-        meta: { layout: Login, 'name': 'Activation' },
+        meta: { layout: Login, 'par': '', 'name': 'Activation' },
         component: () => import('../views/ActivationView.vue')
     },
     {
         path: "/user-browse",
         name: 'userBrowse',
-        meta: { layout: First, 'name': 'Profile' },
+        meta: { layout: First, 'par': 'User', 'name': 'Browse' },
         component: () => import('../views/UserProfileView.vue')
     },
     {
         path: '/user-profile',
         name: 'userProfile',
-        meta: { layout: First, 'name': 'Profile' },
+        meta: { layout: First, 'par': 'User', 'name': 'Profile' },
         component: () => import('../views/UserProfileView.vue')
     },
     {
         path: '/user-password',
         name: 'userPassword',
-        meta: { layout: First, 'name': 'Password' },
+        meta: { layout: First, 'par': 'User', 'name': 'Password' },
         component: () => import('../views/UserPasswordView.vue')
     },
     {
         path: '/product-browse',
         name: 'productBrowse',
-        meta: { layout: First, 'name': 'Password' },
+        meta: { layout: First, 'par': 'Product', 'name': 'Browse' },
         component: () => import('../views/HomeView.vue')
     },
     {
         path: '/product-stock',
         name: 'productStock',
-        meta: { layout: First, 'name': 'Password' },
+        meta: { layout: First, 'par': 'Product', 'name': 'Stock' },
         component: () => import('../views/UserPasswordView.vue')
     }
 ];

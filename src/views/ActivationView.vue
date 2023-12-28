@@ -4,7 +4,7 @@
             <div class="column is-three-quarters-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd m-auto">
                 <div>
                     <figure class="image is-64x64">
-                        <img src="../assets/images/homework.png" height="28">
+                        <img src="../assets/images/logo.png" height="28">
                     </figure>
                 </div>
                 <div class="mt-6 mb-4 is-size-6"><i class="fa-thin fa-arrow-right-long"></i> Please enter your activation code <i>(<u>acticode</u>)</i> to activate</div>

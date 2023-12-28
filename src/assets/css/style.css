@@ -139,6 +139,9 @@ body {
 
 /* End */
 
+.informasi {
+    background-image: linear-gradient(to right, #d1fdd29c , transparent, transparent, transparent);
+}
 
 /* vue-select */
 .v-selectx {

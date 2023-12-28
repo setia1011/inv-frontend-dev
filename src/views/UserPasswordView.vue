@@ -4,7 +4,7 @@
         <!-- {{ store.userInfo }} -->
         <div class="columns">
             <div class="column">
-                <span class="tag is-warning is-light mb-4">Update your password</span>
+                <span class="tag is-success is-light mb-4">Update your password</span>
                 <hr class="m-0 mb-4">
                 <div class="">
                     <div class="field is-horizontal">
