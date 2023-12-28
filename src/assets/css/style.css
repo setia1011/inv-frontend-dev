@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: text !important;
+}
+html {
+    overflow-y: auto !important;
+}
+
+/* clearfix */
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+#app {
+    height: 100%;
+}
+.border {
+    border: 1px solid #e1e1e1;
+}
+.r {
+    border-radius: 4px 4px 4px 4px !important;
+}
+.rl-0 {
+    border-radius: 0px 4px 4px 0px !important;
+}
+.rr-0 {
+    border-radius: 4px 0px 0px 4px !important;
+}
+html {
+    overflow-y: hidden;
+}
+body {
+    position: relative;
+}
+#header {
+    border-bottom: 1px solid #8080802b;
+}
+#main {
+    position: relative;
+    min-height: calc(100vh - 150px);
+}
+.footer {
+    padding: 1em 0;
+    /* padding: 1em 0; */
+    /* position: absolute; */
+    width: 100%;
+    bottom: 0;
+}
+
+/* SideNav */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    background-color: hsl(0deg 0% 21%);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    text-decoration: none;
+    color: #818181;
+    transition: 0.3s;
+    padding-right: 1.2em;
+}
+
+.sidenav a:hover {
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.menu-list a:hover {
+    color: #ddfffc !important;
+}
+
+/*  */
+.menu-label-top {
+    display: block;
+    padding: 12.5px 15px 13.5px 17px;
+    box-shadow: 0px 0px 2px 0px hsl(0deg 1% 39%);
+}
+
+.menu-label-top .menu-label {
+    display: inline-block;
+    padding: 0.5em 0.75em;
+}
+
+.menu-label-top .closebtn {
+    float: right;
+    /* display: inline-block; */
+    cursor: pointer;
+    right: 20px;
+}
+
+.menu-has-sub span i {
+    font-size: 10px;
+    line-height: 28px;
+}
+
+.menu-has-sub-list {
+    padding-left: 0 !important; 
+    margin-left: 0.75em !important; 
+    margin-top: 0.3em !important; 
+    margin-bottom: 0.3em !important; 
+    border-left: none !important;
+    display: none;
+    transition: 0.5s linear !important;
+}
+
+.menu-has-sub-list li a i {
+    font-size: 9px;
+    margin-right: 5px;
+}
+
+.showx {
+    display: none;
+}
+
+.icon-menu-parent {
+    margin-left: 6px;
+    font-size: 10px;
+    margin-right: 3px !important;
+    color: hsl(195deg 89% 52%) !important;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* End */
+
+
+/* vue-select */
+.v-selectx {
+    display: inline-block;
+}
+.v-selectx .vs__dropdown-menu {
+    overflow-x: hidden;
+}
+::placeholder {
+    color: rgb(172, 170, 170) !important;
+}
+.vs__search, .vs__search:focus {
+    padding: 0.17em 0.5em !important;
+}
+.vs__selected {
+    padding: 0 0.3em !important;
+}
+.vs__dropdown-menu li {
+    padding-left: 0.55em !important;
+}
+
+/* End */
+
+@media screen and (max-width: 1024px) {
+    .p-32 {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    .p-32x {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .mt-2-tablet {
+        margin-top: 10px !important;
+    }
+    .p-32x {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .sidenav {
+        width: 0 !important;
+    }
+}
