@@ -1,6 +1,6 @@
 # inv-frontend-dev
 
-This template should help get you started developing with Vue 3 in Vite.
+Frontend for Inventory with VueJs
 
 ## Recommended IDE Setup
 
