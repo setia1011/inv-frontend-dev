@@ -4,7 +4,11 @@
         <!-- {{ store.userInfo }} -->
         <div class="columns">
             <div class="column">
-                <span class="tag is-success is-light mb-4">Update your password</span>
+                <article class="message is-success is-inline-block">
+                    <div class="message-body p-1 pl-2" style="border-width: 0 0 0 2.5px;">
+                        Silahkan melakukan update password Anda
+                    </div>
+                </article>
                 <hr class="m-0 mb-4">
                 <div class="">
                     <div class="field is-horizontal">

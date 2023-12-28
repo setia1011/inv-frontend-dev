@@ -4,7 +4,11 @@
         <!-- {{ store.userInfo }} -->
         <div class="columns">
             <div class="column">
-                <span class="tag is-warning is-light mb-4">Update profile info as needed</span>
+                <article class="message is-success is-inline-block">
+                    <div class="message-body p-1 pl-2" style="border-width: 0 0 0 2.5px;">
+                        Pastikan data profile Anda sudah sesuai
+                    </div>
+                </article>
                 <hr class="m-0 mb-4">
                 <div class="">
                     <div class="field is-horizontal">
