@@ -166,7 +166,7 @@ export default {
                 this.id_types = r.data;
                 let y = null;
                 this.id_types.forEach((e) => {
-                    if (e.id_type === this.store.userInfo?.ref_user_id_type?.id_type) {
+                    if (e.id_type === this.store.userInfo?.user_id_type?.id_type) {
                         y = e.id;
                     }
                 })

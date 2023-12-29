@@ -34,7 +34,7 @@ const routes = [
         path: "/user-browse",
         name: 'userBrowse',
         meta: { layout: First, 'par': 'User', 'name': 'Browse' },
-        component: () => import('../views/UserProfileView.vue')
+        component: () => import('../views/UserBrowseView.vue')
     },
     {
         path: '/user-profile',
@@ -52,13 +52,31 @@ const routes = [
         path: '/product-browse',
         name: 'productBrowse',
         meta: { layout: First, 'par': 'Product', 'name': 'Browse' },
-        component: () => import('../views/HomeView.vue')
+        component: () => import('../views/ProductBrowseView.vue')
     },
     {
         path: '/product-stock',
         name: 'productStock',
         meta: { layout: First, 'par': 'Product', 'name': 'Stock' },
-        component: () => import('../views/UserPasswordView.vue')
+        component: () => import('../views/ProductStockView.vue')
+    },
+    {
+        path: '/buy-transaction',
+        name: 'buyTransaction',
+        meta: { layout: First, 'par': 'Buy', 'name': 'Transaction' },
+        component: () => import('../views/BuyTransactionView.vue')
+    },
+    {
+        path: '/buy-browse',
+        name: 'buyBrowse',
+        meta: { layout: First, 'par': 'Buy', 'name': 'Browse' },
+        component: () => import('../views/BuyBrowseView.vue')
+    },
+    {
+        path: '/buy-summary',
+        name: 'buySummary',
+        meta: { layout: First, 'par': 'Buy', 'name': 'Summary' },
+        component: () => import('../views/BuySummaryView.vue')
     }
 ];
 
