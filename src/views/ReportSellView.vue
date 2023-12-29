@@ -7,7 +7,7 @@
  
 <script>
 export default {
-   name: 'SellSummary',
+   name: 'ReportSell',
    mounted() {
    }
 }

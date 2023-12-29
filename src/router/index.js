@@ -77,6 +77,48 @@ const routes = [
         name: 'buySummary',
         meta: { layout: First, 'par': 'Buy', 'name': 'Summary' },
         component: () => import('../views/BuySummaryView.vue')
+    },
+    {
+        path: '/sell-transaction',
+        name: 'sellTransaction',
+        meta: { layout: First, 'par': 'Sell', 'name': 'Transaction' },
+        component: () => import('../views/SellTransactionView.vue')
+    },
+    {
+        path: '/sell-browse',
+        name: 'sellBrowse',
+        meta: { layout: First, 'par': 'Sell', 'name': 'Browse' },
+        component: () => import('../views/SellBrowseView.vue')
+    },
+    {
+        path: '/sell-summary',
+        name: 'sellSummary',
+        meta: { layout: First, 'par': 'Sell', 'name': 'Summary' },
+        component: () => import('../views/SellSummaryView.vue')
+    },
+    {
+        path: '/report',
+        name: 'report',
+        meta: { layout: First, 'par': 'Report', 'name': 'All' },
+        component: () => import('../views/ReportView.vue')
+    },
+    {
+        path: '/report-stock',
+        name: 'reportStock',
+        meta: { layout: First, 'par': 'Report', 'name': 'Stock' },
+        component: () => import('../views/ReportStockView.vue')
+    },
+    {
+        path: '/report-buy',
+        name: 'reportBuy',
+        meta: { layout: First, 'par': 'Report', 'name': 'Buy' },
+        component: () => import('../views/ReportBuyView.vue')
+    },
+    {
+        path: '/report-sell',
+        name: 'reportSell',
+        meta: { layout: First, 'par': 'Report', 'name': 'Sell' },
+        component: () => import('../views/ReportSellView.vue')
     }
 ];
 
