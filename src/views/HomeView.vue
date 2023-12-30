@@ -1,7 +1,7 @@
 <template>
   <div ref="main" id="main" class="container is-fluid mt-5 p-32">
     <page-header></page-header>
-    Welcome to Exam!
+    Welcome to Inv!
   </div>
 </template>
 

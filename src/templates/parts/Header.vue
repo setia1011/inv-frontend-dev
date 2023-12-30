@@ -35,6 +35,9 @@
                                     <div class="navbar-dropdown">
                                         <template v-for="(i, x) in item.children" :key="x">
                                             <router-link :to="i.to" class="navbar-item" v-on:click="smClicked($event)">{{ i.label }}</router-link>
+                                            <template v-if="i.to == '/product-stock'">
+                                                <hr class="navbar-divider">
+                                            </template>
                                         </template>
                                     </div>
                                 </div>

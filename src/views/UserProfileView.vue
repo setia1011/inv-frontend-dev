@@ -5,7 +5,7 @@
         <div class="columns">
             <div class="column">
                 <article class="message is-success is-inline-block">
-                    <div class="message-body p-1 pl-2" style="border-width: 0 0 0 2.5px;">
+                    <div class="message-body p-1 pl-2 pr-2" style="border-width: 0 0 0 2.5px;">
                         Pastikan data profile Anda sudah sesuai
                     </div>
                 </article>

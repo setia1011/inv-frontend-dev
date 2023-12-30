@@ -61,6 +61,18 @@ const routes = [
         component: () => import('../views/ProductStockView.vue')
     },
     {
+        path: '/product-category',
+        name: 'productCategory',
+        meta: { layout: First, 'par': 'Product', 'name': 'Category' },
+        component: () => import('../views/ProductCategoryView.vue')
+    },
+    {
+        path: '/product-unit',
+        name: 'productUnit',
+        meta: { layout: First, 'par': 'Product', 'name': 'Unit' },
+        component: () => import('../views/ProductUnitView.vue')
+    },
+    {
         path: '/buy-transaction',
         name: 'buyTransaction',
         meta: { layout: First, 'par': 'Buy', 'name': 'Transaction' },
@@ -97,7 +109,7 @@ const routes = [
         component: () => import('../views/SellSummaryView.vue')
     },
     {
-        path: '/report',
+        path: '/report-all',
         name: 'report',
         meta: { layout: First, 'par': 'Report', 'name': 'All' },
         component: () => import('../views/ReportView.vue')
@@ -128,7 +140,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async to => {
-    window.document.title = `Inv - ${to.meta.name}`;
+    const y5 = to.meta.par ? '-' : ''
+    window.document.title = `Inv : ${to.meta.par } ${y5} ${to.meta.name}`;
     console.log(`Go to: ${to.name}`);
 
     const token = window.$cookies.get('token');
