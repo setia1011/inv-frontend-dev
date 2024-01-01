@@ -11,21 +11,17 @@
             <div>
                <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
                   <div class="field has-addons">
-                     <div class="control has-icons-left">
-                        <div class="select">
-                           <select v-model="order">
-                              <option value="asc">Ascending</option>
-                              <option value="desc">Descending</option>
-                           </select>
-                        </div>
-                        <div class="icon is-small is-left" style="color: hsl(207deg, 61%, 53%);">
-                           <i class="fa-light" :class="[order === 'asc' ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
-                        </div>
-                     </div>
+                     <p class="control">
+                        <a class="button">
+                           <div class="icon is-small is-left" @click="asc = !asc" style="color: hsl(207deg, 61%, 53%);">
+                              <i class="fa-solid" :class="[asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
+                           </div>
+                        </a>
+                     </p>
                      <p class="control is-expanded">
                         <input class="input" v-model="qcategory" type="text" placeholder=".. by category">
                      </p>
-                     <div class="button is-success ml-2" @click="changeCol('create')">
+                     <div class="button is-success is-light is-outlined ml-2" @click="changeCol('create')">
                         <span class="icon">
                            <i class="fa-regular fa-circle-plus"></i>
                         </span>
@@ -108,7 +104,7 @@
                      </div>
                   </div>
                </div>
-         </div>
+            </div>
          </div>
          <div class="column x-create" v-if="colshow == 'create' || colshow == 'edit'">
             <Form :validation-schema="valCategorySchema" @submit="createCategory">
@@ -247,6 +243,7 @@ export default {
          colinfo: 'List of product categories',
          qcategory: null,
          order: 'asc',
+         asc: true,
          page: 1,
          totalPages: 0,
          pageSize: 5,
@@ -264,6 +261,13 @@ export default {
       }
    },
    watch: {
+      asc: function() {
+         if (this.asc) {
+            this.order = 'asc';
+         } else {
+            this.order = 'desc';
+         }
+      },
       order: function() {
          this.getProductCategories();
       },

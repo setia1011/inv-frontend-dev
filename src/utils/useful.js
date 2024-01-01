@@ -59,6 +59,26 @@ const createMask = (string, currency) => {
       return string.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
    }
 }
+
+// Function to convert a string number to currency format
+function formatCurrency(numberString, locale = 'en-US', currency = 'USD') {
+   // Parse the string to a number
+   const number = parseFloat(numberString);
+ 
+   // Check if the number is valid
+   if (isNaN(number)) {
+     console.error('Invalid number');
+     return '';
+   }
+ 
+   // Use Intl.NumberFormat to format the number as currency
+   const formatter = new Intl.NumberFormat(locale, {
+     style: 'currency',
+     currency: currency,
+   });
+ 
+   return formatter.format(number);
+}
  
 const destroyMask = (string) => {
    return string.replace(/\D/g,'');
@@ -73,5 +93,6 @@ export {
    toDecrypt,
    limitText,
    createMask,
-   destroyMask
+   destroyMask,
+   formatCurrency
 }

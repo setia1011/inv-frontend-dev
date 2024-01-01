@@ -7,7 +7,7 @@
  
 <script>
 export default {
-   name: 'UserBrowse',
+   name: 'UserManage',
    mounted() {
    }
 }

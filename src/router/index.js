@@ -31,10 +31,10 @@ const routes = [
         component: () => import('../views/ActivationView.vue')
     },
     {
-        path: "/user-browse",
-        name: 'userBrowse',
-        meta: { layout: First, 'par': 'User', 'name': 'Browse' },
-        component: () => import('../views/UserBrowseView.vue')
+        path: "/user-manage",
+        name: 'userManage',
+        meta: { layout: First, 'par': 'User', 'name': 'Manage' },
+        component: () => import('../views/UserManageView.vue')
     },
     {
         path: '/user-profile',

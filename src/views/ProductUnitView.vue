@@ -11,7 +11,14 @@
             <div>
                <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
                   <div class="field has-addons">
-                     <div class="control has-icons-left">
+                     <p class="control">
+                        <a class="button">
+                           <div class="icon is-small is-left" @click="asc = !asc" style="color: hsl(207deg, 61%, 53%);">
+                              <i class="fa-solid" :class="[asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
+                           </div>
+                        </a>
+                     </p>
+                     <!-- <div class="control has-icons-left">
                         <div class="select">
                            <select v-model="order">
                               <option value="asc">Ascending</option>
@@ -21,7 +28,7 @@
                         <div class="icon is-small is-left" style="color: hsl(207deg, 61%, 53%);">
                            <i class="fa-light" :class="[order === 'asc' ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
                         </div>
-                     </div>
+                     </div> -->
                      <p class="control is-expanded">
                         <input class="input" v-model="q" type="text" placeholder=".. by unit">
                      </p>
@@ -180,6 +187,7 @@ export default {
          colinfo: 'List of product units',
          q: null,
          order: 'asc',
+         asc: true,
          page: 1,
          totalPages: 0,
          pageSize: 5,
@@ -193,6 +201,13 @@ export default {
       }
    },
    watch: {
+      asc: function() {
+         if (this.asc) {
+            this.order = 'asc';
+         } else {
+            this.order = 'desc';
+         }
+      },
       order: function() {
          this.getProductUnits();
       },
@@ -229,7 +244,7 @@ export default {
       },
       getProductUnits: function() {
          this.isListLoading = true;
-         xaxios.get(`inventory/product-unit?q=${this.q ? this.q : ''}&page=${this.page}&per_page=${this.pageSize}&order=${this.order}`).then((res) => {
+         xaxios.get(`inventory/product-units-px?q=${this.q ? this.q : ''}&page=${this.page}&per_page=${this.pageSize}&order=${this.order}`).then((res) => {
             this.units = res.data.items;
             this.totalPages = res.data.total_pages;
             this.totalItems = res.data.total_items;
