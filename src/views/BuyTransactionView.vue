@@ -39,8 +39,8 @@
                            <th>Supplier</th>
                            <th>Penerima</th>
                            <th>Pemesan</th>
-                           <!-- <th>Harga (Beli)</th> -->
                            <th>Harga Total</th>
+                           <th>Jml. Produk</th>
                            <th>Status</th>
                            <th class="pr-0"></th>
                         </tr>
@@ -64,8 +64,8 @@
                            <td>{{ i.supplier.company }}</td>
                            <td>{{ i.recipient.name }}</td>
                            <td>{{ i.orderer.name }}</td>
-                           <!-- <td><span v-if="i.price_buy_total">{{ toIdr(i.price_buy_total) }}</span><span v-else>{{ toIdr(0) }}</span></td> -->
                            <td><span v-if="i.price_buy_total_final">{{ toIdr(i.price_buy_total_final) }}</span><span v-else>{{ toIdr(0) }}</span></td>
+                           <td>{{ i.products?.length }}</td>
                            <td><span class="tag" :class="[{'is-danger': i.status == 'belum'}, {'is-warning': i.status == 'cicil' }, {'is-success': i.status == 'lunas' }]">{{ i.status }}</span></td>
                            <td class="pr-0">
                               <div class="tags is-right">
@@ -148,7 +148,7 @@
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Faktur Number</label>
+                           <label class="label">No. Faktur</label>
                            <p class="control is-expanded">
                               <Field class="input" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_invoice_number" v-model="invoice_number" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_invoice_number" />
@@ -157,9 +157,10 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Faktur Date</label>
+                           <label class="label">Tgl. Faktur</label>
                            <p class="control is-expanded">
-                              <Field class="input" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_invoice_date" v-model="invoice_date" />
+                              <VueDatePicker v-model="invoice_date" :highlight-week-days="[0, 6]" :enable-time-picker="false" :format="'dd/MM/yyyy'" position="left"></VueDatePicker>
+                              <Field class="input" type="hidden" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_invoice_date" v-model="invoice_date" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_invoice_date" />
                            </p>
                         </div>
@@ -173,7 +174,7 @@
                                  label="company"
                                  v-model="supplier_id" 
                                  :reduce="_supplier => _supplier.id" 
-                                 placeholder="Select supplier"
+                                 placeholder="Pilih Supplier"
                                  @search="getSuppliers"
                                  @update:modelValue="supplierChanged"
                                  :options="_suppliers">
@@ -185,14 +186,14 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">recipient (Penerima)</label>
+                           <label class="label">Penerima</label>
                            <p class="control is-expanded">
                               <v-select 
                                  class="v-selectx" 
                                  label="name"
                                  v-model="recipient_id" 
                                  :reduce="_recipient => _recipient.id" 
-                                 placeholder="Select recipient"
+                                 placeholder="Pilih Penerima"
                                  @search="getrecipients"
                                  @update:modelValue="recipientChanged"
                                  :options="_recipients">
@@ -204,14 +205,14 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Orderer (Pemesan)</label>
+                           <label class="label">Pemesan</label>
                            <p class="control is-expanded">
                               <v-select 
                                  class="v-selectx" 
                                  label="name"
                                  v-model="orderer_id" 
                                  :reduce="_orderer => _orderer.id" 
-                                 placeholder="Select orderer"
+                                 placeholder="Pilih Pemesan"
                                  @search="getOrderes"
                                  @update:modelValue="ordererChanged"
                                  :options="_orderers">
@@ -228,7 +229,7 @@
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Weight Total (Berat KG)</label>
+                           <label class="label">Berat Total (KG)</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_weight_kg_total" v-model="weight_kg_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg_total" />
@@ -237,7 +238,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Shipping Fee (Ongkir)</label>
+                           <label class="label">Ongkir</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_shipping_fee" v-model="shipping_fee" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_shipping_fee" />
@@ -246,7 +247,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Admin Fee (Biaya Admin)</label>
+                           <label class="label">Admin</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_admin_fee" v-model="admin_fee" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_admin_fee" />
@@ -255,7 +256,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Discount (Diskon)</label>
+                           <label class="label">Diskon</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_discount" v-model="discount" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_discount" />
@@ -264,7 +265,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Tax (PPN)</label>
+                           <label class="label">PPN</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_tax" v-model="tax" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_tax" />
@@ -273,7 +274,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Total Price (Harga Total)</label>
+                           <label class="label">Harga Total</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_price_buy_total" v-model="price_buy_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy_total" />
@@ -282,7 +283,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Final Price (Harga Final)</label>
+                           <label class="label">Harga Final</label>
                            <p class="control is-expanded">
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_price_buy_total_final" v-model="price_buy_total_final" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy_total_final" />
@@ -298,7 +299,7 @@
                                  label="label"
                                  v-model="status" 
                                  :reduce="label => label.code" 
-                                 placeholder="Select orderer"
+                                 placeholder="Pilih Status"
                                  @update:modelValue="statusChanged"
                                  :options="statuses">
                               </v-select>
@@ -336,14 +337,14 @@
                   <div class="column is-6 pt-3 pb-0">
                      <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                           <label class="label">Faktur</label>
+                           <label class="label is-pulled-left">~ Faktur</label>
                         </div>
                         <div class="field-body">
                            <div class="field">
                               <div class="control">
                                  <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
                                  <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
-                                 <input class="input is-dark has-text-dark has-text-weight-bold has-background-white-ter" type="text" disabled readonly :value="'No: ' + buy_header?.invoice_number + ', tanggal: ' + dateFormat(buy_header?.invoice_date)">
+                                 <input class="input is-info is-light has-text-dark has-text-weight-bold has-background-white-ter" type="text" :value="'No: ' + buy_header?.invoice_number + ', tanggal: ' + dateFormat(buy_header?.invoice_date)">
                               </div>
                            </div>
                         </div>
@@ -352,6 +353,17 @@
                </div>
                <div class="is-divider mt-2 mb-2"></div>
                <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+                  <!-- <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Produk</label>
+                           <p class="control is-expanded">
+                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;"/>
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
+                           </p>
+                        </div>
+                     </div>
+                  </div> -->
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -395,7 +407,7 @@
                         <div class="field">
                            <label class="label">Produk</label>
                            <p class="control is-expanded">
-                              <Field class="textarea" as="textarea" row="3" name="v_product_name" v-model="product_name" />
+                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;"/>
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
                            </p>
                         </div>
@@ -501,30 +513,34 @@ import { xaxios } from '@/utils/xaxios';
 import { useToast } from "vue-toastification";
 import { createConfirmDialog } from 'vuejs-confirm-dialog';
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { toDbDateTime, createMask, destroyMask, formatCurrency } from '../utils/useful';
+import { toDbDateTime, toDbDate, createMask, destroyMask, formatCurrency } from '../utils/useful';
 import { ref } from "vue";
+
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
    name: 'BuyTransaction',
    components: {
-      Loading, Paginate, Form, Field, ErrorMessage, vSelect
+      Loading, Paginate, Form, Field, ErrorMessage, vSelect, VueDatePicker
    },
    setup() {
       const toast = useToast();
 
       const valHeader = ref(
          yup.object({
-            v_invoice_number: yup.string().required().label('Faktur Number'),
-            v_invoice_date: yup.string().required().label('Faktur Date'),
+            v_invoice_number: yup.string().required().label('No. Faktur'),
+            v_invoice_date: yup.string().required().label('Tgl. Faktur'),
             v_supplier_id: yup.string().required().label('Supplier'),
-            v_weight_kg_total: yup.string().nullable().label('Weight Total'),
-            v_shipping_fee: yup.string().nullable().label('Shipping Fee'),
-            v_admin_fee: yup.string().nullable().label('Admin Fee'),
-            v_discount: yup.string().nullable().label('Discount'),
-            v_tax: yup.string().nullable().label('Tax'),
-            v_price_buy_total: yup.string().nullable().label('Total Price'),
-            v_price_buy_total_final: yup.string().nullable().label('Final Price'),
-            v_orderer_id: yup.string().required().label('Orderer'),
-            v_recipient_id: yup.string().required().label('recipient'),
+            v_weight_kg_total: yup.string().nullable().label('Berat Total'),
+            v_shipping_fee: yup.string().nullable().label('Ongkir'),
+            v_admin_fee: yup.string().nullable().label('Admin'),
+            v_discount: yup.string().nullable().label('Diskon'),
+            v_tax: yup.string().nullable().label('PPN'),
+            v_price_buy_total: yup.string().nullable().label('Harga Total'),
+            v_price_buy_total_final: yup.string().nullable().label('Harga Final'),
+            v_orderer_id: yup.string().required().label('Pemesan'),
+            v_recipient_id: yup.string().required().label('Penerima'),
             v_status: yup.string().required().label('Status'),
          })
       );
@@ -538,9 +554,9 @@ export default {
             v_unit_id: yup.string().required().label('Satuan'),
             v_price_per_unit: yup.string().required().label('Harga Satuan'),
             v_price_total: yup.string().required().label('Harga Total'),
-            v_weight_kg_per_unit: yup.string().required().label('Berat (KG)'),
-            v_weight_kg_total: yup.string().required().label('Berat Total (KG)'),
-            v_volume_cm: yup.string().required().label('Volume (CM)')
+            v_weight_kg_per_unit: yup.string().nullable().label('Berat (KG)'),
+            v_weight_kg_total: yup.string().nullable().label('Berat Total (KG)'),
+            v_volume_cm: yup.string().nullable().label('Volume (CM)')
          })
       );
       return { toast, valHeader, valDetails }
@@ -738,10 +754,9 @@ export default {
       buyChanged: function() {
       },
       createHeader: function(f) {
-         console.log(f);
          xaxios.post(`inventory/buy-header`, {
             invoice_number: f['v_invoice_number'],
-            invoice_date: f['v_invoice_date'],
+            invoice_date: toDbDate(f['v_invoice_date']),
             supplier_id: f['v_supplier_id'],
             shipping_fee: f['v_shipping_fee'],
             weight_kg_total: f['v_weight_kg_total'],
@@ -756,6 +771,19 @@ export default {
       },
       createDetails: function(f){
          console.log(f);
+         xaxios.post(`inventory/buy-details`, {
+            buy_header_id: f['v_buy_header_id'],
+            product_category_id: f['v_product_category_id'],
+            product_sub_category_id: f['v_product_sub_category_id'],
+            product_name: f['v_product_name'],
+            quantity: f['v_quantity'],
+            unit_id: f['v_unit_id'],
+            price_per_unit: f['v_price_per_unit'],
+            price_total: f['v_price_total'],
+            weight_kg_per_unit: f['v_weight_kg_per_unit'],
+            weight_kg_total: f['v_weight_kg_total'],
+            volume_cm: f['v_volume_cm']
+         })
       }
    }
 }
