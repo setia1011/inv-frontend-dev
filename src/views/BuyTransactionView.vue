@@ -148,7 +148,7 @@
                         <div class="field">
                            <label class="label">No. Faktur</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -167,7 +167,7 @@
                         <div class="field">
                            <label class="label">Tgl. Faktur</label>
                            <p class="control is-inline-block is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -187,7 +187,7 @@
                         <div class="field">
                            <label class="label">Supplier</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -216,7 +216,7 @@
                         <div class="field">
                            <label class="label">Penerima</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -245,7 +245,7 @@
                         <div class="field">
                            <label class="label">Pemesan</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -279,7 +279,7 @@
                         <div class="field">
                            <label class="label">Berat Total (KG)</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -298,7 +298,7 @@
                         <div class="field">
                            <label class="label">Ongkir</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -317,7 +317,7 @@
                         <div class="field">
                            <label class="label">Admin</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -336,7 +336,7 @@
                         <div class="field">
                            <label class="label">Diskon</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -355,7 +355,7 @@
                         <div class="field">
                            <label class="label">PPN</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -374,7 +374,7 @@
                         <div class="field">
                            <label class="label">Harga Total</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -393,7 +393,7 @@
                         <div class="field">
                            <label class="label">Harga Final</label>
                            <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -412,7 +412,7 @@
                         <div class="field">
                            <label class="label">Status</label>
                            <div class="field-body is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
+                              <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
                               :background-color="'white'"
                               :opacity="1"
@@ -517,7 +517,7 @@
                      </tr>
                   </thead>
                   <tbody class="is-relative">
-                     <loading v-model:active="isHeaderLoading"
+                     <loading v-model:active="isDetailsLoading"
                      :can-cancel="false"
                      :background-color="'white'"
                      :opacity="1"
@@ -560,7 +560,7 @@
                   <div class="level-left is-hidden-mobile">
                      <div class="level-item">
                         <div class="button is-small">
-                           Page {{ page }}/{{ totalPages }} of {{ totalItems }} total items
+                           Page {{ _page }}/{{ _totalPages }} of {{ _totalItems }} total items
                         </div>
                      </div>
                   </div>
@@ -568,8 +568,8 @@
                      <div class="level-item">
                            <nav class="pagination is-right is-small">
                               <paginate
-                              v-model="page"
-                              :page-count="totalPages"
+                              v-model="_page"
+                              :page-count="_totalPages"
                               :page-range="3"
                               :margin-pages="0"
                               :click-handler="clickCallback"
@@ -645,7 +645,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Kategori</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx is-capitalized" 
                                  label="category"
@@ -664,7 +674,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Sub Kategori</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx is-capitalized" 
                                  label="sub_category"
@@ -683,7 +703,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Produk</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;"/>
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
                            </p>
@@ -697,7 +727,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Jumlah</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_quantity" v-model="quantity" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_quantity" />
                            </p>
@@ -706,7 +746,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Satuan</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx is-capitalized" 
                                  label="unit"
@@ -725,7 +775,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Harga (Satuan)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_price_per_unit" v-model="price_per_unit" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_per_unit" />
                            </p>
@@ -734,7 +794,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Harga (Total)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_price_total" v-model="price_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_total" />
                            </p>
@@ -743,7 +813,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Berat/Satuan (KG)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_weight_kg_per_unit" v-model="weight_kg_per_unit" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg_per_unit" />
                            </p>
@@ -752,7 +832,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Berat Total (KG)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_weight_kg_total" v-model="weight_kg_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg_total" />
                            </p>
@@ -761,7 +851,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Volume (CM)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" name="v_volume_cm" v-model="volume_cm" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_volume_cm" />
                            </p>
@@ -842,9 +942,10 @@ export default {
       return {
          colshow: 'list',
          colinfo: 'Daftar transaksi',
-         isListLoading: false,
-         isEditLoading: false,
+         isHeaderLoading: false,
+         isEditHeaderLoading: false,
          isDetailsLoading: false,
+         isEditDetailsLoading: false,
          // 
          q: null,
          order: 'asc',
@@ -921,7 +1022,24 @@ export default {
             this.order = 'desc';
             this.getBuys();
          }
-      }
+      },
+      q: _.debounce(function(v) {
+         this.q = v;
+         this.getBuys();
+      }, 500),
+      _asc: function() {
+         if (this._asc) {
+            this._order = 'asc';
+            this.getBuyDetails();
+         } else {
+            this._order = 'desc';
+            this.getBuyDetails();
+         }
+      },
+      _q: _.debounce(function(v) {
+         this._q = v;
+         this.getBuyDetails();
+      }, 500)
    },
    mounted() {
       this.getSuppliers();
@@ -958,19 +1076,19 @@ export default {
             this.buy_header_id = x;
             this.getBuySingle();
             this.getBuyDetails();
-            this.colinfo = "Daftar item pembelian";
+            this.colinfo = "Daftar produk";
             this.isEdit = false;
          }
          if (a === 'details') {
             this.buy_header_id = x;
             this.getBuySingle();
-            this.colinfo = "Rekam detil pembelian";
+            this.colinfo = "Rekam produk transaksi";
             this.isEdit = false;
          }
          if (a === 'editdetails') {
             // this.buy_header_id = x;
             this.getDetailsOne(x);
-            this.colinfo = "Edit detil pembelian";
+            this.colinfo = "Edit produk";
             this.isEdit = false;
          }
       },
@@ -1078,7 +1196,7 @@ export default {
          this.getBuys();
       },
       getBuySingle: function() {
-         this.isEditLoading = true;
+         this.isEditHeaderLoading = true;
          xaxios.get(`inventory/buy-header/${this.buy_header_id ? this.buy_header_id : ''}`).then((r) => {
             this.buy_header = r.data;
             if (this.colshow == 'editheader') {
@@ -1096,7 +1214,7 @@ export default {
                this.recipient_id = this.buy_header?.recipient_id;
                this.status = this.buy_header?.status;
                setTimeout(() => {
-                  this.isEditLoading = false;
+                  this.isEditHeaderLoading = false;
                }, 600);
             }
          })
@@ -1109,7 +1227,7 @@ export default {
             this._totalItems = res.data.total_items;
             setTimeout(() => {
                this.isDetailsLoading = false;
-            }, 400);
+            }, 500);
          })
       },
       _clickCallback: function(_pageNum) {
@@ -1117,6 +1235,7 @@ export default {
          this.getBuyDetails();
       },
       getDetailsOne: function(id) {
+         this.isEditDetailsLoading = true;
          xaxios.get(`inventory/buy-details/${id ? id : ''}`).then((r) => {
             this.buy_detail = r.data;
             this.buy_header_id = this.buy_detail?.buy_header_id;
@@ -1130,6 +1249,9 @@ export default {
             this.weight_kg_per_unit = this.buy_detail?.weight_kg_per_unit ? parseFloat(this.buy_detail?.weight_kg_per_unit) : null;
             this.weight_kg_total = this.buy_detail?.weight_kg_total ? parseFloat(this.buy_detail?.weight_kg_total) : null;
             this.volume_cm = this.buy_detail?.volume_cm;
+            setTimeout(() => {
+               this.isEditDetailsLoading = false;
+            }, 500)
          })
       },
       getBuy: function(q) {
@@ -1154,6 +1276,39 @@ export default {
                orderer_id: f['v_orderer_id'],
                recipient_id: f['v_recipient_id'],
                status: f['v_status']
+            }).then((r) => {
+               this.toast.success("Berhasil menambahkan transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("list");
+            }).catch((e) => {
+               this.toast.error("Gagal menambahkan transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
             })
          }
          if (this.colshow == "editheader") {
@@ -1171,6 +1326,39 @@ export default {
                orderer_id: f['v_orderer_id'],
                recipient_id: f['v_recipient_id'],
                status: f['v_status']
+            }).then((r) => {
+               this.toast.success("Berhasil edit transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("list");
+            }).catch((e) => {
+               this.toast.success("Gagal edit transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
             })
          }
       },
@@ -1188,6 +1376,39 @@ export default {
                weight_kg_per_unit: f['v_weight_kg_per_unit'],
                weight_kg_total: f['v_weight_kg_total'],
                volume_cm: f['v_volume_cm']
+            }).then((r) => {
+               this.toast.success("Berhasil menambahkan produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("listx", f['v_buy_header_id']);
+            }).catch((e) => {
+               this.toast.error("Gagal edit produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
             })
          }
          if (this.colshow == "editdetails") {
@@ -1204,6 +1425,39 @@ export default {
                weight_kg_per_unit: f['v_weight_kg_per_unit'],
                weight_kg_total: f['v_weight_kg_total'],
                volume_cm: f['v_volume_cm']
+            }).then((r) => {
+               this.toast.success("Berhasil edit produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("listx", f['v_buy_header_id']);
+            }).catch((e) => {
+               this.toast.error("Gagal edit produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
             })
          }
          
