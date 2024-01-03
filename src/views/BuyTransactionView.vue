@@ -8,126 +8,124 @@
       </article>
       <div class="columns">
          <div class="column x-list" v-if="colshow == 'list'">
-            <div>
-               <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
-                  <div class="field has-addons">
-                     <p class="control">
-                        <a class="button">
-                           <div class="icon is-small is-left" @click="asc = !asc" style="color: hsl(207deg, 61%, 53%);">
-                              <i class="fa-solid" :class="[asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
-                           </div>
-                        </a>
-                     </p>
-                     <p class="control is-expanded">
-                        <input class="input" v-model="q" type="text" placeholder=".. nomor faktur">
-                     </p>
-                     <div class="button is-success is-light is-outlined ml-2" @click="changeCol('header')">
-                        <span class="icon">
-                           <i class="fa-regular fa-circle-plus"></i>
-                        </span>
-                     </div>
+            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+               <div class="field has-addons">
+                  <p class="control">
+                     <a class="button">
+                        <div class="icon is-small is-left" @click="asc = !asc" style="color: hsl(207deg, 61%, 53%);">
+                           <i class="fa-solid" :class="[asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
+                        </div>
+                     </a>
+                  </p>
+                  <p class="control is-expanded">
+                     <input class="input" v-model="q" type="text" placeholder=".. nomor faktur">
+                  </p>
+                  <div class="button is-success is-light is-outlined ml-2" @click="changeCol('header')">
+                     <span class="icon">
+                        <i class="fa-regular fa-circle-plus"></i>
+                     </span>
                   </div>
                </div>
-               <div class="box p-2">
-                  <table class="table mb-3 table-header is-fullwidth">
-                     <thead>
-                        <tr>
-                           <th class="pl-0">No</th>
-                           <th>No. Faktur</th>
-                           <th>Tgl. Faktur</th>
-                           <th>Tgl. Rekam</th>
-                           <th>Supplier</th>
-                           <th>Penerima</th>
-                           <th>Pemesan</th>
-                           <th>Harga Total</th>
-                           <th>Jml. Produk</th>
-                           <th>Status</th>
-                           <th class="pr-0"></th>
-                        </tr>
-                     </thead>
-                     <tbody class="is-relative">
-                        <loading class="loading" v-model:active="isHeaderLoading"
-                        :can-cancel="false"
-                        :background-color="'white'"
-                        :opacity="1"
-                        :height="25"
-                        :width="25"
-                        :z-index="25"
-                        :loader="'spinner'"
-                        :is-full-page="false">
-                        </loading>
-                        <tr v-for="(i, index) in buy_headers" :key="i.id">
-                           <td class="pl-0">{{ (page * pageSize) - pageSize + index + 1 }}.</td>
-                           <td>{{ i.invoice_number }}</td>
-                           <td>{{ dateFormat(i.invoice_date) }}</td>
-                           <td>{{ dateTimeFormat(i.created_at) }}</td>
-                           <td>{{ i.supplier.company }}</td>
-                           <td>{{ i.recipient.name }}</td>
-                           <td>{{ i.orderer.name }}</td>
-                           <td><span v-if="i.price_buy_total_final">{{ toIdr(i.price_buy_total_final) }}</span><span v-else>{{ toIdr(0) }}</span></td>
-                           <td>{{ i.products?.length }}</td>
-                           <td><span class="tag" :class="[{'is-danger': i.status == 'belum'}, {'is-warning': i.status == 'cicil' }, {'is-success': i.status == 'lunas' }]">{{ i.status }}</span></td>
-                           <td class="pr-0">
-                              <div class="tags is-right">
-                                 <span class="button tag is-success is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('details', i.id)">
-                                    <span class="icon is-small">
-                                       <i class="fa-regular fa-list-tree"></i>
-                                    </span>
+            </div>
+            <div class="box table-container p-2">
+               <table class="table mb-3 table-header is-fullwidth">
+                  <thead>
+                     <tr>
+                        <th class="pl-0">No</th>
+                        <th>No. Faktur</th>
+                        <th>Tgl. Faktur</th>
+                        <th>Tgl. Rekam</th>
+                        <th>Supplier</th>
+                        <th>Penerima</th>
+                        <th>Pemesan</th>
+                        <th>Harga Total</th>
+                        <th>Jml. Produk</th>
+                        <th width="90px">Status</th>
+                        <th class="pr-0" width="112px"></th>
+                     </tr>
+                  </thead>
+                  <tbody class="is-relative">
+                     <loading v-model:active="isHeaderLoading"
+                     :can-cancel="false"
+                     :background-color="'white'"
+                     :opacity="1"
+                     :height="25"
+                     :width="25"
+                     :z-index="25"
+                     :loader="'spinner'"
+                     :is-full-page="false">
+                     </loading>
+                     <tr v-for="(i, index) in buy_headers" :key="i.id">
+                        <td class="pl-0">{{ (page * pageSize) - pageSize + index + 1 }}.</td>
+                        <td>{{ i.invoice_number }}</td>
+                        <td>{{ dateFormat(i.invoice_date) }}</td>
+                        <td>{{ dateTimeFormat(i.created_at) }}</td>
+                        <td>{{ i.supplier.company }}</td>
+                        <td>{{ i.recipient.name }}</td>
+                        <td>{{ i.orderer.name }}</td>
+                        <td><span v-if="i.price_buy_total_final">{{ toIdr(i.price_buy_total_final) }}</span><span v-else>{{ toIdr(0) }}</span></td>
+                        <td>{{ i.products?.length }}</td>
+                        <td><span class="tag" :class="[{'is-danger': i.status == 'belum'}, {'is-warning': i.status == 'cicil' }, {'is-success': i.status == 'lunas' }]">{{ i.status }}</span></td>
+                        <td class="pr-0">
+                           <div class="tags is-right">
+                              <span class="button tag is-success is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('listx', i.id)">
+                                 <span class="icon is-small">
+                                    <i class="fa-regular fa-table-list"></i>
                                  </span>
-                                 <span class="button tag is-warning is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('editheader', i.id)">
-                                    <span class="icon is-small">
-                                       <i class="fa-sharp fa-solid fa-pencil"></i>
-                                    </span>
+                              </span>
+                              <span class="button tag is-warning is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="changeCol('editheader', i.id)">
+                                 <span class="icon is-small">
+                                    <i class="fa-sharp fa-solid fa-pencil"></i>
                                  </span>
-                                 <span class="button tag is-danger is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('delheader', i.id)">
-                                    <span class="icon is-small">
-                                       <i class="fa-regular fa-trash-can"></i>
-                                    </span>
+                              </span>
+                              <span class="button tag is-danger is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="changeCol('delheader', i.id)">
+                                 <span class="icon is-small">
+                                    <i class="fa-regular fa-trash-can"></i>
                                  </span>
-                              </div>
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <div class="level">
-                     <div class="level-left is-hidden-mobile">
-                        <div class="level-item">
-                           <div class="button is-small">
-                              Page {{ page }}/{{ totalPages }} of {{ totalItems }} total items
+                              </span>
                            </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="level">
+                  <div class="level-left is-hidden-mobile">
+                     <div class="level-item">
+                        <div class="button is-small">
+                           Page {{ page }}/{{ totalPages }} of {{ totalItems }} total items
                         </div>
                      </div>
-                     <div class="level-right">
-                        <div class="level-item">
-                              <nav class="pagination is-right is-small">
-                                 <paginate
-                                 v-model="page"
-                                 :page-count="totalPages"
-                                 :page-range="3"
-                                 :margin-pages="0"
-                                 :click-handler="clickCallback"
-                                 :prev-link-class="'pagination-link'"
-                                 :page-link-class="'pagination-link'"
-                                 :next-link-class="'pagination-link'"
-                                 :prev-text="'<i class=\'fa-solid fa-arrow-left\'></i>'"
-                                 :next-text="'<i class=\'fa-solid fa-arrow-right\'></i>'"
-                                 :no-li-surround="true"
-                                 :active-class="'is-current'"
-                                 :first-last-button="true"
-                                 :first-button-text="'<i class=\'fa-solid fa-arrow-left-long-to-line\'></i>'"
-                                 :last-button-text="'<i class=\'fa-solid fa-arrow-right-long-to-line\'></i>'"
-                                 :hide-prev-next="true"
-                                 :container-class="'pagination-list'"
-                                 >
-                                 </paginate>
-                              </nav>
-                        </div>
+                  </div>
+                  <div class="level-right">
+                     <div class="level-item">
+                           <nav class="pagination is-right is-small">
+                              <paginate
+                              v-model="page"
+                              :page-count="totalPages"
+                              :page-range="3"
+                              :margin-pages="0"
+                              :click-handler="clickCallback"
+                              :prev-link-class="'pagination-link'"
+                              :page-link-class="'pagination-link'"
+                              :next-link-class="'pagination-link'"
+                              :prev-text="'<i class=\'fa-solid fa-arrow-left\'></i>'"
+                              :next-text="'<i class=\'fa-solid fa-arrow-right\'></i>'"
+                              :no-li-surround="true"
+                              :active-class="'is-current'"
+                              :first-last-button="true"
+                              :first-button-text="'<i class=\'fa-solid fa-arrow-left-long-to-line\'></i>'"
+                              :last-button-text="'<i class=\'fa-solid fa-arrow-right-long-to-line\'></i>'"
+                              :hide-prev-next="true"
+                              :container-class="'pagination-list'"
+                              >
+                              </paginate>
+                           </nav>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="column x-header" v-if="colshow == 'header'">
+         <div class="column x-header" v-if="colshow == 'header' || colshow == 'editheader'">
             <Form :validation-schema="valHeader" @submit="createHeader">
                <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
                   <span v-if="isEdit">
@@ -149,7 +147,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">No. Faktur</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_invoice_number" v-model="invoice_number" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_invoice_number" />
                            </p>
@@ -158,7 +166,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Tgl. Faktur</label>
-                           <p class="control is-expanded">
+                           <p class="control is-inline-block is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <VueDatePicker v-model="invoice_date" :highlight-week-days="[0, 6]" :enable-time-picker="false" :format="'dd/MM/yyyy'" position="left"></VueDatePicker>
                               <Field class="input" type="hidden" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_invoice_date" v-model="invoice_date" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_invoice_date" />
@@ -168,7 +186,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Supplier</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx" 
                                  label="company"
@@ -187,7 +215,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Penerima</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx" 
                                  label="name"
@@ -206,7 +244,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Pemesan</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx" 
                                  label="name"
@@ -230,7 +278,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Berat Total (KG)</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_weight_kg_total" v-model="weight_kg_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg_total" />
                            </p>
@@ -239,7 +297,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Ongkir</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_shipping_fee" v-model="shipping_fee" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_shipping_fee" />
                            </p>
@@ -248,7 +316,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Admin</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_admin_fee" v-model="admin_fee" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_admin_fee" />
                            </p>
@@ -257,7 +335,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Diskon</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_discount" v-model="discount" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_discount" />
                            </p>
@@ -266,7 +354,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">PPN</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_tax" v-model="tax" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_tax" />
                            </p>
@@ -275,7 +373,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Harga Total</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_price_buy_total" v-model="price_buy_total" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy_total" />
                            </p>
@@ -284,7 +392,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Harga Final</label>
-                           <p class="control is-expanded">
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_price_buy_total_final" v-model="price_buy_total_final" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy_total_final" />
                            </p>
@@ -293,7 +411,17 @@
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Status</label>
-                           <div class="field-body">
+                           <div class="field-body is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
                               <v-select 
                                  class="v-selectx"
                                  label="label"
@@ -311,12 +439,161 @@
                   </div>
                </div>
                <div class="box is-inline-block m-0" style="padding: 2px;">
-                  <button class="button is-success">Save</button>
+                  <button class="button is-success" v-if="colshow == 'header'">Save</button>
+                  <button class="button is-warning" v-if="colshow == 'editheader'">Save</button>
                </div>
             </Form>
          </div>
-         <div class="column x-details" v-if="colshow == 'listx'"></div>
-         <div class="column x-details" v-if="colshow == 'details'">
+         <div class="column x-details" v-if="colshow == 'listx'">
+            <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+               <span v-if="isEdit">
+                  <span class="has-text-weight-normal"></span>
+               </span>
+               <span v-else>
+                  <span class="has-text-weight-normal">
+                  </span>
+               </span>
+            </p>
+            <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('list')">
+               <span class="icon">
+                  <i class="fa-solid fa-times"></i>
+               </span>
+            </div>
+            <div class="is-divider mt-4 mb-2"></div>
+            <div class="columns mb-0">
+               <div class="column is-4 pt-3 pb-0">
+                  <div class="field">
+                     <div class="control">
+                        <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
+                        <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
+                        <input disabled class="input is-light has-text-dark has-text-weight-bold has-background-white" type="text" :value="buy_header?.invoice_number + '  I  ' + dateFormat(buy_header?.invoice_date)" style="border-style: outset !important;">
+                     </div>
+                  </div>
+                  <div class="field">
+                     <div class="control">
+                        <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
+                        <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
+                        <input disabled class="input is-light has-text-dark has-text-weight-bold has-background-white" type="text" :value="buy_header?.supplier.company" style="border-style: outset !important;">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="is-divider mt-2 mb-2"></div>
+            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+               <div class="field has-addons">
+                  <p class="control">
+                     <a class="button">
+                        <div class="icon is-small is-left" @click="_asc = !_asc" style="color: hsl(207deg, 61%, 53%);">
+                           <i class="fa-solid" :class="[_asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
+                        </div>
+                     </a>
+                  </p>
+                  <p class="control is-expanded">
+                     <input class="input" v-model="_q" type="text" placeholder=".. nama produk">
+                  </p>
+                  <div class="button is-success is-light is-outlined ml-2" @click="changeCol('details', buy_header_id)">
+                     <span class="icon">
+                        <i class="fa-regular fa-circle-plus"></i>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="box p-2 table-container">
+               <table class="table mb-3 table-header is-fullwidth">
+                  <thead>
+                     <tr>
+                        <th class="pl-0">No</th>
+                        <th>Produk</th>
+                        <th>Kategori</th>
+                        <th>Sub Kategori</th>
+                        <th>Jumlah</th>
+                        <th>Satuan</th>
+                        <!-- <th>Harga Satuan</th> -->
+                        <th>Harga Total</th>
+                        <!-- <th>Berat Satuan (KG)</th> -->
+                        <th>Berat Total (KG)</th>
+                        <th>Volume (CM)</th>
+                        <th class="pr-0"></th>
+                     </tr>
+                  </thead>
+                  <tbody class="is-relative">
+                     <loading v-model:active="isHeaderLoading"
+                     :can-cancel="false"
+                     :background-color="'white'"
+                     :opacity="1"
+                     :height="25"
+                     :width="25"
+                     :z-index="25"
+                     :loader="'spinner'"
+                     :is-full-page="false">
+                     </loading>
+                     <tr v-for="(i, index) in buy_details" :key="i.id">
+                        <td class="pl-0">{{ (page * pageSize) - pageSize + index + 1 }}.</td>
+                        <td>{{ i.product_name }}</td>
+                        <td>{{ i.product_category?.category }}</td>
+                        <td>{{ i.product_sub_category?.sub_category }}</td>
+                        <td>{{ parseFloat(i.quantity) }}</td>
+                        <td>{{ i.unit?.unit }}</td>
+                        <!-- <td><span v-if="i.price_per_unit">{{ toIdr(i.price_per_unit) }}</span><span v-else>{{ toIdr(0) }}</span></td> -->
+                        <td><span v-if="i.price_total">{{ toIdr(i.price_total) }}</span><span v-else>{{ toIdr(0) }}</span></td>
+                        <!-- <td>{{ i.weight_kg_per_unit }}</td> -->
+                        <td>{{ parseFloat(i.weight_kg_total) }}</td>
+                        <td>{{  i.volume_cm }}</td>
+                        <td class="pr-0">
+                           <div class="tags is-right">
+                              <span class="button tag is-warning is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('editdetails', i.id)">
+                                 <span class="icon is-small">
+                                    <i class="fa-sharp fa-solid fa-pencil"></i>
+                                 </span>
+                              </span>
+                              <span class="button tag is-danger is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('deldetails', i.id)">
+                                 <span class="icon is-small">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                 </span>
+                              </span>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="level">
+                  <div class="level-left is-hidden-mobile">
+                     <div class="level-item">
+                        <div class="button is-small">
+                           Page {{ page }}/{{ totalPages }} of {{ totalItems }} total items
+                        </div>
+                     </div>
+                  </div>
+                  <div class="level-right">
+                     <div class="level-item">
+                           <nav class="pagination is-right is-small">
+                              <paginate
+                              v-model="page"
+                              :page-count="totalPages"
+                              :page-range="3"
+                              :margin-pages="0"
+                              :click-handler="clickCallback"
+                              :prev-link-class="'pagination-link'"
+                              :page-link-class="'pagination-link'"
+                              :next-link-class="'pagination-link'"
+                              :prev-text="'<i class=\'fa-solid fa-arrow-left\'></i>'"
+                              :next-text="'<i class=\'fa-solid fa-arrow-right\'></i>'"
+                              :no-li-surround="true"
+                              :active-class="'is-current'"
+                              :first-last-button="true"
+                              :first-button-text="'<i class=\'fa-solid fa-arrow-left-long-to-line\'></i>'"
+                              :last-button-text="'<i class=\'fa-solid fa-arrow-right-long-to-line\'></i>'"
+                              :hide-prev-next="true"
+                              :container-class="'pagination-list'"
+                              >
+                              </paginate>
+                           </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="column x-details" v-if="colshow == 'details' || colshow == 'editdetails'">
             <Form :validation-schema="valDetails" @submit="createDetails">
                <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
                   <span v-if="isEdit">
@@ -327,26 +604,26 @@
                      </span>
                   </span>
                </p>
-               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('list')">
+               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('listx', buy_header_id)">
                   <span class="icon">
                      <i class="fa-solid fa-times"></i>
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
                <div class="columns mb-0">
-                  <div class="column is-6 pt-3 pb-0">
-                     <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                           <label class="label is-pulled-left">~ Faktur</label>
+                  <div class="column is-4 pt-3 pb-0">
+                     <div class="field">
+                        <div class="control">
+                           <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
+                           <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
+                           <input disabled class="input is-light has-text-dark has-text-weight-bold has-background-white" type="text" :value="buy_header?.invoice_number + '  I  ' + dateFormat(buy_header?.invoice_date)" style="border-style: outset !important;">
                         </div>
-                        <div class="field-body">
-                           <div class="field">
-                              <div class="control">
-                                 <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
-                                 <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
-                                 <input class="input is-info is-light has-text-dark has-text-weight-bold has-background-white-ter" type="text" :value="'No: ' + buy_header?.invoice_number + ', tanggal: ' + dateFormat(buy_header?.invoice_date)">
-                              </div>
-                           </div>
+                     </div>
+                     <div class="field">
+                        <div class="control">
+                           <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
+                           <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
+                           <input disabled class="input is-light has-text-dark has-text-weight-bold has-background-white" type="text" :value="buy_header?.supplier.company" style="border-style: outset !important;">
                         </div>
                      </div>
                   </div>
@@ -564,8 +841,11 @@ export default {
    data() {
       return {
          colshow: 'list',
-         colinfo: 'List of transactions',
+         colinfo: 'Daftar transaksi',
          isListLoading: false,
+         isEditLoading: false,
+         isDetailsLoading: false,
+         // 
          q: null,
          order: 'asc',
          asc: true,
@@ -575,8 +855,18 @@ export default {
          totalItems: null,
          isEdit: false,
          // 
+         _q: null,
+         _order: 'asc',
+         _asc: true,
+         _page: 1,
+         _totalPages: 0,
+         _pageSize: 5,
+         _totalItems: null,
+         _isEdit: false,
+         // 
          buy_header: null,
          buy_headers: [],
+         buy_detail: null,
          buy_details: [],
          // 
          statuses: [
@@ -647,7 +937,9 @@ export default {
       changeCol: function(a, x = null, y = null) {
          this.colshow = a;
          if (a === 'list') {
-            this.colinfo = "List of transactions";
+            this.resetHeader();
+            this.resetDetails();
+            this.colinfo = "Daftar transaksi";
             this.isEdit = false;
             this.getBuys();
          }
@@ -655,8 +947,18 @@ export default {
             this.colinfo = "Rekam pembelian";
             this.isEdit = false;
          }
-         if (a === 'listdetails') {
-            this.colinfo = "Rekam pembelian";
+         if (a === 'editheader') {
+            this.buy_header_id = x;
+            this.getBuySingle();
+            this.colinfo = "Edit pembelian";
+            this.isEdit = true;
+         }
+         if (a === 'listx') {
+            this.resetDetails();
+            this.buy_header_id = x;
+            this.getBuySingle();
+            this.getBuyDetails();
+            this.colinfo = "Daftar item pembelian";
             this.isEdit = false;
          }
          if (a === 'details') {
@@ -665,6 +967,41 @@ export default {
             this.colinfo = "Rekam detil pembelian";
             this.isEdit = false;
          }
+         if (a === 'editdetails') {
+            // this.buy_header_id = x;
+            this.getDetailsOne(x);
+            this.colinfo = "Edit detil pembelian";
+            this.isEdit = false;
+         }
+      },
+      resetHeader: function() {
+         this.invoice_number = null;
+         this.invoice_date = null;
+         this.supplier_id = null;
+         this.weight_kg_total = null;
+         this.shipping_fee = null;
+         this.admin_fee = null;
+         this.discount = null;
+         this.tax = null;
+         this.price_buy_total = null;
+         this.price_buy_total_final = null;
+         this.orderer_id = null;
+         this.recipient_id = null;
+         this.status = null;
+      },
+      resetDetails: function() {
+         this.buy_detail = null;
+         this.buy_header_id = null;
+         this.product_category_id = null;
+         this.product_sub_category_id = null;
+         this.product_name = null;
+         this.quantity = null;
+         this.unit_id = null;
+         this.price_per_unit = null;
+         this.price_total = null;
+         this.weight_kg_per_unit = null;
+         this.weight_kg_total = null;
+         this.volume_cm = null;
       },
       toIdr: function(e) {
          return formatCurrency(e, 'id', 'IDR');
@@ -741,9 +1078,58 @@ export default {
          this.getBuys();
       },
       getBuySingle: function() {
+         this.isEditLoading = true;
          xaxios.get(`inventory/buy-header/${this.buy_header_id ? this.buy_header_id : ''}`).then((r) => {
-            // console.log(r.data);
             this.buy_header = r.data;
+            if (this.colshow == 'editheader') {
+               this.invoice_number = this.buy_header?.invoice_number;
+               this.invoice_date = new Date(this.buy_header?.invoice_date);
+               this.supplier_id = this.buy_header?.supplier_id;
+               this.weight_kg_total = this.buy_header?.weight_kg_total? parseFloat(this.buy_header?.weight_kg_total) : null;
+               this.shipping_fee = this.buy_header?.shipping_fee ? parseFloat(this.buy_header?.shipping_fee) : null;
+               this.admin_fee = this.buy_header?.admin_fee ? parseFloat(this.buy_header?.admin_fee) : null;
+               this.discount = this.buy_header?.discount ? parseFloat(this.buy_header?.discount) : null;
+               this.tax = this.buy_header?.tax ? parseFloat(this.buy_header?.tax) : null;
+               this.price_buy_total = this.buy_header?.price_buy_total ? parseFloat(this.buy_header?.price_buy_total) : null;
+               this.price_buy_total_final = this.buy_header?.price_buy_total_final ? parseFloat(this.buy_header?.price_buy_total_final) : null;
+               this.orderer_id = this.buy_header?.orderer_id;
+               this.recipient_id = this.buy_header?.recipient_id;
+               this.status = this.buy_header?.status;
+               setTimeout(() => {
+                  this.isEditLoading = false;
+               }, 600);
+            }
+         })
+      },
+      getBuyDetails: function() {
+         this.isDetailsLoading = true;
+         xaxios.get(`inventory/buy-details-px?buy_header_id=${this.buy_header_id}&q=${this._q ? this._q : ''}&page=${this._page}&per_page=${this._pageSize}&order=${this._order}`).then((res) => {
+            this.buy_details = res.data.items;
+            this._totalPages = res.data.total_pages;
+            this._totalItems = res.data.total_items;
+            setTimeout(() => {
+               this.isDetailsLoading = false;
+            }, 400);
+         })
+      },
+      _clickCallback: function(_pageNum) {
+         this._page = pageNum;
+         this.getBuyDetails();
+      },
+      getDetailsOne: function(id) {
+         xaxios.get(`inventory/buy-details/${id ? id : ''}`).then((r) => {
+            this.buy_detail = r.data;
+            this.buy_header_id = this.buy_detail?.buy_header_id;
+            this.product_category_id = this.buy_detail?.product_category_id;
+            this.product_sub_category_id = this.buy_detail?.product_sub_category_id;
+            this.product_name = this.buy_detail?.product_name;
+            this.quantity = this.buy_detail?.quantity ? parseFloat(this.buy_detail?.quantity) : null;
+            this.unit_id = this.buy_detail?.unit_id;
+            this.price_per_unit = this.buy_detail?.price_per_unit ? parseFloat(this.buy_detail?.price_per_unit) : null;
+            this.price_total = this.buy_detail?.price_total ? parseFloat(this.buy_detail?.price_total) : null;
+            this.weight_kg_per_unit = this.buy_detail?.weight_kg_per_unit ? parseFloat(this.buy_detail?.weight_kg_per_unit) : null;
+            this.weight_kg_total = this.buy_detail?.weight_kg_total ? parseFloat(this.buy_detail?.weight_kg_total) : null;
+            this.volume_cm = this.buy_detail?.volume_cm;
          })
       },
       getBuy: function(q) {
@@ -754,36 +1140,73 @@ export default {
       buyChanged: function() {
       },
       createHeader: function(f) {
-         xaxios.post(`inventory/buy-header`, {
-            invoice_number: f['v_invoice_number'],
-            invoice_date: toDbDate(f['v_invoice_date']),
-            supplier_id: f['v_supplier_id'],
-            shipping_fee: f['v_shipping_fee'],
-            weight_kg_total: f['v_weight_kg_total'],
-            admin_fee: f['v_admin_fee'],
-            discount: f['v_discount'],
-            price_buy_total: f['v_price_buy_total'],
-            price_buy_total_final: f['v_price_buy_total_final'],
-            orderer_id: f['v_orderer_id'],
-            recipient_id: f['v_recipient_id'],
-            status: f['v_status']
-         })
+         if (this.colshow == "header") {
+            xaxios.post(`inventory/buy-header`, {
+               invoice_number: f['v_invoice_number'],
+               invoice_date: toDbDate(f['v_invoice_date']),
+               supplier_id: f['v_supplier_id'],
+               shipping_fee: f['v_shipping_fee'],
+               weight_kg_total: f['v_weight_kg_total'],
+               admin_fee: f['v_admin_fee'],
+               discount: f['v_discount'],
+               price_buy_total: f['v_price_buy_total'],
+               price_buy_total_final: f['v_price_buy_total_final'],
+               orderer_id: f['v_orderer_id'],
+               recipient_id: f['v_recipient_id'],
+               status: f['v_status']
+            })
+         }
+         if (this.colshow == "editheader") {
+            xaxios.patch(`inventory/buy-header`, {
+               id: this.buy_header_id,
+               invoice_number: f['v_invoice_number'],
+               invoice_date: toDbDate(f['v_invoice_date']),
+               supplier_id: f['v_supplier_id'],
+               shipping_fee: f['v_shipping_fee'],
+               weight_kg_total: f['v_weight_kg_total'],
+               admin_fee: f['v_admin_fee'],
+               discount: f['v_discount'],
+               price_buy_total: f['v_price_buy_total'],
+               price_buy_total_final: f['v_price_buy_total_final'],
+               orderer_id: f['v_orderer_id'],
+               recipient_id: f['v_recipient_id'],
+               status: f['v_status']
+            })
+         }
       },
       createDetails: function(f){
-         console.log(f);
-         xaxios.post(`inventory/buy-details`, {
-            buy_header_id: f['v_buy_header_id'],
-            product_category_id: f['v_product_category_id'],
-            product_sub_category_id: f['v_product_sub_category_id'],
-            product_name: f['v_product_name'],
-            quantity: f['v_quantity'],
-            unit_id: f['v_unit_id'],
-            price_per_unit: f['v_price_per_unit'],
-            price_total: f['v_price_total'],
-            weight_kg_per_unit: f['v_weight_kg_per_unit'],
-            weight_kg_total: f['v_weight_kg_total'],
-            volume_cm: f['v_volume_cm']
-         })
+         if (this.colshow == "details") {
+            xaxios.post(`inventory/buy-details`, {
+               buy_header_id: f['v_buy_header_id'],
+               product_category_id: f['v_product_category_id'],
+               product_sub_category_id: f['v_product_sub_category_id'],
+               product_name: f['v_product_name'],
+               quantity: f['v_quantity'],
+               unit_id: f['v_unit_id'],
+               price_per_unit: f['v_price_per_unit'],
+               price_total: f['v_price_total'],
+               weight_kg_per_unit: f['v_weight_kg_per_unit'],
+               weight_kg_total: f['v_weight_kg_total'],
+               volume_cm: f['v_volume_cm']
+            })
+         }
+         if (this.colshow == "editdetails") {
+            xaxios.patch(`inventory/buy-details`, {
+               id: this.buy_detail.id,
+               buy_header_id: f['v_buy_header_id'],
+               product_category_id: f['v_product_category_id'],
+               product_sub_category_id: f['v_product_sub_category_id'],
+               product_name: f['v_product_name'],
+               quantity: f['v_quantity'],
+               unit_id: f['v_unit_id'],
+               price_per_unit: f['v_price_per_unit'],
+               price_total: f['v_price_total'],
+               weight_kg_per_unit: f['v_weight_kg_per_unit'],
+               weight_kg_total: f['v_weight_kg_total'],
+               volume_cm: f['v_volume_cm']
+            })
+         }
+         
       }
    }
 }
@@ -806,5 +1229,12 @@ export default {
 }
 .table-header tr td:nth-child(2) {
    background-color: #f0f0f06c;
+}
+.loading {
+   border: 1px solid #cdcdcd;
+   border-radius: 4px;
+   padding-top: 6px;
+   justify-content: left !important;
+   padding-left: 12px !important;
 }
 </style>
