@@ -44,7 +44,7 @@
                     </p>
                 </div>
                 <div class="columns">
-                    <div class="column is-4 mt-1">
+                    <div class="column is-4 mt-1" style="min-width: 168px;">
                         <button ref="lg" class="button is-info" v-on:click="userRegister">
                             <span>{{ textLogin }}</span>
                         </button>

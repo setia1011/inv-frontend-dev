@@ -1,7 +1,13 @@
 <template>
    <div ref="main" id="main" class="container is-fluid mt-5 p-32">
-     <page-header></page-header>
-     <article class="message is-success is-inline-block">
+      <page-header></page-header>
+      <article class="message is-inline-block" :class="[
+      {'is-info': colshow == 'list' },
+      {'is-success': colshow == 'header' }, 
+      {'is-warning': colshow == 'editheader'}, 
+      {'is-info': colshow == 'listx' },
+      {'is-success': colshow == 'details' }, 
+      {'is-warning': colshow == 'editdetails'}]">
          <div class="message-body p-1 pl-2 pr-2" style="border-width: 0 0 0 2.5px;">
             {{ colinfo }}
          </div>
@@ -28,7 +34,7 @@
                </div>
             </div>
             <div class="box table-container p-2">
-               <table class="table mb-3 table-header is-fullwidth">
+               <table class="table is-narrow is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
                         <th class="pl-0">No</th>
@@ -38,7 +44,7 @@
                         <th>Supplier</th>
                         <th>Penerima</th>
                         <th>Pemesan</th>
-                        <th>Harga Total</th>
+                        <th>Total Harga</th>
                         <th>Jml. Produk</th>
                         <th width="90px">Status</th>
                         <th class="pr-0" width="112px"></th>
@@ -78,7 +84,7 @@
                                     <i class="fa-sharp fa-solid fa-pencil"></i>
                                  </span>
                               </span>
-                              <span class="button tag is-danger is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="changeCol('delheader', i.id)">
+                              <span class="button tag is-danger is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="delHeader(i.id)">
                                  <span class="icon is-small">
                                     <i class="fa-regular fa-trash-can"></i>
                                  </span>
@@ -136,9 +142,9 @@
                      </span>
                   </span>
                </p>
-               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('list')">
+               <div class="box button is-small is-dark is-pulled-right mb-2" @click="changeCol('list')">
                   <span class="icon">
-                     <i class="fa-solid fa-times"></i>
+                     <i class="fa-regular fa-arrow-left-long"></i>
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
@@ -454,15 +460,15 @@
                   </span>
                </span>
             </p>
-            <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('list')">
+            <div class="box button is-small is-dark is-pulled-right mb-2" @click="changeCol('list')">
                <span class="icon">
-                  <i class="fa-solid fa-times"></i>
+                  <i class="fa-regular fa-arrow-left-long"></i>
                </span>
             </div>
             <div class="is-divider mt-4 mb-2"></div>
             <div class="columns mb-0">
                <div class="column is-4 pt-3 pb-0">
-                  <div class="field">
+                  <div class="field mb-2">
                      <div class="control">
                         <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
                         <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
@@ -499,7 +505,7 @@
                </div>
             </div>
             <div class="box p-2 table-container">
-               <table class="table mb-3 table-header is-fullwidth">
+               <table class="table is-narrow is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
                         <th class="pl-0">No</th>
@@ -546,7 +552,7 @@
                                     <i class="fa-sharp fa-solid fa-pencil"></i>
                                  </span>
                               </span>
-                              <span class="button tag is-danger is-light is-outlined" style="border-radius: 2px;" v-on:click="changeCol('deldetails', i.id)">
+                              <span class="button tag is-danger is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="delDetails(i.id)">
                                  <span class="icon is-small">
                                     <i class="fa-regular fa-trash-can"></i>
                                  </span>
@@ -604,15 +610,15 @@
                      </span>
                   </span>
                </p>
-               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="changeCol('listx', buy_header_id)">
+               <div class="box button is-small is-dark is-pulled-right mb-2" @click="changeCol('listx', buy_header_id)">
                   <span class="icon">
-                     <i class="fa-solid fa-times"></i>
+                     <i class="fa-regular fa-arrow-left-long"></i>
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
                <div class="columns mb-0">
                   <div class="column is-4 pt-3 pb-0">
-                     <div class="field">
+                     <div class="field mb-2">
                         <div class="control">
                            <Field class="input" type="hidden" placeholder="0" name="v_buy_header_id" v-model="buy_header_id" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_buy_header_id" />
@@ -630,17 +636,6 @@
                </div>
                <div class="is-divider mt-2 mb-2"></div>
                <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
-                  <!-- <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
-                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
-                        <div class="field">
-                           <label class="label">Produk</label>
-                           <p class="control is-expanded">
-                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;"/>
-                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
-                           </p>
-                        </div>
-                     </div>
-                  </div> -->
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -870,7 +865,8 @@
                   </div>
                </div>
                <div class="box is-inline-block m-0" style="padding: 2px;">
-                  <button class="button is-success">Save</button>
+                  <button class="button is-success" v-if="colshow == 'details'">Save</button>
+                  <button class="button is-warning" v-if="colshow == 'editdetails'">Save</button>
                </div>
             </Form>
          </div>
@@ -1461,6 +1457,90 @@ export default {
             })
          }
          
+      },
+      delHeader: function(id) {
+         const dialog = createConfirmDialog(ModalDialog);
+         dialog.onConfirm(() => {
+            this.isConfirmed = true;
+            xaxios.delete("inventory/buy-header/"+id).then((res) => {
+               this.toast.success("Berhasil menghapus transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("list");
+               this.getBuys();
+            }).catch((err) => {
+               this.toast.error("Gagal menghapus transaksi", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+            })
+         });
+         dialog.reveal();
+      },
+      delDetails: function(id) {
+         const dialog = createConfirmDialog(ModalDialog);
+         dialog.onConfirm(() => {
+            this.isConfirmed = true;
+            xaxios.delete("inventory/buy-details/"+id).then((res) => {
+               this.toast.success("Berhasil menghapus produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+               this.changeCol("list");
+               this.getBuys();
+            }).catch((err) => {
+               this.toast.error("Gagal menghapus produk", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+                  }
+               );
+            })
+         });
+         dialog.reveal();
       }
    }
 }

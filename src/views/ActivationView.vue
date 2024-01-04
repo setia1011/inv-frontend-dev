@@ -20,7 +20,7 @@
                     </p>
                 </div>
                 <div class="columns">
-                    <div class="column is-4 mt-1">
+                    <div class="column is-4 mt-1" style="min-width: 169px;">
                         <button ref="lg" class="button is-danger" v-on:click="userLogin">
                             <span>{{ textLogin }}</span>
                         </button>
