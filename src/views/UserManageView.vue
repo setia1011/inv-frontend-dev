@@ -31,7 +31,7 @@
                </div>
             </div>
             <div class="box table-container p-2">
-               <table class="table is-narrow mb-3 table-header is-fullwidth">
+               <table class="table mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
                         <th class="pl-0">No</th>
@@ -61,7 +61,7 @@
                         <td class="pl-0">{{ (page * pageSize) - pageSize + index + 1 }}.</td>
                         <td>{{ i.name }}</td>
                         <td>{{ i.id_number }} <span class="is-uppercase">({{ i.user_id_type?.id_type }})</span></td>
-                        <td><span class="tag is-info is-light is-capitalized">{{ i.role?.role.split("_").join(" ") }}</span></td>
+                        <td><span class="tag is-link is-light is-capitalized">{{ i.role?.role.split("_").join(" ") }}</span></td>
                         <td>{{ i.address }}</td>
                         <td>{{ i.email }}</td>
                         <td>{{ i.phone }}</td>

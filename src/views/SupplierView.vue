@@ -32,7 +32,7 @@
                </div>
             </div>
             <div class="box table-container p-2">
-               <table class="table is-narrow mb-3 table-header is-fullwidth">
+               <table class="table mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
                         <th class="pl-0">No</th>
@@ -101,7 +101,7 @@
                               :page-count="totalPages"
                               :page-range="3"
                               :margin-pages="0"
-                              :click-handler="clickCallback"
+                              :click-handler="clickPage"
                               :prev-link-class="'pagination-link'"
                               :page-link-class="'pagination-link'"
                               :next-link-class="'pagination-link'"

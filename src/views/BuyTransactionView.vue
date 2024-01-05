@@ -34,7 +34,7 @@
                </div>
             </div>
             <div class="box table-container p-2">
-               <table class="table is-narrow is-striped mb-3 table-header is-fullwidth">
+               <table class="table is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
                         <th class="pl-0">No</th>
