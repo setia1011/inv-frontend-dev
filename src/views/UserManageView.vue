@@ -485,6 +485,7 @@ export default {
       changeCol: function(a, x = null, y = null) {
          this.col = a;
          if (a == 'list') {
+            this.reset();
             this.colinfo = 'Daftar user';
             this.getUsers();
          }
@@ -498,6 +499,18 @@ export default {
             this.colinfo = 'Edit user';
             this.getUser(x);
          }
+      },
+      reset: function() {
+         this.username = null;
+         this.password = null;
+         this.email = null;
+         this.name = null;
+         this.role_id = null;
+         this.id_type = null;
+         this.id_number = null;
+         this.phone = null;
+         this.address = null;
+         this.status = null;
       },
       dateTimeFormat: function(d) {
          return moment(d).format('DD/MM/YYYY HH:mm:ss');
@@ -537,6 +550,7 @@ export default {
          })
       },
       getUser: function(id) {
+         this.isEditLoading = true;
          xaxios.get("user/"+id).then((res) => {
             this.user = res.data;
             this.username = this.user.username;
@@ -549,6 +563,9 @@ export default {
             this.phone = this.user.phone;
             this.address = this.user.address;
             this.status = this.user.status;
+            setTimeout(() => {
+               this.isEditLoading = false;
+            }, 500)
          })
       },
       roleChanged: function() {
@@ -571,7 +588,36 @@ export default {
                address: f['v_address'],
                status: f['v_status']
             }).then((res) => {
-
+               this.toast.success("Berhasil menambah user", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+               this.changeCol("list");
+            }).catch((e) => {
+               this.toast.error("Gagal menambah user", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
             })
          }
 
@@ -588,7 +634,36 @@ export default {
                address: f['v_address'],
                status: f['v_status']
             }).then((res) => {
-
+               this.toast.success("Berhasil edit user", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+               this.changeCol("list");
+            }).catch((e) => {
+               this.toast.error("Gagal edit user", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
             })
          }
       },

@@ -1290,7 +1290,7 @@ export default {
                );
                this.changeCol("list");
             }).catch((e) => {
-               this.toast.error("Gagal menambahkan transaksi", {
+               this.toast.error("Gagal edit transaksi", {
                   position: "bottom-right",
                   timeout: 1000,
                   closeOnClick: true,
