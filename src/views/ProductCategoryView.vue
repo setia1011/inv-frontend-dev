@@ -117,9 +117,9 @@
                      </span>
                   </span>
                </p>
-               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="colshow = 'list'">
+               <div class="box button is-small is-dark is-pulled-right mb-2" @click="colshow = 'list'">
                   <span class="icon">
-                     <i class="fa-solid fa-times"></i>
+                     <i class="fa-regular fa-arrow-left-long"></i>
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>

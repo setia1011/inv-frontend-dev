@@ -13,7 +13,7 @@ export const authStore = defineStore("auth", {
     actions: {
         getUser() {
             setAuthHeaderX(cookies.get('token'));
-            xaxios.get("/user/info-ex", {
+            xaxios.get("/user-info", {
             }).then((res) => {
                 this.userInfo = res.data;
                 return this.userInfo;

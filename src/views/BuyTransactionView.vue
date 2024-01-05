@@ -1135,7 +1135,7 @@ export default {
 
       },
       getrecipients: function(q) {
-         xaxios.get(`user/all?q=${q ? q : ''}`).then((res) => {
+         xaxios.get(`users?q=${q ? q : ''}`).then((res) => {
             this._recipients = res.data;
          })
       },
@@ -1143,7 +1143,7 @@ export default {
 
       },
       getOrderes: function(q) {
-         xaxios.get(`user/all?q=${q ? q : ''}`).then((res) => {
+         xaxios.get(`users?q=${q ? q : ''}`).then((res) => {
             this._orderers = res.data;
          })
       },

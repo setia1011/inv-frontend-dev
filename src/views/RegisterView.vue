@@ -57,7 +57,7 @@
 
                 <div class="columns">
                     <div class="column">
-                        Already have an account? <router-link to="/login" class="has-text-weight-bold has-text-link">Login</router-link> or <router-link to="/activation" class="has-text-weight-bold has-text-link">Activate</router-link>
+                        Already have an account? <router-link to="/user-login" class="has-text-weight-bold has-text-link">Login</router-link> or <router-link to="/user-activation" class="has-text-weight-bold has-text-link">Activate</router-link>
                     </div>
                 </div>
             </div>

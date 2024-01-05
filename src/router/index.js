@@ -31,15 +31,27 @@ const routes = [
         component: () => import('../views/ActivationView.vue')
     },
     {
+        path: "/supplier",
+        name: 'supplier',
+        meta: { layout: First, 'par': 'Manajer', 'name': 'Supplier' },
+        component: () => import('../views/SupplierView.vue')
+    },
+    {
+        path: "/branch",
+        name: 'branch',
+        meta: { layout: First, 'par': 'Manager', 'name': 'Cabang' },
+        component: () => import('../views/BranchView.vue')
+    },
+    {
         path: "/user-manage",
         name: 'userManage',
-        meta: { layout: First, 'par': 'User', 'name': 'Manage' },
+        meta: { layout: First, 'par': 'Manager', 'name': 'User' },
         component: () => import('../views/UserManageView.vue')
     },
     {
         path: '/user-profile',
         name: 'userProfile',
-        meta: { layout: First, 'par': 'User', 'name': 'Profile' },
+        meta: { layout: First, 'par': 'User', 'name': 'Profil' },
         component: () => import('../views/UserProfileView.vue')
     },
     {
@@ -51,85 +63,85 @@ const routes = [
     {
         path: '/product-browse',
         name: 'productBrowse',
-        meta: { layout: First, 'par': 'Product', 'name': 'Browse' },
+        meta: { layout: First, 'par': 'Produk', 'name': 'Browse' },
         component: () => import('../views/ProductBrowseView.vue')
     },
     {
         path: '/product-stock',
         name: 'productStock',
-        meta: { layout: First, 'par': 'Product', 'name': 'Stock' },
+        meta: { layout: First, 'par': 'Produk', 'name': 'Stok' },
         component: () => import('../views/ProductStockView.vue')
     },
     {
         path: '/product-category',
         name: 'productCategory',
-        meta: { layout: First, 'par': 'Product', 'name': 'Category' },
+        meta: { layout: First, 'par': 'Produk', 'name': 'Kategori' },
         component: () => import('../views/ProductCategoryView.vue')
     },
     {
         path: '/product-unit',
         name: 'productUnit',
-        meta: { layout: First, 'par': 'Product', 'name': 'Unit' },
+        meta: { layout: First, 'par': 'Produk', 'name': 'Satuan' },
         component: () => import('../views/ProductUnitView.vue')
     },
     {
         path: '/buy-transaction',
         name: 'buyTransaction',
-        meta: { layout: First, 'par': 'Buy', 'name': 'Transaction' },
+        meta: { layout: First, 'par': 'Pembelian', 'name': 'Transaksi' },
         component: () => import('../views/BuyTransactionView.vue')
     },
     {
         path: '/buy-browse',
         name: 'buyBrowse',
-        meta: { layout: First, 'par': 'Buy', 'name': 'Browse' },
+        meta: { layout: First, 'par': 'Pembelian', 'name': 'Browse' },
         component: () => import('../views/BuyBrowseView.vue')
     },
     {
         path: '/buy-summary',
         name: 'buySummary',
-        meta: { layout: First, 'par': 'Buy', 'name': 'Summary' },
+        meta: { layout: First, 'par': 'Pembelian', 'name': 'Summary' },
         component: () => import('../views/BuySummaryView.vue')
     },
     {
         path: '/sell-transaction',
         name: 'sellTransaction',
-        meta: { layout: First, 'par': 'Sell', 'name': 'Transaction' },
+        meta: { layout: First, 'par': 'Penjualan', 'name': 'Transaksi' },
         component: () => import('../views/SellTransactionView.vue')
     },
     {
         path: '/sell-browse',
         name: 'sellBrowse',
-        meta: { layout: First, 'par': 'Sell', 'name': 'Browse' },
+        meta: { layout: First, 'par': 'Penjualan', 'name': 'Browse' },
         component: () => import('../views/SellBrowseView.vue')
     },
     {
         path: '/sell-summary',
         name: 'sellSummary',
-        meta: { layout: First, 'par': 'Sell', 'name': 'Summary' },
+        meta: { layout: First, 'par': 'Penjualan', 'name': 'Summary' },
         component: () => import('../views/SellSummaryView.vue')
     },
     {
         path: '/report-all',
         name: 'report',
-        meta: { layout: First, 'par': 'Report', 'name': 'All' },
+        meta: { layout: First, 'par': 'Laporan', 'name': 'All' },
         component: () => import('../views/ReportView.vue')
     },
     {
         path: '/report-stock',
         name: 'reportStock',
-        meta: { layout: First, 'par': 'Report', 'name': 'Stock' },
+        meta: { layout: First, 'par': 'Laporan', 'name': 'Stok' },
         component: () => import('../views/ReportStockView.vue')
     },
     {
         path: '/report-buy',
         name: 'reportBuy',
-        meta: { layout: First, 'par': 'Report', 'name': 'Buy' },
+        meta: { layout: First, 'par': 'Laporan', 'name': 'Pembelian' },
         component: () => import('../views/ReportBuyView.vue')
     },
     {
         path: '/report-sell',
         name: 'reportSell',
-        meta: { layout: First, 'par': 'Report', 'name': 'Sell' },
+        meta: { layout: First, 'par': 'Laporan', 'name': 'Penjualan' },
         component: () => import('../views/ReportSellView.vue')
     }
 ];

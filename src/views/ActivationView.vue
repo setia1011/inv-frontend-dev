@@ -32,7 +32,7 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        Create an account? <router-link to="/register" class="has-text-weight-bold has-text-link">Register</router-link> or <router-link to="/login" class="has-text-weight-bold has-text-link">Login</router-link>
+                        Create an account? <router-link to="/user-register" class="has-text-weight-bold has-text-link">Register</router-link> or <router-link to="/user-login" class="has-text-weight-bold has-text-link">Login</router-link>
                     </div>
                 </div>
             </div>
