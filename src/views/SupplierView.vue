@@ -352,7 +352,7 @@ export default {
    data() {
       return {
          col: 'list',
-         colinfo: 'Daftar supplier',
+         colinfo: 'Daftar Supplier',
          q: null,
          order: 'asc',
          asc: true,
@@ -400,16 +400,16 @@ export default {
          this.col = a;
          if (a == 'list') {
             this.reset();
-            this.colinfo = 'Daftar supplier';
+            this.colinfo = 'Daftar Supplier';
             this.getSuppliers();
          }
          if (a == 'create') {
             this.isEdit = false;
-            this.colinfo = 'Tambah supplier';
+            this.colinfo = 'Tambah Supplier';
          }
          if (a == 'edit') {
             this.isEdit = true;
-            this.colinfo = 'Edit supplier';
+            this.colinfo = 'Edit Supplier';
             this.getSupplier(x);
          }
       },

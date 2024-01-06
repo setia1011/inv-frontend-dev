@@ -33,8 +33,8 @@
                      <thead>
                         <tr>
                            <th class="pl-0">No</th>
-                           <th>Categories</th>
-                           <th>Sub-categories</th>
+                           <th>Kategori</th>
+                           <th>Sub-kategori</th>
                            <th class="pr-0"></th>
                         </tr>
                      </thead>
@@ -126,14 +126,14 @@
                <div class="box pt-1 pl-2 pr-2 pb-2 mb-2">
                   <div>
                      <div class="field">
-                        <label class="label has-text-weight-semibold">Category</label>
+                        <label class="label has-text-weight-semibold">Kategori</label>
                         <div class="hix control is-relative">
                            <Field as="textarea" class="textarea" rows="2" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_category" v-model="category" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_category" />
                         </div>
                      </div>
                      <div class="field">
-                        <label class="label has-text-weight-semibold">Description</label>
+                        <label class="label has-text-weight-semibold">Keterangan</label>
                         <div class="hix control is-relative">
                            <Field as="textarea" class="textarea" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" rows="3" name="v_category_description" v-model="category_description" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_category_description" />
@@ -173,14 +173,14 @@
                <div class="box pt-1 pl-2 pr-2 pb-2 mb-2">
                   <div>
                      <div class="field">
-                        <label class="label has-text-weight-semibold">Sub-category</label>
+                        <label class="label has-text-weight-semibold">Sub-kategori</label>
                         <div class="hix control is-relative">
                            <Field as="textarea" class="textarea" rows="2" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_sub_category" v-model="sub_category" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_sub_category" />
                         </div>
                      </div>
                      <div class="field">
-                        <label class="label has-text-weight-semibold">Sub-category Description</label>
+                        <label class="label has-text-weight-semibold">Keterangan</label>
                         <div class="hix control is-relative">
                            <Field as="textarea" class="textarea" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" rows="3" name="v_sub_category_description" v-model="sub_category_description" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_sub_category_description" />
@@ -225,14 +225,14 @@ export default {
 
       const valCategorySchema = ref(
          yup.object({
-            v_category: yup.string().required().label('Category'),
-            v_category_description: yup.string().required().label('Description')
+            v_category: yup.string().required().label('Kategori'),
+            v_category_description: yup.string().required().label('Keterangan')
          })
       );
       const valSubCategorySchema = ref(
          yup.object({
-            v_sub_category: yup.string().required().label('Sub-category'),
-            v_sub_category_description: yup.string().required().label('Sub-category Description')
+            v_sub_category: yup.string().required().label('Kategori'),
+            v_sub_category_description: yup.string().required().label('Keterangan')
          })
       );
       return { toast, valCategorySchema, valSubCategorySchema }
@@ -240,7 +240,7 @@ export default {
    data() {
       return {
          colshow: 'list',
-         colinfo: 'List of product categories',
+         colinfo: 'Daftar kategori',
          qcategory: null,
          order: 'asc',
          asc: true,
@@ -296,26 +296,26 @@ export default {
          if (a === 'list') {
             this.resetCategory();
             this.resetSubCategory();
-            this.colinfo = "List of product categories";
+            this.colinfo = "Daftar kategori";
          }
          if (a === 'create') {
             this.resetCategory();
             this.resetSubCategory();
-            this.colinfo = "Create a new product category";
+            this.colinfo = "Tambah kategori";
             this.isEdit = false;
          }
          if (a === 'edit') {
             this.resetCategory();
             this.resetSubCategory();
             this.getProductCategory(x);
-            this.colinfo = "Edit a product category";
+            this.colinfo = "Edit kategori";
             this.isEdit = true;
          }
          if (a === 'createsub') {
             this.resetCategory();
             this.resetSubCategory();
             this.getProductCategory(x);
-            this.colinfo = "Create a new sub product category";
+            this.colinfo = "Tambah sub-kategori";
             this.isEdit = false;
          }
          if (a === 'editsub') {
@@ -323,7 +323,7 @@ export default {
             this.resetSubCategory();
             this.sid = y;
             this.getProductCategory(x);
-            this.colinfo = "Edit a sub product category";
+            this.colinfo = "Edit sub-kategori";
             this.isEdit = true;
          }
       },

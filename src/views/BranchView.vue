@@ -478,7 +478,7 @@ export default {
    data() {
       return {
          col: 'list',
-         colinfo: 'Daftar supplier',
+         colinfo: 'Daftar Cabang',
          q: null,
          order: 'asc',
          asc: true,
@@ -537,16 +537,16 @@ export default {
          this.col = a;
          if (a == 'list') {
             this.reset();
-            this.colinfo = 'Daftar supplier';
+            this.colinfo = 'Daftar Cabang';
             this.getBranches();
          }
          if (a == 'create') {
             this.isEdit = false;
-            this.colinfo = 'Tambah supplier';
+            this.colinfo = 'Tambah Cabang';
          }
          if (a == 'edit') {
             this.isEdit = true;
-            this.colinfo = 'Edit supplier';
+            this.colinfo = 'Edit Cabang';
             this.getBranch(x);
          }
       },

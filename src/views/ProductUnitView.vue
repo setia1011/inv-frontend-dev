@@ -18,19 +18,8 @@
                            </div>
                         </a>
                      </p>
-                     <!-- <div class="control has-icons-left">
-                        <div class="select">
-                           <select v-model="order">
-                              <option value="asc">Ascending</option>
-                              <option value="desc">Descending</option>
-                           </select>
-                        </div>
-                        <div class="icon is-small is-left" style="color: hsl(207deg, 61%, 53%);">
-                           <i class="fa-light" :class="[order === 'asc' ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
-                        </div>
-                     </div> -->
                      <p class="control is-expanded">
-                        <input class="input" v-model="q" type="text" placeholder=".. by unit">
+                        <input class="input" v-model="q" type="text" placeholder=".. satuan">
                      </p>
                      <div class="button is-success ml-2" @click="changeCol('create')">
                         <span class="icon">
@@ -40,11 +29,11 @@
                   </div>
                </div>
                <div class="box p-2">
-                  <table class="table is-narrow is-striped is-hoverable mb-3 table-units is-fullwidth">
+                  <table class="table is-striped is-hoverable mb-3 table-units is-fullwidth">
                      <thead>
                         <tr>
                            <th style="width: 40px;" class="">No</th>
-                           <th>Unit</th>
+                           <th>Satuan</th>
                            <!-- <th>Sub-units</th> -->
                            <th class=""></th>
                         </tr>
@@ -138,7 +127,7 @@
                <div class="box pt-1 pl-2 pr-2 pb-2 mb-2">
                   <div>
                      <div class="field">
-                        <label class="label has-text-weight-semibold">Unit</label>
+                        <label class="label has-text-weight-semibold">Satuan</label>
                         <div class="hix control is-relative">
                            <Field as="textarea" class="textarea" rows="2" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_unit" v-model="unit" />
                            <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_unit" />
@@ -176,7 +165,7 @@ export default {
 
       const valUnitSchema = ref(
          yup.object({
-            v_unit: yup.string().required().label('Unit')
+            v_unit: yup.string().required().label('Satuan')
          })
       );
       return { toast, valUnitSchema }
@@ -184,7 +173,7 @@ export default {
    data() {
       return {
          colshow: 'list',
-         colinfo: 'List of product units',
+         colinfo: 'Daftar satuan',
          q: null,
          order: 'asc',
          asc: true,
@@ -228,17 +217,17 @@ export default {
          this.colshow = a;
          if (a === 'list') {
             this.resetUnit();
-            this.colinfo = "List of product units";
+            this.colinfo = "Daftar satuan";
          }
          if (a === 'create') {
             this.resetUnit();
-            this.colinfo = "Create a new product unit";
+            this.colinfo = "Tambah satuan";
             this.isEdit = false;
          }
          if (a === 'edit') {
             this.resetUnit();
             this.getProductUnit(x);
-            this.colinfo = "Edit a product unit";
+            this.colinfo = "Edit satuan";
             this.isEdit = true;
          }
       },
