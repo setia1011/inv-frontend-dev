@@ -22,7 +22,7 @@
                      </a>
                   </p>
                   <p class="control is-expanded">
-                     <input class="input" v-model="q" type="text" placeholder=".. perusahaan">
+                     <input class="input" v-model="q" type="text" placeholder=".. nama">
                   </p>
                   <div class="button is-success is-light is-outlined ml-2" @click="changeCol('create')">
                      <span class="icon">
@@ -565,6 +565,9 @@ export default {
          this.provinsi = null;
          this.postcode = null;
          this.info = null;
+      },
+      statusChanged: function() {
+
       },
       dateTimeFormat: function(d) {
          return moment(d).format('DD/MM/YYYY HH:mm:ss');

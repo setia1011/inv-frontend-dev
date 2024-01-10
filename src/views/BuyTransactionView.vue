@@ -651,7 +651,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <v-select 
+                              <v-select :disabled="real_quantity !== quantity"
                                  class="v-selectx is-capitalized" 
                                  label="category"
                                  v-model="product_category_id" 
@@ -680,7 +680,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <v-select 
+                              <v-select :disabled="real_quantity !== quantity"
                                  class="v-selectx is-capitalized" 
                                  label="sub_category"
                                  v-model="product_sub_category_id" 
@@ -709,7 +709,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;"/>
+                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;" :disabled="real_quantity !== quantity"/>
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
                            </p>
                         </div>
@@ -1006,7 +1006,8 @@ export default {
          price_total: null,
          weight_kg_per_unit: null,
          weight_kg_total: null,
-         volume_cm: null
+         volume_cm: null,
+         real_quantity: null
       }
    },
    watch: {
@@ -1245,6 +1246,7 @@ export default {
             this.weight_kg_per_unit = this.buy_detail?.weight_kg_per_unit ? parseFloat(this.buy_detail?.weight_kg_per_unit) : null;
             this.weight_kg_total = this.buy_detail?.weight_kg_total ? parseFloat(this.buy_detail?.weight_kg_total) : null;
             this.volume_cm = this.buy_detail?.volume_cm;
+            this.real_quantity = parseFloat(this.buy_detail?.buy_product_hub?.quantity);
             setTimeout(() => {
                this.isEditDetailsLoading = false;
             }, 500)
@@ -1520,7 +1522,7 @@ export default {
                   rtl: false
                   }
                );
-               this.changeCol("list");
+               this.changeCol("listx", this.buy_header?.id);
                this.getBuys();
             }).catch((err) => {
                this.toast.error("Gagal menghapus produk", {
