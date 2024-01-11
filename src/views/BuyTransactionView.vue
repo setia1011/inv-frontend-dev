@@ -651,7 +651,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <v-select :disabled="real_quantity !== quantity"
+                              <v-select :disabled="real_quantity !== curr_quantity"
                                  class="v-selectx is-capitalized" 
                                  label="category"
                                  v-model="product_category_id" 
@@ -680,7 +680,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <v-select :disabled="real_quantity !== quantity"
+                              <v-select :disabled="real_quantity !== curr_quantity"
                                  class="v-selectx is-capitalized" 
                                  label="sub_category"
                                  v-model="product_sub_category_id" 
@@ -709,7 +709,19 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;" :disabled="real_quantity !== quantity"/>
+                              <span class="tag is-danger is-light mb-2">Pilih dari produk yang sudah ada</span>
+                              <v-select 
+                                 class="v-selectx v-select-product is-capitalized mb-2"
+                                 label="product_name"
+                                 v-model="product_name" 
+                                 :reduce="product => product.product_name" 
+                                 placeholder="Pilih Produk"
+                                 @search="getProducts"
+                                 @update:modelValue="productChanged"
+                                 :options="products">
+                              </v-select>
+                              <hr class="p-0 mb-3 mt-1">
+                              <Field class="textarea" as="textarea" row="1" name="v_product_name" v-model="product_name" style="min-height: 70px;" :disabled="real_quantity !== curr_quantity"/>
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_product_name" />
                            </p>
                         </div>
@@ -1007,7 +1019,11 @@ export default {
          weight_kg_per_unit: null,
          weight_kg_total: null,
          volume_cm: null,
-         real_quantity: null
+         real_quantity: null,
+         curr_quantity: null,
+         // products
+         products: [],
+         product: null
       }
    },
    watch: {
@@ -1105,6 +1121,8 @@ export default {
          this.status = null;
       },
       resetDetails: function() {
+         this.real_quantity = null;
+         this.curr_quantity = null;
          this.buy_detail = null;
          this.buy_header_id = null;
          this.product_category_id = null;
@@ -1246,7 +1264,9 @@ export default {
             this.weight_kg_per_unit = this.buy_detail?.weight_kg_per_unit ? parseFloat(this.buy_detail?.weight_kg_per_unit) : null;
             this.weight_kg_total = this.buy_detail?.weight_kg_total ? parseFloat(this.buy_detail?.weight_kg_total) : null;
             this.volume_cm = this.buy_detail?.volume_cm;
-            this.real_quantity = parseFloat(this.buy_detail?.buy_product_hub?.quantity);
+
+            this.curr_quantity = this.buy_detail?.quantity ? parseFloat(this.buy_detail?.quantity) : null;
+            this.real_quantity = this.buy_detail?.buy_product_hub?.quantity ? parseFloat(this.buy_detail?.buy_product_hub?.quantity) : null;
             setTimeout(() => {
                this.isEditDetailsLoading = false;
             }, 500)
@@ -1258,6 +1278,26 @@ export default {
          })
       },
       buyChanged: function() {
+      },
+      getProducts: function(q) {
+         xaxios.get(`inventory/products-fx?q=${q ? q : ''}`).then((r) => {
+            this.products = r.data;
+         })
+      },
+      productChanged: function(v) {
+         this.product = v;
+         if (v) {
+            this.products.forEach((e) => {
+               if (e.product_name == v) {
+                  this.product_category_id = e.product_category_id;
+                  this.product_sub_category_id = e.product_category_id;
+               }
+            });
+         } else {
+            this.product_category_id = null;
+            this.product_sub_category_id = null;
+         }
+         
       },
       createHeader: function(f) {
          if (this.colshow == "header") {
@@ -1572,5 +1612,11 @@ export default {
    padding-top: 6px;
    justify-content: left !important;
    padding-left: 12px !important;
+}
+</style>
+
+<style>
+.v-select-product .vs__dropdown-toggle {
+   border-color: #a14e4d71 !important;
 }
 </style>
