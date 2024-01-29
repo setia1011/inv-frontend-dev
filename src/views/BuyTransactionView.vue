@@ -578,7 +578,7 @@
                               :page-count="_totalPages"
                               :page-range="3"
                               :margin-pages="0"
-                              :click-handler="clickCallback"
+                              :click-handler="_clickCallback"
                               :prev-link-class="'pagination-link'"
                               :page-link-class="'pagination-link'"
                               :next-link-class="'pagination-link'"
@@ -1246,7 +1246,7 @@ export default {
          })
       },
       _clickCallback: function(_pageNum) {
-         this._page = pageNum;
+         this._page = _pageNum;
          this.getBuyDetails();
       },
       getDetailsOne: function(id) {

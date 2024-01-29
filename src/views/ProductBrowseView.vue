@@ -48,6 +48,7 @@
                         <th>Harga Beli</th>
                         <th>Margin</th>
                         <th>Harga Jual</th>
+                        <th>Min</th>
                         <th width="90px">Status</th>
                         <th class="pr-0" width="112px"></th>
                      </tr>
@@ -75,6 +76,7 @@
                         <td><span v-if="i.price_buy">{{ toIdr(i.price_buy) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td>{{ parseFloat(i.margin) }}%</td>
                         <td><span v-if="i.price_sell">{{ toIdr(i.price_sell) }}</span><span v-else>{{ toIdr(0) }}</span></td>
+                        <td>{{ i?.min_buy }}</td>
                         <td>
                            <span class="tag" :class="[{'is-danger': i.status == 'false'}, {'is-success': i.status == 'true' }]">
                               <template v-if="i.status == 'true'">Aktif</template>
@@ -88,7 +90,7 @@
                                     <i class="fa-regular fa-table-list"></i>
                                  </span>
                               </span>
-                              <span class="button tag is-warning is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="changeCol('editheader', i.id)">
+                              <span class="button tag is-warning is-light is-outlined ml-1" style="border-radius: 2px;" v-on:click="changeCol('edit', i.id)">
                                  <span class="icon is-small">
                                     <i class="fa-sharp fa-solid fa-pencil"></i>
                                  </span>
@@ -135,8 +137,438 @@
                </div>
             </div>
          </div>
-         <div class="column x-edit" v-if="colshow == 'edit'"></div>
-         <div class="column x-listx" v-if="colshow == 'listx'"></div>
+         <div class="column x-edit" v-if="colshow == 'edit'">
+            <Form :validation-schema="valProduct" @submit="updateProduct">
+               <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+                  <span v-if="isEdit">
+                     <span class="has-text-weight-normal"></span>
+                  </span>
+                  <span v-else>
+                     <span class="has-text-weight-normal">
+                     </span>
+                  </span>
+               </p>
+               <div class="box button is-small is-dark is-pulled-right mb-2" @click="changeCol('list')">
+                  <span class="icon">
+                     <i class="fa-regular fa-arrow-left-long"></i>
+                  </span>
+               </div>
+               <div class="is-divider mt-4 mb-0"></div>
+               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+                  <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Kategori</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-capitalized" :value="product?.product_category?.category" readonly/>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Sub Kategori</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-capitalized" :value="product?.product_sub_category?.sub_category" readonly/>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">SKU</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-capitalized" :value="product?.sku" readonly/>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Kode</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-success is-uppercase" placeholder="0" name="v_code" v-model="code" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_code" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Produk
+                           </label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <textarea class="textarea" row="1" style="min-height: 70px;" readonly>{{ product?.product_name }}</textarea>
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+
+                  <hr class="mb-1">
+
+                  <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
+                     <div class="column is-full pb-0 pt-1">
+                        <span class="is-clickable" v-on:click="refProducts">
+                           <span class="is-underlined has-text-weight-semibold">Ubah data detil</span>&nbsp; <span class="is-clickable"><i class="fa-solid fa-pen-to-square" style="color: #d765a2;"></i></span><br>_
+                        </span>
+                     </div>
+                  </div>
+                  <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Isi</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-capitalized" :value="parseFloat(product?.quantity)" readonly/>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Satuan</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-info is-capitalized" :value="product?.unit?.unit" readonly/>
+                              <Field class="input" type="hidden" placeholder="0" name="v_unit_id" v-model="unit_id" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_unit_id" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Harga Beli</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-info" placeholder="0" name="v_price_buy" v-model="price_buy" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Margin (%)</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-success" type="number" name="v_margin" v-model="margin" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_margin" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Harga Jual</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-info" placeholder="0" name="v_price_sell" v-model="price_sell" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_sell" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Berat (KG)</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-info" placeholder="0" name="v_weight_kg" v-model="weight_kg" readonly/>
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Volume (CM)</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-info" placeholder="0" name="v_volume_cm" v-model="volume_cm" readonly/>
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_volume_cm" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Min. Pembelian</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input is-success" type="number" placeholder="0" name="v_min_buy" v-model="min_buy"/>
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_min_buy" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Level</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <v-select 
+                                 class="v-selectx v-edit"
+                                 label="label"
+                                 v-model="level" 
+                                 :reduce="label => label.code" 
+                                 placeholder="Pilih Level"
+                                 @update:modelValue="levelChanged"
+                                 :options="_level">
+                              </v-select>
+
+                              <Field class="input" type="hidden" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_level" v-model="level" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_level" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Status</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <v-select 
+                                 class="v-selectx v-edit"
+                                 label="label"
+                                 v-model="status" 
+                                 :reduce="label => label.code" 
+                                 placeholder="Pilih Status"
+                                 @update:modelValue="statusChanged"
+                                 :options="_status">
+                              </v-select>
+
+                              <Field class="input" type="hidden" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_status" v-model="status" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_status" />
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <Field type="hidden" placeholder="0" name="v_id" v-model="id" />
+               <div class="box is-inline-block m-0" style="padding: 2px;">
+                  <button class="button is-success">Save</button>
+               </div>
+            </Form>
+         </div>
+         <div class="column x-listx" v-if="colshow == 'listx'">
+            <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+               <span v-if="isEdit">
+                  <span class="has-text-weight-normal"></span>
+               </span>
+               <span v-else>
+                  <span class="has-text-weight-normal">
+                  </span>
+               </span>
+            </p>
+            <div class="box button is-small is-dark is-pulled-right mb-2" @click="changeCol('list')">
+               <span class="icon">
+                  <i class="fa-regular fa-arrow-left-long"></i>
+               </span>
+            </div>
+            <div class="is-divider mt-4 mb-0"></div>
+            <div class="list">
+               <div class="list-item pl-0 pr-0" v-for="(i, index) in product?.ref_products" :key="i.id">
+                  <div class="list-item-image">
+                     {{ index + 1 }}&nbsp;
+                  </div>
+                  <div class="list-item-content">
+                     <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
+                     <div class="list-item-title has-text-weight-light is-underlined">{{ i?.buy_details?.product_name }}</div>
+                     <div class="list-item-description"><span class="tag">Kategori > {{ i?.buy_details
+?.product_category?.category }}</span> <span class="tag">Kategori > {{ i?.buy_details
+?.product_sub_category?.sub_category }}</span></div>
+                     <div class="list-item-description mt-1">
+                        <span class="tag is-success is-light mr-1 mb-1">Isi/stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Harga satuan > {{ toIdr(parseFloat(i?.buy_details?.price_per_unit)) }}</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Harga total > {{ toIdr(parseFloat(i?.buy_details?.price_total)) }}</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Berat satuan > {{ parseFloat(i?.buy_details?.weight_kg_per_unit) }} KG</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Berat total > {{ parseFloat(i?.buy_details?.weight_kg_total) }} KG</span>
+                        <span class="tag is-warning is-light">Volume _CM > {{ i?.buy_details?.volume_cm }}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- modal -->
+      <div ref="refx" class="modal" style="min-width: 80%;">
+         <div class="modal-background"></div>
+         <div class="modal-card">
+            <header class="modal-card-head pt-3 pb-3">
+               <p class="modal-card-title is-size-6 has-text-weight-semibold">Produk</p>
+               <button class="delete" aria-label="close" v-on:click="closeModal"></button>
+            </header>
+            <section class="modal-card-body pt-1">
+               <div class="list has-visible-pointer-controls">
+                  <div class="list-item" v-for="(i, index) in product?.ref_products" :key="i.id">
+                     <div class="list-item-content">
+                        <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
+                        <div class="list-item-title has-text-weight-light is-underlined mb-1">{{ i?.buy_details?.product_name }}</div>
+                        <div class="list-item-description"><span class="tag">Kategori > {{ i?.buy_details
+?.product_category?.category }}</span> <span class="tag">Kategori > {{ i?.buy_details
+?.product_sub_category?.sub_category }}</span></div>
+                     <div class="list-item-description mt-1">
+                        <span class="tag is-success is-light mr-1 mb-1">Isi/stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Harga beli > {{ toIdr(parseFloat(i?.buy_details?.price_per_unit)) }}</span>
+                        <span class="tag is-warning is-light mr-1 mb-1">Berat > {{ parseFloat(i?.buy_details?.weight_kg_per_unit) }} KG</span>
+                        <span class="tag is-warning is-light">Volume _CM > {{ i?.buy_details?.volume_cm }}</span>
+                     </div>
+                     </div>
+
+                     <div class="list-item-controls">
+                        <div class="buttons is-right">
+                           <template v-if="buy_product_hub_id !== i?.id">
+                              <button class="button is-outlined" :class="[{'is-success': buy_product_hub_id == i?.id}, {'is-dark': buy_product_hub_id != i?.id}]" v-on:click="selectHubId(i?.id)">
+                                 <span class="icon">
+                                    <i class="fa-regular fa-square fa-lg"></i>
+                                 </span>
+                              </button>
+                           </template>
+                           <template v-else>
+                              <button class="button is-outlined" :class="[{'is-success': buy_product_hub_id == i?.id}, {'is-dark': buy_product_hub_id != i?.id}]">
+                                 <span class="icon">
+                                    <i class="fa-regular fa-square-check fa-lg"></i>
+                                 </span>
+                              </button>
+                           </template>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <!-- <footer class="modal-card-foot pt-2 pb-2">
+               <button class="button is-small" v-on:click="closeModal">Cancel</button>
+            </footer> -->
+         </div>
       </div>
    </div>
 </template>
@@ -153,7 +585,7 @@ import { xaxios } from '@/utils/xaxios';
 import { useToast } from "vue-toastification";
 import { createConfirmDialog } from 'vuejs-confirm-dialog';
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { toDbDateTime, toDbDate, createMask, destroyMask, formatCurrency } from '../utils/useful';
+import { toDbDateTime, toDbDate, createMask, destroyMask, formatCurrency, formatCurrencyToFloat } from '../utils/useful';
 import { ref } from "vue";
 
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -165,46 +597,29 @@ export default {
    },
    setup() {
       const toast = useToast();
-      const valHeader = ref(
+      const valProduct = ref(
          yup.object({
-            v_invoice_number: yup.string().required().label('No. Faktur'),
-            v_invoice_date: yup.string().required().label('Tgl. Faktur'),
-            v_supplier_id: yup.string().required().label('Supplier'),
-            v_weight_kg_total: yup.string().nullable().label('Berat Total'),
-            v_shipping_fee: yup.string().nullable().label('Ongkir'),
-            v_admin_fee: yup.string().nullable().label('Admin'),
-            v_discount: yup.string().nullable().label('Diskon'),
-            v_tax: yup.string().nullable().label('PPN'),
-            v_price_buy_total: yup.string().nullable().label('Harga Total'),
-            v_price_buy_total_final: yup.string().nullable().label('Harga Final'),
-            v_orderer_id: yup.string().required().label('Pemesan'),
-            v_recipient_id: yup.string().required().label('Penerima'),
-            v_status: yup.string().required().label('Status'),
-         })
-      );
-      const valDetails = ref(
-         yup.object({
-            v_buy_header_id: yup.string().required().label('Faktur'),
-            v_product_category_id: yup.string().required().label('Kategori'),
-            v_product_sub_category_id: yup.string().required().label('Sub Kategori'),
-            v_product_name: yup.string().required().label('Produk'),
-            v_quantity: yup.string().required().label('Jumlah'),
+            v_id: yup.string().required().label('Id'),
+            v_code: yup.string().required().label('Kode'),
             v_unit_id: yup.string().required().label('Satuan'),
-            v_price_per_unit: yup.string().required().label('Harga Satuan'),
-            v_price_total: yup.string().required().label('Harga Total'),
-            v_weight_kg_per_unit: yup.string().nullable().label('Berat (KG)'),
-            v_weight_kg_total: yup.string().nullable().label('Berat Total (KG)'),
-            v_volume_cm: yup.string().nullable().label('Volume (CM)')
+            v_price_buy: yup.string().required().label('Harga Beli'),
+            v_margin: yup.string().nullable().label('Margin'),
+            v_price_sell: yup.string().required().label('Harga Jual'),
+            v_weight_kg: yup.string().label('Berat (KG)'),
+            v_volume_cm: yup.string().label('Volume (CM)'),
+            v_min_buy: yup.string().nullable().label('Min'),
+            v_level: yup.string().nullable().label('Level'),
+            v_status: yup.string().label('Status')
          })
       );
-      return { toast, valHeader, valDetails }
+      return { toast, valProduct }
    },
    mounted() {
    },
    data() {
       return {
          colshow: 'list',
-         colinfo: 'Daftar produk',
+         colinfo: 'Daftar',
          isListLoading: false,
          isEditLoading: false,
          isEdit: false,
@@ -219,6 +634,7 @@ export default {
          // product
          products: [],
          product: null,
+         buy_product_hub_id: null,
 
          _level: [
             { code: "1", label: "1" },
@@ -231,12 +647,7 @@ export default {
             { code: "false", label: "Tidak Aktif" },
          ],
          id: null,
-         sku: null,
-         buy_header_id: null,
-         product_category_id: null,
-         product_sub_category_id: null,
          code: null,
-         product_name: null,
          quantity: null,
          unit_id: null,
          price_buy: null,
@@ -244,8 +655,17 @@ export default {
          price_sell: null,
          weight_kg: null,
          volume_cm: null,
-         status: null,
-         level: null
+         min_buy: null,
+         level: null,
+         status: null
+      }
+   },
+   watch: {
+      margin: function(v) {
+         this.price_sell = parseFloat(v) > 0 ? this.toIdr((this.currToFloat(this.price_buy) * parseFloat(v) * 0.01) + this.currToFloat(this.price_buy)) : this.toIdr(this.currToFloat(this.price_buy));
+      },
+      price_buy: function(v) {
+         this.price_sell = parseFloat(this.margin) > 0 ? this.toIdr((this.currToFloat(v) * parseFloat(this.margin) * 0.01) + this.currToFloat(v)) : this.toIdr(this.currToFloat(v));
       }
    },
    mounted() {
@@ -255,14 +675,14 @@ export default {
       changeCol: function(a, x = null, y = null) {
          this.colshow = a;
          if (a === 'list') {
-            this.reset();
-            this.colinfo = "Daftar produk";
+            // this.reset();
+            this.colinfo = "Daftar";
             this.isEdit = false;
             this.getProducts();
          }
          if (a === 'edit') {
             this.getProduct(x);
-            this.colinfo = "Edit produk";
+            this.colinfo = "Edit";
             this.isEdit = true;
          }
          if (a === 'listx') {
@@ -273,6 +693,9 @@ export default {
       },
       toIdr: function(e) {
          return formatCurrency(e, 'id', 'IDR');
+      },
+      currToFloat: function(s) {
+         return formatCurrencyToFloat(s);
       },
       dateTimeFormat: function(d) {
          return moment(d).format('DD/MM/YYYY HH:mm:ss');
@@ -294,11 +717,119 @@ export default {
       getProduct: function(id) {
          xaxios.get("inventory/product/"+id).then((r) => {
             this.product = r.data;
+            this.id = this.product?.id;
+            this.quantity = this.product?.quantity ? parseFloat(this.product?.quantity) : null;
+            this.price_buy = this.product?.price_buy > 0 ? this.toIdr(this.product?.price_buy) : this.toIdr(0);
+            this.price_sell = this.product?.price_sell > 0 ? this.toIdr(this.product?.price_sell) : this.toIdr(this.product?.price_buy);
+            this.margin = parseFloat(this.product?.margin);
+            this.code = this.product?.code;
+            this.weight_kg = parseFloat(this.product?.weight_kg);
+            this.volume_cm = this.product?.volume_cm;
+            this.level = this.product?.level;
+            this.status = this.product?.status;
+            this.unit_id = this.product?.unit_id;
+            this.min_buy = this.product?.min_buy;
+            this.buy_product_hub_id = this.product?.buy_product_hub_id;
          })
       },
       getDetails: function(id) {
-
+         xaxios.get("inventory/product/"+id).then((r) => {
+            this.product = r.data;
+         })
+      },
+      statusChanged: function(v) { this.status = v; },
+      levelChanged: function(v) { this.level = v; },
+      updateProduct: function(f) {
+         let d = {};
+         d['id'] = f['v_id'];
+         d['code'] = f['v_code'] ? f['v_code'].toUpperCase() : null;
+         d['unit_id'] = f['v_unit_id'];
+         d['price_buy'] = this.currToFloat(f['v_price_buy']);
+         d['margin'] = f['v_margin'] ? f['v_margin'] : null;
+         d['price_sell'] = this.currToFloat(f['v_price_sell']);
+         d['weight_kg'] = f['v_weight_kg'];
+         d['volume_cm'] = f['v_volume_cm'];
+         d['buy_product_hub_id'] = this.buy_product_hub_id;
+         d['min_buy'] = f['v_min_buy'] ? f['v_min_buy'] : null;
+         d['status'] = f['v_status'];
+         d['level'] = f['v_level'];
+         xaxios.patch("inventory/product/", d).then((r) => {
+            this.toast.success("Berhasil update produk", {
+               position: "bottom-right",
+               timeout: 1000,
+               closeOnClick: true,
+               pauseOnFocusLoss: true,
+               pauseOnHover: true,
+               draggable: true,
+               draggablePercent: 0.6,
+               showCloseButtonOnHover: false,
+               hideProgressBar: true,
+               closeButton: "button",
+               icon: true,
+               rtl: false
+               }
+            );
+         }).catch((e) => {
+            this.toast.error("Gagal update produk", {
+               position: "bottom-right",
+               timeout: 1000,
+               closeOnClick: true,
+               pauseOnFocusLoss: true,
+               pauseOnHover: true,
+               draggable: true,
+               draggablePercent: 0.6,
+               showCloseButtonOnHover: false,
+               hideProgressBar: true,
+               closeButton: "button",
+               icon: true,
+               rtl: false
+               }
+            );
+         })
+      },
+      refProducts: function() {
+         var refx = this.$refs.refx;
+         refx.classList.add('is-active');
+      },
+      closeModal: function() {
+         var refx = this.$refs.refx;
+         refx.classList.remove('is-active');
+      },
+      selectHubId: function(id) {
+         this.buy_product_hub_id = id;
+         this.product?.ref_products.forEach((e) => {
+            if (e.id === id) {
+               this.unit_id = e?.buy_details?.unit_id;
+               this.unit = e?.buy_details?.unit?.unit;
+               this.volume_cm = e?.buy_details?.volume_cm;
+               this.price_buy = this.toIdr(parseFloat(e?.buy_details?.price_per_unit));
+               this.weight_kg = parseFloat(e?.buy_details?.weight_kg_per_unit);
+            }
+         })
       }
    }
 }
 </script>
+
+<style>
+@import "vue-select/dist/vue-select.css";
+@import "bulma-list/css/bulma-list.css";
+@import "bulma-extensions/bulma-divider/dist/css/bulma-divider.min.css";
+
+.v-edit .vs__dropdown-toggle {
+   border: var(--vs-border-width) var(--vs-border-style) hsl(153deg, 53%, 53%) !important;
+}
+</style>
+
+<style scoped>
+.list-item {
+   padding: .25em 0 .25em 0!important;
+   border-bottom: 1px solid #e4dede !important;
+}
+.list-item:not(:last-child) {
+   border-bottom: 1px solid #e4dede !important;
+}
+.v-selectx {
+   width: 100% !important;
+}
+</style>

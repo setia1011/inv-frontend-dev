@@ -79,6 +79,10 @@ function formatCurrency(numberString, locale = 'en-US', currency = 'USD') {
  
    return formatter.format(number);
 }
+
+function formatCurrencyToFloat(s) {
+   return parseFloat(s.replace(/[^\d.,]/g, '').replace('.','').replace(',','.'));
+}
  
 const destroyMask = (string) => {
    return string.replace(/\D/g,'');
@@ -94,5 +98,6 @@ export {
    limitText,
    createMask,
    destroyMask,
-   formatCurrency
+   formatCurrency,
+   formatCurrencyToFloat
 }
