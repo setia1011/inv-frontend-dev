@@ -76,7 +76,7 @@
                         <td><span v-if="i.price_buy">{{ toIdr(i.price_buy) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td>{{ parseFloat(i.margin) }}%</td>
                         <td><span v-if="i.price_sell">{{ toIdr(i.price_sell) }}</span><span v-else>{{ toIdr(0) }}</span></td>
-                        <td>{{ i?.min_buy }}</td>
+                        <td><span class="has-text-weight-bold">{{ i?.min_buy }}</span></td>
                         <td>
                            <span class="tag" :class="[{'is-danger': i.status == 'false'}, {'is-success': i.status == 'true' }]">
                               <template v-if="i.status == 'true'">Aktif</template>
@@ -224,7 +224,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="input is-success is-uppercase" placeholder="0" name="v_code" v-model="code" />
+                              <Field class="input is-success has-text-weight-bold is-uppercase" placeholder="0" name="v_code" v-model="code" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_code" />
                            </p>
                         </div>
@@ -255,7 +255,7 @@
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full pb-0 pt-1">
                         <span class="is-clickable" v-on:click="refProducts">
-                           <span class="is-underlined has-text-weight-semibold">Ubah data detil</span>&nbsp; <span class="is-clickable"><i class="fa-solid fa-pen-to-square" style="color: #d765a2;"></i></span><br>_
+                           <span class="is-underlined has-text-weight-semibold">Ubah referensi produk</span>&nbsp; <span class="is-clickable"><i class="fa-solid fa-pen-to-square" style="color: #d765a2;"></i></span><br>_
                         </span>
                      </div>
                   </div>
@@ -546,6 +546,7 @@
 
                      <div class="list-item-controls">
                         <div class="buttons is-right">
+                           {{ buy_product_hub_id }} {{ i?.id }}
                            <template v-if="buy_product_hub_id !== i?.id">
                               <button class="button is-outlined" :class="[{'is-success': buy_product_hub_id == i?.id}, {'is-dark': buy_product_hub_id != i?.id}]" v-on:click="selectHubId(i?.id)">
                                  <span class="icon">
