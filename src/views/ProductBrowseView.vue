@@ -24,13 +24,13 @@
                      </a>
                   </p>
                   <p class="control is-expanded">
-                     <input class="input" v-model="q" type="text" placeholder=".. nomor faktur">
+                     <input class="input" v-model="q" type="text" placeholder=".. nama produk">
                   </p>
-                  <div class="button is-success is-light is-outlined ml-2" @click="changeCol('header')">
+                  <!-- <div class="button is-success is-light is-outlined ml-2" @click="changeCol('header')">
                      <span class="icon">
                         <i class="fa-regular fa-circle-plus"></i>
                      </span>
-                  </div>
+                  </div> -->
                </div>
             </div>
             <div class="box table-container p-2">
@@ -43,8 +43,9 @@
                         <th>Sub Kategori</th>
                         <th>Kode</th>
                         <th>Produk</th>
-                        <th>Isi</th>
+                        <th>Stok</th>
                         <th>Satuan</th>
+                        <th>Isi</th>
                         <th>Harga Beli</th>
                         <th>Margin</th>
                         <th>Harga Jual</th>
@@ -73,6 +74,7 @@
                         <td>{{ i.product_name }}</td>
                         <td><span class="has-text-weight-bold is-underlined">{{ parseFloat(i.quantity) }}</span></td>
                         <td><span class="is-capitalized">{{ i.unit?.unit }}</span></td>
+                        <td><span class="is-capitalized">{{ parseFloat(i.buy_product_hub?.buy_details?.quantity_per_unit) }}</span></td>
                         <td><span v-if="i.price_buy">{{ toIdr(i.price_buy) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td>{{ parseFloat(i.margin) }}%</td>
                         <td><span v-if="i.price_sell">{{ toIdr(i.price_sell) }}</span><span v-else>{{ toIdr(0) }}</span></td>
@@ -262,24 +264,6 @@
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Isi</label>
-                           <p class="control is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
-                              :can-cancel="false"
-                              :background-color="'white'"
-                              :opacity="1"
-                              :height="25"
-                              :width="25"
-                              :z-index="25"
-                              :loader="'dots'"
-                              :is-full-page="false">
-                              </loading>
-                              <input class="input is-capitalized" :value="parseFloat(product?.quantity)" readonly/>
-                           </p>
-                        </div>
-                     </div>
-                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
-                        <div class="field">
                            <label class="label">Satuan</label>
                            <p class="control is-expanded is-relative">
                               <loading class="loading" v-model:active="isEditLoading"
@@ -295,6 +279,24 @@
                               <input class="input is-info is-capitalized" :value="product?.unit?.unit" readonly/>
                               <Field class="input" type="hidden" placeholder="0" name="v_unit_id" v-model="unit_id" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_unit_id" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
+                           <label class="label">Isi</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <input class="input is-info is-capitalized" :value="parseFloat(product?.quantity)" readonly/>
                            </p>
                         </div>
                      </div>
@@ -501,12 +503,14 @@
                   </div>
                   <div class="list-item-content">
                      <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
-                     <div class="list-item-title has-text-weight-light is-underlined">{{ i?.buy_details?.product_name }}</div>
+                     <div class="list-item-title has-text-weight-normal mb-1">{{ i?.buy_details?.product_name }}</div>
                      <div class="list-item-description"><span class="tag">Kategori > {{ i?.buy_details
 ?.product_category?.category }}</span> <span class="tag">Kategori > {{ i?.buy_details
 ?.product_sub_category?.sub_category }}</span></div>
                      <div class="list-item-description mt-1">
-                        <span class="tag is-success is-light mr-1 mb-1">Isi/stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-success is-light mr-1 mb-1">Stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-link is-light is-capitalized mr-1 mb-1">Satuan > {{ i?.buy_details?.unit?.unit }}</span>
+                        <span class="tag is-link is-light mr-1 mb-1">Isi > {{ parseFloat(i?.buy_details?.quantity_per_unit) }}</span>
                         <span class="tag is-warning is-light mr-1 mb-1">Harga satuan > {{ toIdr(parseFloat(i?.buy_details?.price_per_unit)) }}</span>
                         <span class="tag is-warning is-light mr-1 mb-1">Harga total > {{ toIdr(parseFloat(i?.buy_details?.price_total)) }}</span>
                         <span class="tag is-warning is-light mr-1 mb-1">Berat satuan > {{ parseFloat(i?.buy_details?.weight_kg_per_unit) }} KG</span>
@@ -532,12 +536,14 @@
                   <div class="list-item" v-for="(i, index) in product?.ref_products" :key="i.id">
                      <div class="list-item-content">
                         <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
-                        <div class="list-item-title has-text-weight-light is-underlined mb-1">{{ i?.buy_details?.product_name }}</div>
+                        <div class="list-item-title has-text-weight-normal mb-1">{{ i?.buy_details?.product_name }}</div>
                         <div class="list-item-description"><span class="tag">Kategori > {{ i?.buy_details
 ?.product_category?.category }}</span> <span class="tag">Kategori > {{ i?.buy_details
 ?.product_sub_category?.sub_category }}</span></div>
                      <div class="list-item-description mt-1">
-                        <span class="tag is-success is-light mr-1 mb-1">Isi/stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-success is-light mr-1 mb-1">Stok > {{ parseFloat(i?.quantity) }}</span>
+                        <span class="tag is-link is-light is-capitalized mr-1 mb-1">Satuan > {{ i?.buy_details?.unit?.unit }}</span>
+                        <span class="tag is-link is-light mr-1 mb-1">Isi > {{ parseFloat(i?.buy_details?.quantity_per_unit) }}</span>
                         <span class="tag is-warning is-light mr-1 mb-1">Harga beli > {{ toIdr(parseFloat(i?.buy_details?.price_per_unit)) }}</span>
                         <span class="tag is-warning is-light mr-1 mb-1">Berat > {{ parseFloat(i?.buy_details?.weight_kg_per_unit) }} KG</span>
                         <span class="tag is-warning is-light">Volume _CM > {{ i?.buy_details?.volume_cm }}</span>
@@ -546,7 +552,6 @@
 
                      <div class="list-item-controls">
                         <div class="buttons is-right">
-                           {{ buy_product_hub_id }} {{ i?.id }}
                            <template v-if="buy_product_hub_id !== i?.id">
                               <button class="button is-outlined" :class="[{'is-success': buy_product_hub_id == i?.id}, {'is-dark': buy_product_hub_id != i?.id}]" v-on:click="selectHubId(i?.id)">
                                  <span class="icon">
@@ -650,6 +655,7 @@ export default {
          id: null,
          code: null,
          quantity: null,
+         quantity_per_unit: null,
          unit_id: null,
          price_buy: null,
          margin: null,
@@ -720,6 +726,7 @@ export default {
             this.product = r.data;
             this.id = this.product?.id;
             this.quantity = this.product?.quantity ? parseFloat(this.product?.quantity) : null;
+            // this.quantity_per_unit = this.product?.quantity_per_unit ? parseFloat(this.product?.quantity_per_unit) : null;
             this.price_buy = this.product?.price_buy > 0 ? this.toIdr(this.product?.price_buy) : this.toIdr(0);
             this.price_sell = this.product?.price_sell > 0 ? this.toIdr(this.product?.price_sell) : this.toIdr(this.product?.price_buy);
             this.margin = parseFloat(this.product?.margin);

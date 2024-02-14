@@ -514,7 +514,7 @@
                         <th>Sub Kategori</th>
                         <th>Jumlah</th>
                         <th>Satuan</th>
-                        <!-- <th>Harga Satuan</th> -->
+                        <th>Isi</th>
                         <th>Harga Total</th>
                         <!-- <th>Berat Satuan (KG)</th> -->
                         <th>Berat Total (KG)</th>
@@ -540,7 +540,7 @@
                         <td>{{ i.product_sub_category?.sub_category }}</td>
                         <td>{{ parseFloat(i.quantity) }}</td>
                         <td>{{ i.unit?.unit }}</td>
-                        <!-- <td><span v-if="i.price_per_unit">{{ toIdr(i.price_per_unit) }}</span><span v-else>{{ toIdr(0) }}</span></td> -->
+                        <td>{{ parseFloat(i.quantity_per_unit) }}</td>
                         <td><span v-if="i.price_total">{{ toIdr(i.price_total) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <!-- <td>{{ i.weight_kg_per_unit }}</td> -->
                         <td>{{ parseFloat(i.weight_kg_total) }}</td>
@@ -781,6 +781,25 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
+                           <label class="label">Isi</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditDetailsLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <Field class="input" placeholder="0" name="v_quantity_per_unit" v-model="quantity_per_unit" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_quantity_per_unit" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
                            <label class="label">Harga (Satuan)</label>
                            <p class="control is-expanded is-relative">
                               <loading class="loading" v-model:active="isEditDetailsLoading"
@@ -937,6 +956,7 @@ export default {
             v_product_name: yup.string().required().label('Produk'),
             v_quantity: yup.string().required().label('Jumlah'),
             v_unit_id: yup.string().required().label('Satuan'),
+            v_quantity_per_unit: yup.string().required().label('Isi'),
             v_price_per_unit: yup.string().required().label('Harga Satuan'),
             v_price_total: yup.string().required().label('Harga Total'),
             v_weight_kg_per_unit: yup.string().nullable().label('Berat (KG)'),
@@ -1014,6 +1034,7 @@ export default {
          product_name: null,
          quantity: null,
          unit_id: null,
+         quantity_per_unit: null,
          price_per_unit: null,
          price_total: null,
          weight_kg_per_unit: null,
@@ -1130,6 +1151,7 @@ export default {
          this.product_name = null;
          this.quantity = null;
          this.unit_id = null;
+         this.quantity_per_unit = null;
          this.price_per_unit = null;
          this.price_total = null;
          this.weight_kg_per_unit = null;
@@ -1259,6 +1281,7 @@ export default {
             this.product_name = this.buy_detail?.product_name;
             this.quantity = this.buy_detail?.quantity ? parseFloat(this.buy_detail?.quantity) : null;
             this.unit_id = this.buy_detail?.unit_id;
+            this.quantity_per_unit = this.buy_detail?.quantity_per_unit ? parseFloat(this.buy_detail?.quantity_per_unit) : null;
             this.price_per_unit = this.buy_detail?.price_per_unit ? parseFloat(this.buy_detail?.price_per_unit) : null;
             this.price_total = this.buy_detail?.price_total ? parseFloat(this.buy_detail?.price_total) : null;
             this.weight_kg_per_unit = this.buy_detail?.weight_kg_per_unit ? parseFloat(this.buy_detail?.weight_kg_per_unit) : null;
@@ -1409,6 +1432,7 @@ export default {
                product_name: f['v_product_name'],
                quantity: f['v_quantity'],
                unit_id: f['v_unit_id'],
+               quantity_per_unit: f['v_quantity_per_unit'],
                price_per_unit: f['v_price_per_unit'],
                price_total: f['v_price_total'],
                weight_kg_per_unit: f['v_weight_kg_per_unit'],
@@ -1458,6 +1482,7 @@ export default {
                product_name: f['v_product_name'],
                quantity: f['v_quantity'],
                unit_id: f['v_unit_id'],
+               quantity_per_unit: f['v_quantity_per_unit'],
                price_per_unit: f['v_price_per_unit'],
                price_total: f['v_price_total'],
                weight_kg_per_unit: f['v_weight_kg_per_unit'],

@@ -27,16 +27,20 @@
                     <div class="navbar-start">
                         <template v-for="(item, index) in store?.userInfo?.menus" :key="index">
                             <template v-if="Object.keys(item.children).length === 0">
-                                <router-link class="navbar-item" :to="item.to">{{ item.label }}</router-link>
+                                <template v-if="item.show == 'true'">
+                                    <router-link class="navbar-item" :to="item.to">{{ item.label }}</router-link>
+                                </template>
                             </template>
                             <template v-else>
                                 <div class="navbar-item has-dropdown is-hoverable">
                                     <div class="navbar-link">{{ item.label }}</div>
                                     <div class="navbar-dropdown">
                                         <template v-for="(i, x) in item.children" :key="x">
-                                            <router-link :to="i.to" class="navbar-item" v-on:click="smClicked($event)">{{ i.label }}</router-link>
-                                            <template v-if="i.to == '/product-stock'">
-                                                <hr class="navbar-divider">
+                                            <template v-if="i.show == 'true'">
+                                                <router-link :to="i.to" class="navbar-item" v-on:click="smClicked($event)">{{ i.label }}</router-link>
+                                                <template v-if="i.to == '/product-stock'">
+                                                    <hr class="navbar-divider">
+                                                </template>
                                             </template>
                                         </template>
                                     </div>
