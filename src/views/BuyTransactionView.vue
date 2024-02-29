@@ -709,7 +709,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <span class="tag is-danger is-light mb-2">Pilih dari produk yang sudah ada</span>
+                              <span class="tag is-info is-light mb-2">Cari di database Produk</span>
                               <v-select 
                                  class="v-selectx v-select-product is-capitalized mb-2"
                                  label="product_name"
@@ -888,7 +888,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="input" placeholder="0" name="v_volume_cm" v-model="volume_cm" />
+                              <Field class="input" placeholder="2x2x2" name="v_volume_cm" v-model="volume_cm" />
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_volume_cm" />
                            </p>
                         </div>
@@ -1048,6 +1048,16 @@ export default {
       }
    },
    watch: {
+      price_per_unit: function(v) {
+         this.price_total = v * (this.quantity ? this.quantity : 1);
+      },
+      quantity: function(v) {
+         this.price_total = v * (this.price_per_unit ? this.price_per_unit : null);
+         this.weight_kg_total = v * (this.weight_kg_per_unit ? this.weight_kg_per_unit : null);
+      },
+      weight_kg_per_unit: function(v) {
+         this.weight_kg_total = v * (this.quantity ? this.quantity : 1);
+      },
       asc: function() {
          if (this.asc) {
             this.order = 'asc';
@@ -1089,15 +1099,16 @@ export default {
       changeCol: function(a, x = null, y = null) {
          this.colshow = a;
          if (a === 'list') {
-            this.resetHeader();
-            this.resetDetails();
             this.colinfo = "Daftar transaksi";
             this.isEdit = false;
+            this.isEditHeaderLoading = false;
+            this.resetHeader();
+            this.resetDetails();
             this.getBuys();
          }
          if (a === 'header') {
-            this.colinfo = "Rekam pembelian";
             this.isEdit = false;
+            this.colinfo = "Rekam pembelian";
          }
          if (a === 'editheader') {
             this.buy_header_id = x;
@@ -1106,12 +1117,12 @@ export default {
             this.isEdit = true;
          }
          if (a === 'listx') {
+            this.colinfo = "Daftar produk";
+            this.isEdit = false;
             this.resetDetails();
             this.buy_header_id = x;
             this.getBuySingle();
             this.getBuyDetails();
-            this.colinfo = "Daftar produk";
-            this.isEdit = false;
          }
          if (a === 'details') {
             this.buy_header_id = x;

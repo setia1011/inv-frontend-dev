@@ -109,16 +109,22 @@ const routes = [
         component: () => import('../views/SellTransactionView.vue')
     },
     {
-        path: '/sell-browse',
-        name: 'sellBrowse',
-        meta: { layout: First, 'par': 'Penjualan', 'name': 'Browse' },
-        component: () => import('../views/SellBrowseView.vue')
-    },
-    {
         path: '/sell-summary',
         name: 'sellSummary',
         meta: { layout: First, 'par': 'Penjualan', 'name': 'Summary' },
         component: () => import('../views/SellSummaryView.vue')
+    },
+    {
+        path: '/e-buy-browse',
+        name: 'eBuyBrowse',
+        meta: { layout: First, 'par': 'Pembelian', 'name': 'Pesan' },
+        component: () => import('../views/SellBrowseView.vue')
+    },
+    {
+        path: '/e-buy-transaction',
+        name: 'eBuyTransaction',
+        meta: { layout: First, 'par': 'Pembelian', 'name': 'Transaksi' },
+        component: () => import('../views/SellBrowseView.vue')
     },
     {
         path: '/report-all',

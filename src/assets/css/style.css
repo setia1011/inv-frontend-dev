@@ -45,6 +45,11 @@ body {
     position: relative;
     min-height: calc(100vh - 150px);
 }
+
+.table th {
+    color: #666666 !important;
+}
+
 .footer {
     padding: 1em 0;
     /* padding: 1em 0; */

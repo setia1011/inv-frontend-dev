@@ -72,11 +72,11 @@
                         <td><span class="is-capitalized">{{ i.product_sub_category?.sub_category }}</span></td>
                         <td>{{ i.code ? i.code : '-' }}</td>
                         <td>{{ i.product_name }}</td>
-                        <td><span class="has-text-weight-bold is-underlined">{{ parseFloat(i.quantity) }}</span></td>
+                        <td><span class="has-text-weight-bold">{{ parseFloat(i.quantity) }}</span></td>
                         <td><span class="is-capitalized">{{ i.unit?.unit }}</span></td>
                         <td><span class="is-capitalized">{{ parseFloat(i.buy_product_hub?.buy_details?.quantity_per_unit) }}</span></td>
                         <td><span v-if="i.price_buy">{{ toIdr(i.price_buy) }}</span><span v-else>{{ toIdr(0) }}</span></td>
-                        <td>{{ parseFloat(i.margin) }}%</td>
+                        <td>{{ i.margin ? parseFloat(i.margin) : 0 }}%</td>
                         <td><span v-if="i.price_sell">{{ toIdr(i.price_sell) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td><span class="has-text-weight-bold">{{ i?.min_buy }}</span></td>
                         <td>
@@ -296,7 +296,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <input class="input is-info is-capitalized" :value="parseFloat(product?.quantity)" readonly/>
+                              <input class="input is-info is-capitalized" :value="parseFloat(product?.ref_products[0]?.buy_details?.quantity_per_unit)" readonly/>
                            </p>
                         </div>
                      </div>
@@ -409,7 +409,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="input is-success" type="number" placeholder="0" name="v_min_buy" v-model="min_buy"/>
+                              <Field class="input is-success" type="number" placeholder="0" name="v_min_buy" v-model="min_buy" min="1"/>
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_min_buy" />
                            </p>
                         </div>
@@ -457,7 +457,7 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <v-select 
+                              <v-select :disabled="code == null"
                                  class="v-selectx v-edit"
                                  label="label"
                                  v-model="status" 
@@ -620,12 +620,10 @@ export default {
       );
       return { toast, valProduct }
    },
-   mounted() {
-   },
    data() {
       return {
          colshow: 'list',
-         colinfo: 'Daftar',
+         colinfo: 'Produk',
          isListLoading: false,
          isEditLoading: false,
          isEdit: false,
@@ -683,7 +681,7 @@ export default {
          this.colshow = a;
          if (a === 'list') {
             // this.reset();
-            this.colinfo = "Daftar";
+            this.colinfo = "Produk";
             this.isEdit = false;
             this.getProducts();
          }
@@ -777,6 +775,8 @@ export default {
                rtl: false
                }
             );
+            this.colshow = 'list';
+            this.getProducts();
          }).catch((e) => {
             this.toast.error("Gagal update produk", {
                position: "bottom-right",
@@ -793,6 +793,8 @@ export default {
                rtl: false
                }
             );
+            this.colshow = 'list';
+            this.getProducts();
          })
       },
       refProducts: function() {

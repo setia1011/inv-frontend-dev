@@ -25,6 +25,7 @@
     "moment-timezone": "^0.5.43",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.2",
+    "underscore": "^1.13.6",
     "vee-validate": "^4.12.4",
     "vue": "^3.3.11",
     "vue-axios": "^3.5.2",
