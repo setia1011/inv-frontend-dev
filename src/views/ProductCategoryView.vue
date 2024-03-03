@@ -9,7 +9,7 @@
       <div class="columns">
          <div class="column x-list" v-if="colshow == 'list'">
             <div>
-               <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+               <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                   <div class="field has-addons">
                      <p class="control">
                         <a class="button">
@@ -28,7 +28,7 @@
                      </div>
                   </div>
                </div>
-               <div class="box p-2">
+               <div class="box box-flat p-1">
                   <table class="table mb-3 table-categories is-fullwidth">
                      <thead>
                         <tr>
@@ -123,7 +123,7 @@
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
-               <div class="box pt-1 pl-2 pr-2 pb-2 mb-2">
+               <div class="box box-flat pt-1 pl-2 pr-2 pb-2 mb-2">
                   <div>
                      <div class="field">
                         <label class="label has-text-weight-semibold">Kategori</label>
@@ -170,7 +170,7 @@
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
-               <div class="box pt-1 pl-2 pr-2 pb-2 mb-2">
+               <div class="box box-flat pt-1 pl-2 pr-2 pb-2 mb-2">
                   <div>
                      <div class="field">
                         <label class="label has-text-weight-semibold">Sub-kategori</label>

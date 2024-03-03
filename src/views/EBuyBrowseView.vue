@@ -20,7 +20,7 @@
       </div> -->
       <div class="columns">
          <div class="column x-list" v-if="colshow == 'list'">
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -39,8 +39,43 @@
                   </div> -->
                </div>
             </div>
-            <div class="box table-container p-2 pb-0 mb-2">
-               <div class="level">
+            <div class="level mb-2">
+               <div class="level-left is-hidden-mobile">
+                  <div class="level-item">
+                     <div class="button is-small">
+                        {{ page }}/{{ totalPages }} - {{ totalItems }}
+                     </div>
+                  </div>
+               </div>
+               <div class="level-right">
+                  <div class="level-item">
+                     <nav class="pagination is-right is-small">
+                        <paginate
+                           v-model="page"
+                           :page-count="totalPages"
+                           :page-range="3"
+                           :margin-pages="0"
+                           :click-handler="clickCallback"
+                           :prev-link-class="'pagination-link'"
+                           :page-link-class="'pagination-link'"
+                           :next-link-class="'pagination-link'"
+                           :prev-text="'<i class=\'fa-solid fa-arrow-left\'></i>'"
+                           :next-text="'<i class=\'fa-solid fa-arrow-right\'></i>'"
+                           :no-li-surround="true"
+                           :active-class="'is-current'"
+                           :first-last-button="true"
+                           :first-button-text="'<i class=\'fa-solid fa-arrow-left-long-to-line\'></i>'"
+                           :last-button-text="'<i class=\'fa-solid fa-arrow-right-long-to-line\'></i>'"
+                           :hide-prev-next="true"
+                           :container-class="'pagination-list'"
+                           >
+                        </paginate>
+                     </nav>
+                  </div>
+               </div>
+            </div>
+            <div class="box box-flat table-container p-1 pb-0 mb-2">
+               <!-- <div class="level">
                   <div class="level-left is-hidden-mobile">
                      <div class="level-item">
                         <div class="button is-small">
@@ -74,7 +109,7 @@
                         </nav>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <table class="table is-striped mb-0 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -244,6 +279,7 @@
                      <th>Kategori</th>
                      <th>Kode</th>
                      <th>Produk</th>
+                     <th>Berat</th>
                      <th>Jumlah</th>
                      <th>Satuan</th>
                      <th>Harga</th>
@@ -273,24 +309,39 @@
                      </td>
                      <td>{{ i.code ? i.code : '-' }}</td>
                      <td>{{ i.product_name }}</td>
+                     <td>{{ parseFloat(i.weight_kg) }} KG</td>
                      <td>{{ i.quantity }}</td>
                      <td><span class="is-capitalized">{{ i?.product?.unit?.unit }}</span></td>
                      <td><span v-if="i.price">{{ toIdr(i.price) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                      <td>{{ toIdr(i.quantity * i.price) }}</td>
                   </tr>
-                  <tr style="background-color: rgb(255, 255, 255)">
-                     <td></td>
+                  <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
                      <td></td>
                      <td></td>
                      <td class="has-background-white"></td>
+                     <td class="has-background-white"></td>
                      <td></td>
                      <td></td>
-                     <td class="has-background-info-light">Grand Total</td>
+                     <td></td>
+                     <td class="has-background-info-light">Sub-total</td>
                      <td class="has-background-info-light">
                         <span class="h">{{ total_price_order ? toIdr(total_price_order) : toIdr(0) }}</span>
                      </td>
                   </tr>
-                  <tr style="background-color: rgb(255, 255, 255)">
+                  <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td class="has-background-white"></td>
+                     <td class="has-background-white"></td>
+                     <td></td>
+                     <td></td>
+                     <td class="has-background-info-light">Diskon</td>
+                     <td class="has-background-info-light">
+                        <span class="h">-</span>
+                     </td>
+                  </tr>
+                  <!-- <tr style="background-color: rgb(255, 255, 255)">
                      <td></td>
                      <td></td>
                      <td></td>
@@ -301,15 +352,29 @@
                      <td class="has-background-info-light">
                         <span class="h">{{ total_weight_order }} KG</span>
                      </td>
-                  </tr>
-                  <tr style="background-color: rgb(255, 255, 255)">
+                  </tr> -->
+                  <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
                      <td></td>
                      <td></td>
                      <td></td>
                      <td class="has-background-white"></td>
+                     <td class="has-background-white"></td>
                      <td></td>
                      <td></td>
                      <td class="has-background-info-light">Admin</td>
+                     <td class="has-background-info-light">
+                        <span class="h">-</span>
+                     </td>
+                  </tr>
+                  <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td class="has-background-white"></td>
+                     <td class="has-background-white"></td>
+                     <td></td>
+                     <td></td>
+                     <td class="has-background-info-light">Ongkir</td>
                      <td class="has-background-info-light">
                         <span class="h">-</span>
                      </td>
@@ -319,11 +384,12 @@
                      <td></td>
                      <td></td>
                      <td class="has-background-white"></td>
+                     <td class="has-background-white"></td>
                      <td></td>
                      <td></td>
-                     <td class="has-background-info-light">Ongkir</td>
+                     <td class="has-background-info-light">Grand Total</td>
                      <td class="has-background-info-light">
-                        <span class="h">-</span>
+                        <span class="h">{{ total_price_order ? toIdr(total_price_order) : toIdr(0) }}</span>
                      </td>
                   </tr>
                </tbody>
@@ -365,7 +431,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { authStore } from '@/stores/auth';
 
 export default {
-   name: 'SellBrowse',
+   name: 'EBuyBrowse',
    components: {
       Loading, Paginate, Form, Field, ErrorMessage, vSelect, VueDatePicker
    },
@@ -414,6 +480,21 @@ export default {
          total_price_order: null,
          total_weight_order: null
       }
+   },
+   watch: {
+      q: _.debounce(function(v) {
+         this.q = v;
+         this.getProducts();
+      }, 500),
+      asc: function() {
+         if (this.asc) {
+            this.order = 'asc';
+            this.getProducts();
+         } else {
+            this.order = 'desc';
+            this.getProducts();
+         }
+      },
    },
    mounted() {
       this.getProducts();
@@ -535,7 +616,6 @@ export default {
          this.getProducts();
       },
       orderx: function() {
-         console.log(this.items);
          let i = this.items;
          let ix = [];
          i.forEach((e) => {
@@ -571,7 +651,7 @@ export default {
             "items": ix
          }
 
-         xaxios.post(`http://localhost:8000/v1/api/inventory/sellx`, data).then((r) => {
+         xaxios.post(`/inventory/e-buy`, data).then((r) => {
             this.colshow = "list";
             this.getProducts();
          })
@@ -625,14 +705,17 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .table-header > thead > tr {
-   border-top: 1px solid #e4dede !important;
+   //border-top: 1px solid #e4dede !important;
 }.table-header > tbody > tr:last-child {
-   border-bottom: 1px solid #e4dede !important;
+   //border-bottom: 1px solid #e4dede !important;
 }
 .table-header tr th:nth-child(4), .table-header tr th:nth-child(10), .table-header tr th:nth-child(11) {
    background-color: #f1f1e5;
 }
 .table-header tr td:nth-child(4), .table-header tr td:nth-child(10), .table-header tr td:nth-child(11) {
    background-color: #f0f0f06c;
+}
+.tr-extended td:nth-child(-n+7) {
+   border-bottom: 1px dotted hsla(0, 29%, 25%, 0.24);
 }
 </style>

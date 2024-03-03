@@ -144,6 +144,12 @@ body {
 
 /* End */
 
+/* box */
+.box-flat {
+    box-shadow: .3px .3px 1px .3px gray;
+ }
+/* End */
+
 .informasi {
     background-image: linear-gradient(to right, #d1fdd29c , transparent, transparent, transparent);
 }

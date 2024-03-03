@@ -14,7 +14,7 @@
       </article>
       <div class="columns">
          <div class="column x-list" v-if="colshow == 'list'">
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -33,7 +33,7 @@
                   </div> -->
                </div>
             </div>
-            <div class="box table-container p-2">
+            <div class="box box-flat table-container p-1">
                <table class="table is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -155,8 +155,8 @@
                      <i class="fa-regular fa-arrow-left-long"></i>
                   </span>
                </div>
-               <div class="is-divider mt-4 mb-0"></div>
-               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+               <div class="is-divider mt-4 mb-2"></div>
+               <div class="box box-flat pt-0 pl-2 pb-4 pr-2 mb-2">
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -261,6 +261,7 @@
                         </span>
                      </div>
                   </div>
+                  
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
@@ -581,6 +582,7 @@
  
 <script>
 import _ from 'lodash';
+import * as XLSX from 'xlsx';
 import moment from "moment";
 import * as yup from "yup";
 import Loading from "vue-loading-overlay";
@@ -666,6 +668,19 @@ export default {
       }
    },
    watch: {
+      q: _.debounce(function(v) {
+         this.q = v;
+         this.getProducts();
+      }, 500),
+      asc: function() {
+         if (this.asc) {
+            this.order = 'asc';
+            this.getProducts();
+         } else {
+            this.order = 'desc';
+            this.getProducts();
+         }
+      },
       margin: function(v) {
          this.price_sell = parseFloat(v) > 0 ? this.toIdr((this.currToFloat(this.price_buy) * parseFloat(v) * 0.01) + this.currToFloat(this.price_buy)) : this.toIdr(this.currToFloat(this.price_buy));
       },
@@ -713,6 +728,12 @@ export default {
             this.products = r.data.items;
             this.totalPages = r.data.total_pages;
             this.totalItems = r.data.total_items;
+
+            // var wb = XLSX.utils.book_new();
+            // var ws = XLSX.utils.json_to_sheet(r.data.items);
+            // XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
+            // XLSX.utils.book_append_sheet(wb, ws);
+            // XLSX.writeFile(wb, "baka" + ".xlsx");
          })
       },
       clickCallback: function (pageNum) {

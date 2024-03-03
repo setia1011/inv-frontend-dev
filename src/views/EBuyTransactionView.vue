@@ -39,7 +39,7 @@
                   </div> -->
                </div>
             </div>
-            <div class="box box-flat table-container p-1 pb-0 mb-2">
+            <div class="box box-flat table-container p-1 pb-0 mb-2" style="border-top: none;">
                <table class="table is-striped mb-0 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -80,7 +80,7 @@
                         <td><span v-if="i.price_sell_total">{{ toIdr(i.price_sell_total) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td><span>{{ i?.discount ? parseFloat(i?.discount) : '0' }}%</span></td>
                         <td><span v-if="i.price_sell_total_final">{{ toIdr(i.price_sell_total_final) }}</span><span v-else>{{ toIdr(0) }}</span></td>
-                        <td><span class="is-capitalized tag" :class="[{'is-info': i.payment_status == 'belum'}, {'is-link': i.payment_status == 'cicil'}, {'is-primary': i.payment_status == 'lunas'}, {'is-warning': i.payment_status == null}]">{{ i?.payment_status ? i?.payment_status : '-' }}</span></td>
+                        <td><span class="tag is-capitalized" :class="[{'is-info': i.payment_status == 'belum'}, {'is-link': i.payment_status == 'cicil'}, {'is-primary': i.payment_status == 'lunas'}, {'is-warning': i.payment_status == null}]">{{ i?.payment_status ? i?.payment_status : '-' }}</span></td>
                         <td><span class="is-capitalized tag" :class="[{'is-info': i.order_status == 'pesan'}, {'is-link': i.order_status == 'proses'}, {'is-primary': i.order_status == 'kirim'}, {'is-warning': i.order_status == 'terima'}, {'is-success': i.order_status == 'selesai'}]">{{ i.order_status }}</span></td>
                         <td class="pr-0"><span class="is-pulled-right button tag is-light is-outlined is-small is-success" v-on:click="getMyTransaction(i.id)"><i class="fa-regular fa-file-lines"></i></span></td>
                      </tr>
@@ -143,6 +143,11 @@
             <div class="columns">
                <div class="column">
                   <div class="list is-block">
+                     <!-- <div class="list-item is-inline-flex">
+                        <div class="list-item-image  m-0 p-0 mr-1" style="width: 90px;">Tanggal<span class="is-pulled-right">:</span></div>
+                        <div class="list-item-content m-0 p-0">{{ dateFormat(new Date()) }}</div>
+                     </div>
+                     <br> -->
                      <div class="list-item is-inline-flex">
                         <div class="list-item-image  m-0 p-0 mr-1" style="width: 90px;">Pemesan<span class="is-pulled-right">:</span></div>
                         <div class="list-item-content m-0 p-0">{{ item?.orderer?.name }}</div>
@@ -160,15 +165,15 @@
                   </div>
                </div>
             </div>
-            <table class="table is-striped mb-0 table-header table-headerx is-fullwidth" id="table-details">
+            <table class="table is-striped mb-0 table-header table-headerx is-fullwidth">
                <thead>
                   <tr>
                      <th class="">No</th>
                      <th>Kategori</th>
                      <th>Kode</th>
                      <th>Produk</th>
-                     <th>Jumlah</th>
                      <th>Berat</th>
+                     <th>Jumlah</th>
                      <th>Satuan</th>
                      <th>Harga</th>
                      <th class="pr-0">Total</th>
@@ -197,13 +202,13 @@
                      </td>
                      <td>{{ i.code ? i.code : '-' }}</td>
                      <td>{{ i.product_name }}</td>
+                     <td>{{ parseFloat(i.weight_kg) }} KG</td>
                      <td>{{ parseFloat(i.quantity) }}</td>
-                     <td>{{ parseFloat(i.quantity) * parseFloat(i.weight_kg) }} KG</td>
                      <td><span class="is-capitalized">{{ i?.unit?.unit }}</span></td>
                      <td><span v-if="i.price">{{ toIdr(i.price) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                      <td>{{ toIdr(i.quantity * i.price) }}</td>
                   </tr>
-                  <tr style="background-color: rgb(255, 255, 255);" class="tr-extended">
+                  <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
                      <td></td>
                      <td></td>
                      <td></td>
@@ -224,9 +229,9 @@
                      <td class="has-background-white"></td>
                      <td></td>
                      <td></td>
-                     <td class="has-background-info-light">Diskon ({{ discount ? parseFloat(discount) : 0 }}%)</td>
+                     <td class="has-background-info-light">Diskon ({{ item?.discount ? parseFloat(item?.discount) : 0 }}%)</td>
                      <td class="has-background-info-light">
-                        <span class="has-text-danger">{{ ((discount ? parseFloat(discount) : 0) * parseFloat(item?.price_sell_total)) ? toIdr((discount ? parseFloat(discount) : 0) * parseFloat(item?.price_sell_total) * 0.01) : toIdr(0) }}</span>
+                        <span class="has-text-success">{{ ((item?.discount ? parseFloat(item?.discount) : 0) * parseFloat(item?.price_sell_total)) ? toIdr((item?.discount ? parseFloat(item?.discount) : 0) * parseFloat(item?.price_sell_total) * 0.01) : toIdr(0) }}</span>
                      </td>
                   </tr>
                   <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
@@ -239,7 +244,7 @@
                      <td></td>
                      <td class="has-background-info-light">Admin</td>
                      <td class="has-background-info-light">
-                        <span class="h">{{ admin_fee ? toIdr(admin_fee) : toIdr(0) }}</span>
+                        <span class="h">{{ item?.admin_fee ? toIdr(item?.admin_fee) : toIdr(0) }}</span>
                      </td>
                   </tr>
                   <tr style="background-color: rgb(255, 255, 255)" class="tr-extended">
@@ -252,7 +257,7 @@
                      <td></td>
                      <td class="has-background-info-light">Ongkir</td>
                      <td class="has-background-info-light">
-                        <span class="h">{{ shipping_fee ? toIdr(shipping_fee) : toIdr(0) }}</span>
+                        <span class="h">{{ item?.shipping_fee ? toIdr(item?.shipping_fee) : toIdr(0) }}</span>
                      </td>
                   </tr>
                   <tr style="background-color: rgb(255, 255, 255)">
@@ -265,175 +270,11 @@
                      <td></td>
                      <td class="has-background-info-light">Grand Total</td>
                      <td class="has-background-info-light">
-                        <span class="h">
-                           {{ (parseFloat(item?.price_sell_total) + parseFloat(admin_fee) + parseFloat(shipping_fee)) - (discount * parseFloat(item?.price_sell_total) * 0.01) ? toIdr((parseFloat(item?.price_sell_total) + parseFloat(admin_fee) + parseFloat(shipping_fee)) - (discount * parseFloat(item?.price_sell_total) * 0.01)) : toIdr(0) }}
-                        </span>
+                        <span class="h">{{ item?.price_sell_total_final ? toIdr(item?.price_sell_total_final) : toIdr(0) }}</span>
                      </td>
                   </tr>
                </tbody>
             </table>
-
-            <div class="mt-5 mb-3">
-               <!-- <div class="mb-1"><i class="fa-regular fa-file-pen"></i></div> -->
-               ----
-               <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0 mb-0">
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Diskon (%)</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <input class="input" v-model="discount" />
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Admin</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <input class="input" v-model="admin_fee" />
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Ongkir</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <input class="input" v-model="shipping_fee" />
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Status</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <v-select 
-                              class="v-selectx" 
-                              label="label"
-                              v-model="order_status" 
-                              :reduce="order_status => order_status.value" 
-                              placeholder="Status"
-                              @search="order_status_options"
-                              @update:modelValue="OrderStatusChanged"
-                              :options="order_status_options">
-                           </v-select>
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Penerima</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <v-select 
-                              class="v-selectx" 
-                              label="name"
-                              v-model="recipient_id" 
-                              :reduce="recipient_id => recipient_id.id" 
-                              placeholder="Penerima"
-                              @search="getUsers"
-                              @update:modelValue="RecipientChanged"
-                              :options="recipient_options">
-                           </v-select>
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                     <div class="field">
-                        <label class="label">Pembayaran</label>
-                        <p class="control is-expanded is-relative">
-                           <loading class="loading" v-model:active="isEditLoading"
-                           :can-cancel="false"
-                           :background-color="'white'"
-                           :opacity="1"
-                           :height="25"
-                           :width="25"
-                           :z-index="25"
-                           :loader="'dots'"
-                           :is-full-page="false">
-                           </loading>
-                           <v-select
-                              class="v-selectx" 
-                              label="label"
-                              v-model="payment_status" 
-                              :reduce="payment_status => payment_status.value" 
-                              placeholder="Pembayaran"
-                              @search="payment_status_options"
-                              @update:modelValue="PaymentStatusChanged"
-                              :options="payment_status_options">
-                           </v-select>
-                           <!-- <input class="input" type="hidden" v-model="shipping_fee" /> -->
-                        </p>
-                     </div>
-                  </div>
-                  <div class="column is-full-mobile is-full-tablet is-one-fifth-desktop is-one-fifth-widescreen pb-1 pt-1">
-                        <div class="field">
-                           <label class="label">Tgl. Lunas</label>
-                           <p class="control is-inline-block is-expanded is-relative">
-                              <loading class="loading" v-model:active="isEditLoading"
-                              :can-cancel="false"
-                              :background-color="'white'"
-                              :opacity="1"
-                              :height="25"
-                              :width="25"
-                              :z-index="25"
-                              :loader="'dots'"
-                              :is-full-page="false">
-                              </loading>
-                              <VueDatePicker :disabled="payment_status !== 'lunas'" v-model="full_payment_date" :highlight-week-days="[0, 6]" :enable-time-picker="false" :format="'dd/MM/yyyy'" position="left"></VueDatePicker>
-                           </p>
-                        </div>
-                     </div>
-               </div>
-            </div>
-            <div class="mt-0 button is-success" v-on:click="uSellHeader">Save</div>
          </div>
       </div>
    </div>
@@ -458,7 +299,7 @@
  import { authStore } from '@/stores/auth';
  
  export default {
-   name: 'SellTransaction',
+   name: 'EBuyTransaction',
    components: {
       Loading, Paginate, Form, Field, ErrorMessage, vSelect, VueDatePicker
    },
@@ -491,29 +332,7 @@
          item: null,
          total_quantity_order: null,
          total_price_order: null,
-         total_weight_order: null,
-
-         payment_status_options: [
-            {"label": "Belum", "value": "belum"},
-            {"label": "Cicil", "value": "cicil"},
-            {"label": "Lunas", "value": "lunas"},
-         ],
-         order_status_options: [
-            {"label": "Pesan", "value": "pesan"},
-            {"label": "Proses", "value": "proses"},
-            {"label": "Kirim", "value": "kirim"},
-            {"label": "Terima", "value": "terima"}
-         ],
-         id: null,
-         discount: null,
-         admin_fee: null,
-         shipping_fee: null,
-         payment_status: null,
-         order_status: null,
-         price_sell_total_final: null,
-         full_payment_date: null,
-         recipient_id: null,
-         recipient_options: []
+         total_weight_order: null
       }
    },
    watch: {
@@ -532,7 +351,6 @@
       },
    },
    mounted() {
-      // this.getUsers();
       this.getMyTransactions();
    },
    methods: {
@@ -552,24 +370,11 @@
          this.colshow = "details";
          xaxios.get(`/inventory/sell-header/${id ? id : null}`).then((r) => {
             this.item = r.data;
-            let tmp = r.data;
-            this.id = tmp.id;
-            this.discount = tmp?.discount ? parseFloat(tmp?.discount) : 0;
-            this.admin_fee = tmp?.admin_fee ? parseFloat(tmp?.admin_fee) : 0;
-            this.shipping_fee = tmp?.shipping_fee ? parseFloat(tmp?.shipping_fee) : 0;
-            this.payment_status = tmp?.payment_status;
-            this.order_status = tmp?.order_status;
-            this.price_sell_total_final = tmp?.price_sell_total_final;
-            // this.recipient_options = [tmp.recipient];
-            this.full_payment_date = tmp?.full_payment_date;
-            this.recipient_id = tmp?.recipient_id;
-            this.getUser(this.recipient_id);
          })
       },
       changeCol: function(a, x = null, y = null) {
          this.colshow = a;
          if (a === 'list') {
-            Object.assign(this.$data, this.$options.data());
             this.colinfo = "Faktur";
             this.isEdit = false;
             this.getMyTransactions();
@@ -583,50 +388,12 @@
          this.page = pageNum;
          this.getMyTransactions();
       },
-      getUser: function(id) {
-         xaxios.get(`user/${id ? id : 0}`).then((res) => {
-            this.recipient_options = [res.data];
-         })
-      },
-      getUsers: function(q) {
-         xaxios.get(`users-by-name?q=${q ? q : ''}`).then((res) => {
-            this.recipient_options = res.data;
-         })
-      },
-      RecipientChanged: function(v) {
-
-      },
       getMyTransactions: function() {
          xaxios.get(`inventory/sell-headers-px?q=${this.q ? this.q : ''}&page=${this.page}&per_page=${this.pageSize}&order=${this.order}&status=true`).then((r) => {
             this.items = r.data.items;
             this.totalPages = r.data.total_pages;
             this.totalItems = r.data.total_items;
          })
-      },
-      PaymentStatusChanged: function(v) {
-         console.log(v);
-      },
-      OrderStatusChanged: function(v) {
-         console.log(v);
-      },
-      uSellHeader: function() {
-         let data = {
-            id: this.id,
-            discount: this.discount,
-            admin_fee: this.admin_fee,
-            shipping_fee: this.shipping_fee,
-            payment_status: this.payment_status,
-            order_status: this.order_status,
-            recipient_id: this.recipient_id,
-            full_payment_date: this.full_payment_date
-         }
-
-         console.log(data);
-         xaxios.patch(`/inventory/sell-headerx`, data).then((r) => {
-            console.log(r.data);
-            this.colshow = "list";
-            this.getMyTransactions();
-         });
       }
    }
  }
@@ -644,50 +411,57 @@
  
  <style scoped>
  
- .sticky-button {
+.sticky-button {
    position: fixed;
    right: 0;
    top: 150px;
    z-index: 99999;
- }
- .list-item {
+}
+.list-item {
    padding: .25em 0 .25em 0!important;
    border-bottom: 1px solid #e4dede !important;
- }
- .list-item:not(:last-child) {
+}
+.list-item:not(:last-child) {
    border-bottom: 1px solid #e4dede !important;
- }
- .v-selectx {
+}
+.v-selectx {
    width: 100% !important;
- }
- 
- /* Chrome, Safari, Edge, Opera */
- /* input::-webkit-outer-spin-button,
- input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
- } */
- 
- /* Firefox */
- /* input[type=number] {
-  -moz-appearance: textfield;
- } */
- input[type=number]::-webkit-inner-spin-button {
-  opacity: 1;
- }
- 
- .table-headerx > thead > tr {
+}
+
+/* Chrome, Safari, Edge, Opera */
+/* input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+} */
+
+/* Firefox */
+/* input[type=number] {
+-moz-appearance: textfield;
+} */
+input[type=number]::-webkit-inner-spin-button {
+   opacity: 1;
+}
+
+.table-headerx > thead > tr {
    border-top: 1px solid #e4dede !important;
- }.table-header > tbody > tr:last-child {
+}
+
+.table-header > tbody > tr:last-child {
    border-bottom: 1px solid #e4dede !important;
- }
- /* .table-header tr th:nth-child(4), .table-header tr th:nth-child(10), .table-header tr th:nth-child(11) {
-   background-color: #f1f1e5;
- }
- .table-header tr td:nth-child(4), .table-header tr td:nth-child(10), .table-header tr td:nth-child(11) {
-   background-color: #f0f0f06c;
- } */
+}
+/* .table-header tr th:nth-child(4), .table-header tr th:nth-child(10), .table-header tr th:nth-child(11) {
+background-color: #f1f1e5;
+}
+.table-header tr td:nth-child(4), .table-header tr td:nth-child(10), .table-header tr td:nth-child(11) {
+background-color: #f0f0f06c;
+} */
+
 .tr-extended td:nth-child(-n+7) {
    border-bottom: 1px dotted hsla(0, 29%, 25%, 0.24);
+}
+
+.box {
+   //box-shadow: .5px .5px .5px .5px hsl(0deg, 0%, 71%);
 }
  </style>

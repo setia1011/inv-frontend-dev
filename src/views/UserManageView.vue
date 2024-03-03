@@ -11,7 +11,7 @@
       </article>
       <div class="columns">
          <div class="column x-list" v-if="col == 'list'">
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -30,7 +30,7 @@
                   </div>
                </div>
             </div>
-            <div class="box table-container p-2">
+            <div class="box box-flat table-container p-1">
                <table class="table mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -143,7 +143,7 @@
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
-               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+               <div class="box box-flat pt-0 pl-2 pb-4 pr-2 mb-2">
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -343,6 +343,35 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
+                           <label class="label">Cabang</label>
+                           <p class="control is-expanded is-relative">
+                              <loading class="loading" v-model:active="isEditLoading"
+                              :can-cancel="false"
+                              :background-color="'white'"
+                              :opacity="1"
+                              :height="25"
+                              :width="25"
+                              :z-index="25"
+                              :loader="'dots'"
+                              :is-full-page="false">
+                              </loading>
+                              <v-select 
+                                 class="v-selectx is-capitalized" 
+                                 label="name"
+                                 v-model="branch_id" 
+                                 :reduce="branch_id => branch_id.id" 
+                                 placeholder="Pilih Cabang"
+                                 @search="getBranches"
+                                 @update:modelValue="BranchChanged"
+                                 :options="branch_options">
+                              </v-select>
+                              <Field class="input" type="hidden" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_branch_id" v-model="branch_id" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_branch_id" />
+                           </p>
+                        </div>
+                     </div>
+                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                        <div class="field">
                            <label class="label">Status</label>
                            <div class="field-body is-relative">
                               <loading class="loading" v-model:active="isEditLoading"
@@ -412,6 +441,7 @@ export default {
             v_email: yup.string().required().label('Email'),
             v_name: yup.string().required().label('Nama'),
             v_role_id: yup.number().integer().required().label('Role'),
+            v_branch_id: yup.number().integer().nullable().label('Cabang'),
             v_id_type: yup.number().integer().required().label('Jenis ID'),
             v_id_number: yup.string().required().label('Nomor ID'),
             v_phone: yup.string().required().label('Phone'),
@@ -457,8 +487,10 @@ export default {
          id_number: null,
          phone: null,
          address: null,
-         status: null
+         status: null,
 
+         branch_id: null,
+         branch_options: []
       }
    },
    watch: {
@@ -480,6 +512,7 @@ export default {
       this.getUsers();
       this.getIdTypes();
       this.getRoles();
+      this.getBranches();
    },
    methods: {
       changeCol: function(a, x = null, y = null) {
@@ -511,6 +544,7 @@ export default {
          this.phone = null;
          this.address = null;
          this.status = null;
+         this.branch_id = null;
       },
       dateTimeFormat: function(d) {
          return moment(d).format('DD/MM/YYYY HH:mm:ss');
@@ -533,6 +567,14 @@ export default {
          this.page = pageNum;
          this.getUsers();
       },
+      getBranches: function(q) {
+         xaxios.get(`inventory/branches?q=${q ? q : ''}`).then((res) => {
+            this.branch_options = res.data;
+         })
+      },
+      BranchChanged: function(v) {
+
+      },
       getIdTypes: function(q) {
          xaxios.get(`reference/user-id-type?q=${q ? q : ''}`).then((res) => {
             this.id_types = res.data;
@@ -554,7 +596,7 @@ export default {
          xaxios.get("user/"+id).then((res) => {
             this.user = res.data;
             this.username = this.user.username;
-            // this.password: this.user.username;
+            this.branch_id = this.user.branch_id;
             this.email = this.user.email;
             this.name = this.user.name;
             this.role_id = this.user.role?.id;
@@ -585,6 +627,7 @@ export default {
                id_type: f['v_id_type'],
                id_number: f['v_id_number'],
                phone: f['v_phone'],
+               branch_id: f['v_branch_id'],
                address: f['v_address'],
                status: f['v_status']
             }).then((res) => {
@@ -630,6 +673,7 @@ export default {
                role_id: f['v_role_id'],
                id_type: f['v_id_type'],
                id_number: f['v_id_number'],
+               branch_id: f['v_branch_id'],
                phone: f['v_phone'],
                address: f['v_address'],
                status: f['v_status']

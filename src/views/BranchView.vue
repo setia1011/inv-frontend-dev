@@ -12,7 +12,7 @@
 
       <div class="columns">
          <div class="column x-list" v-if="col == 'list'">
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -31,7 +31,7 @@
                   </div>
                </div>
             </div>
-            <div class="box table-container p-2">
+            <div class="box box-flat table-container p-1">
                <table class="table mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -135,7 +135,7 @@
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
-               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+               <div class="box box-flat pt-0 pl-2 pb-4 pr-2 mb-2">
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-full-desktop is-full-widescreen pb-1 pt-1">
                         <div class="field">

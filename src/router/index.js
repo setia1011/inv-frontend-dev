@@ -118,13 +118,13 @@ const routes = [
         path: '/e-buy-browse',
         name: 'eBuyBrowse',
         meta: { layout: First, 'par': 'Pembelian', 'name': 'Pesan' },
-        component: () => import('../views/SellBrowseView.vue')
+        component: () => import('../views/EBuyBrowseView.vue')
     },
     {
         path: '/e-buy-transaction',
         name: 'eBuyTransaction',
         meta: { layout: First, 'par': 'Pembelian', 'name': 'Transaksi' },
-        component: () => import('../views/SellBrowseView.vue')
+        component: () => import('../views/EBuyTransactionView.vue')
     },
     {
         path: '/report-all',

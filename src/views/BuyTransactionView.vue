@@ -14,7 +14,7 @@
       </article>
       <div class="columns">
          <div class="column x-list" v-if="colshow == 'list'">
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -33,7 +33,7 @@
                   </div>
                </div>
             </div>
-            <div class="box table-container p-2">
+            <div class="box box-flat table-container p-1">
                <table class="table is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -44,9 +44,9 @@
                         <th>Supplier</th>
                         <th>Penerima</th>
                         <th>Pemesan</th>
+                        <th>Produk</th>
                         <th>Total Harga</th>
-                        <th>Jml. Produk</th>
-                        <th width="90px">Status</th>
+                        <th width="90px">Pembayaran</th>
                         <th class="pr-0" width="112px"></th>
                      </tr>
                   </thead>
@@ -69,8 +69,8 @@
                         <td>{{ i.supplier.company }}</td>
                         <td>{{ i.recipient.name }}</td>
                         <td>{{ i.orderer.name }}</td>
-                        <td><span v-if="i.price_buy_total_final">{{ toIdr(i.price_buy_total_final) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td>{{ i.products?.length }}</td>
+                        <td>{{ toIdr(i.products.reduce((acc, obj) => acc + parseFloat(obj.price_total), 0) + parseFloat(i.admin_fee) + parseFloat(i.shipping_fee) + parseFloat(i.tax_ppn) - parseFloat(i.discount)) }}</td>
                         <td><span class="tag" :class="[{'is-danger': i.status == 'belum'}, {'is-warning': i.status == 'cicil' }, {'is-success': i.status == 'lunas' }]">{{ i.status }}</span></td>
                         <td class="pr-0">
                            <div class="tags is-right">
@@ -148,7 +148,7 @@
                   </span>
                </div>
                <div class="is-divider mt-4 mb-2"></div>
-               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+               <div class="box box-flat pt-0 pl-2 pb-4 pr-2 mb-2">
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -281,7 +281,7 @@
                   <hr class="mb-3">
 
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
-                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                     <!-- <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Berat Total (KG)</label>
                            <p class="control is-expanded is-relative">
@@ -299,7 +299,7 @@
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_weight_kg_total" />
                            </p>
                         </div>
-                     </div>
+                     </div> -->
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Ongkir</label>
@@ -371,12 +371,12 @@
                               :loader="'dots'"
                               :is-full-page="false">
                               </loading>
-                              <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_tax" v-model="tax" />
-                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_tax" />
+                              <Field class="input" placeholder="0" :class="[{'is-warning': isEdit == true}, {'is-success': isEdit == false}]" name="v_tax_ppn" v-model="tax_ppn" />
+                              <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_tax_ppn" />
                            </p>
                         </div>
                      </div>
-                     <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
+                     <!-- <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Harga Total</label>
                            <p class="control is-expanded is-relative">
@@ -413,7 +413,7 @@
                               <ErrorMessage class="is-size-7 has-text-danger is-underlined mt-1" name="v_price_buy_total_final" />
                            </p>
                         </div>
-                     </div>
+                     </div> -->
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
                            <label class="label">Status</label>
@@ -485,7 +485,7 @@
                </div>
             </div>
             <div class="is-divider mt-2 mb-2"></div>
-            <div class="box is-success is-light title is-size-5 is-underlined p-2 mb-2">
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3">
                <div class="field has-addons">
                   <p class="control">
                      <a class="button">
@@ -504,7 +504,7 @@
                   </div>
                </div>
             </div>
-            <div class="box p-2 table-container">
+            <div class="box box-flat p-1 table-container">
                <table class="table is-narrow is-striped mb-3 table-header is-fullwidth">
                   <thead>
                      <tr>
@@ -635,7 +635,7 @@
                   </div>
                </div>
                <div class="is-divider mt-2 mb-2"></div>
-               <div class="box pt-0 pl-2 pb-4 pr-2 mb-2">
+               <div class="box box-flat pt-0 pl-2 pb-4 pr-2 mb-2">
                   <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-1-desktop is-1-widescreen is-1-fullhd mt-0">
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-half-widescreen pb-1 pt-1">
                         <div class="field">
@@ -940,7 +940,7 @@ export default {
             v_shipping_fee: yup.string().nullable().label('Ongkir'),
             v_admin_fee: yup.string().nullable().label('Admin'),
             v_discount: yup.string().nullable().label('Diskon'),
-            v_tax: yup.string().nullable().label('PPN'),
+            v_tax_ppn: yup.string().nullable().label('PPN'),
             v_price_buy_total: yup.string().nullable().label('Harga Total'),
             v_price_buy_total_final: yup.string().nullable().label('Harga Final'),
             v_orderer_id: yup.string().required().label('Pemesan'),
@@ -1020,7 +1020,7 @@ export default {
          shipping_fee: null,
          weight_kg_total: null,
          admin_fee: null,
-         tax: null,
+         tax_ppn: null,
          discount: null,
          price_buy_total: null,
          price_buy_total_final: null,
@@ -1145,7 +1145,7 @@ export default {
          this.shipping_fee = null;
          this.admin_fee = null;
          this.discount = null;
-         this.tax = null;
+         this.tax_ppn = null;
          this.price_buy_total = null;
          this.price_buy_total_final = null;
          this.orderer_id = null;
@@ -1255,7 +1255,7 @@ export default {
                this.shipping_fee = this.buy_header?.shipping_fee ? parseFloat(this.buy_header?.shipping_fee) : null;
                this.admin_fee = this.buy_header?.admin_fee ? parseFloat(this.buy_header?.admin_fee) : null;
                this.discount = this.buy_header?.discount ? parseFloat(this.buy_header?.discount) : null;
-               this.tax = this.buy_header?.tax ? parseFloat(this.buy_header?.tax) : null;
+               this.tax_ppn = this.buy_header?.tax_ppn ? parseFloat(this.buy_header?.tax_ppn) : null;
                this.price_buy_total = this.buy_header?.price_buy_total ? parseFloat(this.buy_header?.price_buy_total) : null;
                this.price_buy_total_final = this.buy_header?.price_buy_total_final ? parseFloat(this.buy_header?.price_buy_total_final) : null;
                this.orderer_id = this.buy_header?.orderer_id;
@@ -1339,12 +1339,13 @@ export default {
                invoice_number: f['v_invoice_number'],
                invoice_date: toDbDate(f['v_invoice_date']),
                supplier_id: f['v_supplier_id'],
-               shipping_fee: f['v_shipping_fee'],
-               weight_kg_total: f['v_weight_kg_total'],
-               admin_fee: f['v_admin_fee'],
-               discount: f['v_discount'],
-               price_buy_total: f['v_price_buy_total'],
-               price_buy_total_final: f['v_price_buy_total_final'],
+               shipping_fee: f['v_shipping_fee'] ? f['v_shipping_fee'] : 0,
+               weight_kg_total: f['v_weight_kg_total'] ? f['v_weight_kg_total'] : 0,
+               admin_fee: f['v_admin_fee'] ? f['v_admin_fee'] : 0,
+               tax_ppn: f['v_tax_ppn'] ? f['v_tax_ppn'] : 0,
+               discount: f['v_discount'] ? f['v_discount'] : 0,
+               price_buy_total: f['v_price_buy_total'] ? f['v_price_buy_total'] : 0,
+               price_buy_total_final: f['v_price_buy_total_final'] ? f['v_price_buy_total_final'] : 0,
                orderer_id: f['v_orderer_id'],
                recipient_id: f['v_recipient_id'],
                status: f['v_status']
@@ -1389,12 +1390,13 @@ export default {
                invoice_number: f['v_invoice_number'],
                invoice_date: toDbDate(f['v_invoice_date']),
                supplier_id: f['v_supplier_id'],
-               shipping_fee: f['v_shipping_fee'],
-               weight_kg_total: f['v_weight_kg_total'],
-               admin_fee: f['v_admin_fee'],
-               discount: f['v_discount'],
-               price_buy_total: f['v_price_buy_total'],
-               price_buy_total_final: f['v_price_buy_total_final'],
+               shipping_fee: f['v_shipping_fee'] ? f['v_shipping_fee'] : 0,
+               weight_kg_total: f['v_weight_kg_total'] ? f['v_weight_kg_total'] : 0,
+               admin_fee: f['v_admin_fee'] ? f['v_admin_fee'] : 0,
+               tax_ppn: f['v_tax_ppn'] ? f['v_tax_ppn'] : 0,
+               discount: f['v_discount'] ? f['v_discount'] : 0,
+               price_buy_total: f['v_price_buy_total'] ? f['v_price_buy_total'] : 0,
+               price_buy_total_final: f['v_price_buy_total_final'] ? f['v_price_buy_total_final'] : 0,
                orderer_id: f['v_orderer_id'],
                recipient_id: f['v_recipient_id'],
                status: f['v_status']
