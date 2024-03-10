@@ -63,7 +63,7 @@ const routes = [
     {
         path: '/product-browse',
         name: 'productBrowse',
-        meta: { layout: First, 'par': 'Produk', 'name': 'Browse' },
+        meta: { layout: First, 'par': 'Produk', 'name': 'Produk' },
         component: () => import('../views/ProductBrowseView.vue')
     },
     {

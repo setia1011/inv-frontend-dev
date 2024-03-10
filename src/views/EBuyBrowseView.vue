@@ -158,7 +158,7 @@
                         <td>
                            <div class="field has-addons is-pulled-right is-block" style="width: 100%;">
                               <p class="control">
-                                 <input :disabled="store?.userInfo?.branch_id == null" class="input is-small has-text-centered has-text-weight-bold" ref="item" v-on:change="uItems(i.id)" :product_id="i.id" :buy_product_hub_id="i.buy_product_hub_id" :buy_header_id="i.buy_header_id" :buy_details_id="i?.buy_product_hub?.buy_details_id" :stock="i.quantity" type="number" min="0" :max="parseFloat(i.quantity)" :value="i?.sell_temp ? i?.sell_temp?.quantity : parseFloat(0)">
+                                 <input :disabled="store?.userInfo?.branch_id == null" class="input is-small has-text-centered has-text-weight-bold" ref="item" v-on:change="uItems(i.id)" :product_id="i.id" :buy_product_hub_id="i.buy_product_hub_id" :buy_header_id="i.buy_header_id" :buy_details_id="i?.buy_product_hub?.buy_details_id" :stock="i.quantity" type="number" :min="i?.min_buy ? parseInt(i?.min_buy) : 0" :max="parseFloat(i.quantity)" :value="i?.sell_temp ? i?.sell_temp?.quantity : parseFloat(0)">
                               </p>
                            </div>
                         </td>
@@ -232,12 +232,15 @@
                </div>
          </div>
          <div class="column" v-if="colshow == 'order'">
-            <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+            <p class="block m-0 mt-1 button is-small is-info is-outlined p-0" style="background-color: transparent; border: none;">
                <span v-if="isEdit">
-                  <span class="has-text-weight-normal"></span>
+                  <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
+                  </span>
                </span>
                <span v-else>
                   <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
                   </span>
                </span>
             </p>
@@ -704,11 +707,11 @@ input[type=number]::-webkit-inner-spin-button {
   opacity: 1;
 }
 
-.table-header > thead > tr {
-   //border-top: 1px solid #e4dede !important;
+/* .table-header > thead > tr {
+   border-top: 1px solid #e4dede !important;
 }.table-header > tbody > tr:last-child {
-   //border-bottom: 1px solid #e4dede !important;
-}
+   border-bottom: 1px solid #e4dede !important;
+} */
 .table-header tr th:nth-child(4), .table-header tr th:nth-child(10), .table-header tr th:nth-child(11) {
    background-color: #f1f1e5;
 }

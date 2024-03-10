@@ -125,12 +125,15 @@
             </div>
          </div>
          <div class="column" v-if="colshow == 'details'">
-            <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+            <p class="block m-0 mt-1 button is-small is-info is-outlined p-0" style="background-color: transparent; border: none;">
                <span v-if="isEdit">
-                  <span class="has-text-weight-normal"></span>
+                  <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
+                  </span>
                </span>
                <span v-else>
                   <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
                   </span>
                </span>
             </p>

@@ -28,12 +28,12 @@
                         <template v-for="(item, index) in store?.userInfo?.menus" :key="index">
                             <template v-if="Object.keys(item.children).length === 0">
                                 <template v-if="item.show == 'true'">
-                                    <router-link class="navbar-item" :to="item.to">{{ item.label }}</router-link>
+                                    <router-link class="navbar-item" :class="[item.to == this.$route.fullPath ? 'is-active' : '']" :to="item.to">{{ item.label }}</router-link>
                                 </template>
                             </template>
                             <template v-else>
                                 <div class="navbar-item has-dropdown is-hoverable">
-                                    <div class="navbar-link">{{ item.label }}</div>
+                                    <div class="navbar-link" :class="[item.children.filter((e) => e.to == this.$route.fullPath).length > 0 ? 'is-active' : '']">{{ item.label }}</div>
                                     <div class="navbar-dropdown">
                                         <template v-for="(i, x) in item.children" :key="x">
                                             <template v-if="i.show == 'true'">

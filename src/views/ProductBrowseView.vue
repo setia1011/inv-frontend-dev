@@ -141,12 +141,15 @@
          </div>
          <div class="column x-edit" v-if="colshow == 'edit'">
             <Form :validation-schema="valProduct" @submit="updateProduct">
-               <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+               <p class="block m-0 mt-1 button is-small is-info is-outlined p-0" style="background-color: transparent; border: none;">
                   <span v-if="isEdit">
-                     <span class="has-text-weight-normal"></span>
+                     <span class="has-text-weight-normal">
+                        <i class="fa-light fa-window-minimize"></i>
+                     </span>
                   </span>
                   <span v-else>
                      <span class="has-text-weight-normal">
+                        <i class="fa-light fa-window-minimize"></i>
                      </span>
                   </span>
                </p>
@@ -482,12 +485,15 @@
             </Form>
          </div>
          <div class="column x-listx" v-if="colshow == 'listx'">
-            <p class="block m-0 mt-1 button is-small is-info is-outlined" style="background-color: transparent; border: none;">
+            <p class="block m-0 mt-1 button is-small is-info is-outlined p-0" style="background-color: transparent; border: none;">
                <span v-if="isEdit">
-                  <span class="has-text-weight-normal"></span>
+                  <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
+                  </span>
                </span>
                <span v-else>
                   <span class="has-text-weight-normal">
+                     <i class="fa-light fa-window-minimize"></i>
                   </span>
                </span>
             </p>
@@ -519,6 +525,8 @@
                         <span class="tag is-warning is-light">Volume _CM > {{ i?.buy_details?.volume_cm }}</span>
                      </div>
                   </div>
+
+                  
                </div>
             </div>
          </div>
@@ -862,5 +870,14 @@ export default {
 }
 .v-selectx {
    width: 100% !important;
+}
+.table-header tr th:nth-child(6) {
+   background-color: #f1f1e5;
+}
+.table-header tr td:nth-child(6) {
+   background-color: #f0f0f06c;
+}
+.table-header tr:last-child {
+   border-bottom: 1px solid #e4dede !important;
 }
 </style>
