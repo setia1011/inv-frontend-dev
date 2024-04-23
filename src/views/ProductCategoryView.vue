@@ -170,7 +170,7 @@
                      </span>
                   </span>
                </p>
-               <div class="box button is-small is-danger is-light is-pulled-right mb-2" style="//border-radius: 100%;" @click="colshow = 'list'">
+               <div class="box button is-small is-danger is-light is-pulled-right mb-2" @click="colshow = 'list'">
                   <span class="icon">
                      <i class="fa-solid fa-times"></i>
                   </span>

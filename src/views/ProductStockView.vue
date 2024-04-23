@@ -583,8 +583,8 @@
                <template v-else="show"><i class="fa-sharp fa-solid fa-chevron-up"></i></template>
             </div>
             <div>----</div>
-            <div v-show="show && _stock_details?.product?.ref_products" class="list has-visible-pointer-controls">
-               <div class="list-item pl-0 pr-0" v-for="(i, index) in _stock_details?.product?.ref_products" :key="i.id">
+            <div v-show="show && _stock_details?.product?.ref_products_true" class="list has-visible-pointer-controls">
+               <div class="list-item pl-0 pr-0" v-for="(i, index) in _stock_details?.product?.ref_products_true" :key="i.id">
                   <div class="list-item-image">
                      {{ index + 1 }}&nbsp;
                   </div>
@@ -1077,10 +1077,44 @@ export default {
          console.log(s);
       },
       adjustStock: function() {
-         xaxios.post(`/inventory/stock-adjust/${this.stock_header_id}`).then((r) => {
-            this.colshow = 'so_list';
-            this.getStockHeaders();
-         })
+         const dialog = createConfirmDialog(ModalDialog);
+         dialog.onConfirm(() => {
+            this.isConfirmed = true;
+            xaxios.post(`/inventory/stock-adjust/${this.stock_header_id}`).then((r) => {
+               this.colshow = 'so_list';
+               this.getStockHeaders();
+               this.toast.success("Berhasil melakukan penyesuaian", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+            }).catch((err) => {
+               this.toast.error("Gagal melakukan penyesuaian", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+            })
+         });
+         dialog.reveal();
       }
    }
 }

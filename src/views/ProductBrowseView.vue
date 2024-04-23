@@ -72,7 +72,7 @@
                         <td><span class="is-capitalized">{{ i.product_sub_category?.sub_category }}</span></td>
                         <td>{{ i.code ? i.code : '-' }}</td>
                         <td>{{ i.product_name }}</td>
-                        <td><span class="has-text-weight-bold">{{ parseFloat(i.quantity) }}</span></td>
+                        <td><span class="has-text-weight-bold has-text-success">{{ parseFloat(i.buy_product_hub?.quantity) }}</span> (<span class="has-text-weight-bold">{{ parseFloat(i.quantity) }}</span>)</td>
                         <td><span class="is-capitalized">{{ i.unit?.unit }}</span></td>
                         <td><span class="is-capitalized">{{ parseFloat(i.buy_product_hub?.buy_details?.quantity_per_unit) }}</span></td>
                         <td><span v-if="i.price_buy">{{ toIdr(i.price_buy) }}</span><span v-else>{{ toIdr(0) }}</span></td>
@@ -503,8 +503,29 @@
                </span>
             </div>
             <div class="is-divider mt-4 mb-0"></div>
-            <div class="list">
-               <div class="list-item pl-0 pr-0" v-for="(i, index) in product?.ref_products" :key="i.id">
+
+            <div class="box box-flat is-success is-light title is-size-5 is-underlined p-1 mb-3 mt-2">
+               <div class="field has-addons">
+                  <p class="control">
+                     <a class="button">
+                        <div class="icon is-small is-left" @click="_asc = !_asc" style="color: hsl(207deg, 61%, 53%);">
+                           <i class="fa-solid" :class="[_asc === true ? 'fa-arrow-down-wide-short' : 'fa-arrow-up-wide-short']"></i>
+                        </div>
+                     </a>
+                  </p>
+                  <p class="control is-expanded">
+                     <input class="input" v-model="_q" type="text" placeholder=".. nama produk">
+                  </p>
+                  <!-- <div class="button is-success is-light is-outlined ml-2" @click="changeCol('header')">
+                     <span class="icon">
+                        <i class="fa-regular fa-circle-plus"></i>
+                     </span>
+                  </div> -->
+               </div>
+            </div>
+            <div class="is-divider mt-2 mb-0"></div>
+            <div class="list has-visible-pointer-controls">
+               <div class="list-item pl-0 pr-0" v-for="(i, index) in hubs" :key="i.id">
                   <div class="list-item-image">
                      {{ index + 1 }}&nbsp;
                   </div>
@@ -512,7 +533,7 @@
                      <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
                      <div class="list-item-title has-text-weight-normal mb-1">{{ i?.buy_details?.product_name }}</div>
                      <div class="list-item-description"><span class="tag">Kategori > {{ i?.buy_details
-?.product_category?.category }}</span> <span class="tag">Kategori > {{ i?.buy_details
+?.product_category?.category }}</span> <span class="tag">Sub Kategori > {{ i?.buy_details
 ?.product_sub_category?.sub_category }}</span></div>
                      <div class="list-item-description mt-1">
                         <span class="tag is-success is-light mr-1 mb-1">Stok > {{ parseFloat(i?.quantity) }}</span>
@@ -525,8 +546,61 @@
                         <span class="tag is-warning is-light">Volume _CM > {{ i?.buy_details?.volume_cm }}</span>
                      </div>
                   </div>
+                  <div class="list-item-controls pr-0">
+                     <div class="is-right">
+                        <div class="field has-addons">
+                           <p class="control">
+                              <span class="select is-small is-outlined" :class="[i?.status === 'true'? 'is-success' : 'is-danger']">
+                                 <select>
+                                    <option value="true" :selected="i?.status === 'true'">Aktif</option>
+                                    <option value="false" :selected="i?.status === 'false'">Tidak Aktif</option>
+                                 </select>
+                              </span>
+                           </p>
+                           <p class="control">
+                              <a class="button is-small" :class="[i?.status === 'true'? 'has-background-grey-dark is-dark' : 'is-danger']" v-on:click="changeStatus(i.id, $event)">
+                                 Save
+                              </a>
+                           </p>
+                           </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
 
-                  
+            <div class="level mt-4">
+               <div class="level-left is-hidden-mobile">
+                  <div class="level-item">
+                     <div class="button is-small">
+                        Page {{ _page }}/{{ _totalPages }} of {{ _totalItems }} total items
+                     </div>
+                  </div>
+               </div>
+               <div class="level-right">
+                  <div class="level-item">
+                        <nav class="pagination is-right is-small">
+                           <paginate
+                           v-model="_page"
+                           :page-count="_totalPages"
+                           :page-range="3"
+                           :margin-pages="0"
+                           :click-handler="_clickCallback"
+                           :prev-link-class="'pagination-link'"
+                           :page-link-class="'pagination-link'"
+                           :next-link-class="'pagination-link'"
+                           :prev-text="'<i class=\'fa-solid fa-arrow-left\'></i>'"
+                           :next-text="'<i class=\'fa-solid fa-arrow-right\'></i>'"
+                           :no-li-surround="true"
+                           :active-class="'is-current'"
+                           :first-last-button="true"
+                           :first-button-text="'<i class=\'fa-solid fa-arrow-left-long-to-line\'></i>'"
+                           :last-button-text="'<i class=\'fa-solid fa-arrow-right-long-to-line\'></i>'"
+                           :hide-prev-next="true"
+                           :container-class="'pagination-list'"
+                           >
+                           </paginate>
+                        </nav>
+                  </div>
                </div>
             </div>
          </div>
@@ -542,7 +616,7 @@
             </header>
             <section class="modal-card-body pt-1">
                <div class="list has-visible-pointer-controls">
-                  <div class="list-item" v-for="(i, index) in product?.ref_products" :key="i.id">
+                  <div class="list-item" v-for="(i, index) in product?.ref_products_true" :key="i.id">
                      <div class="list-item-content">
                         <div class="list-item-description">{{ i?.buy_header?.invoice_number }} | {{ dateFormat(i?.buy_header?.invoice_date) }}</div>
                         <div class="list-item-title has-text-weight-normal mb-1">{{ i?.buy_details?.product_name }}</div>
@@ -672,10 +746,36 @@ export default {
          volume_cm: null,
          min_buy: null,
          level: null,
-         status: null
+         status: null,
+
+         _q: null,
+         _order: 'asc',
+         _asc: true,
+         _page: 1,
+         _totalPages: 0,
+         _pageSize: 5,
+         _totalItems: null,
+
+         _product_id: null,
+         __status: null,
+         hub: null,
+         hubs: []
       }
    },
    watch: {
+      _q: _.debounce(function(v) {
+         this._q = v;
+         this.getBuyHub();
+      }, 500),
+      _asc: function() {
+         if (this._asc) {
+            this._order = 'asc';
+            this.getBuyHub();
+         } else {
+            this._order = 'desc';
+            this.getBuyHub();
+         }
+      },
       q: _.debounce(function(v) {
          this.q = v;
          this.getProducts();
@@ -701,23 +801,26 @@ export default {
    },
    methods: {
       changeCol: function(a, x = null, y = null) {
-         this.colshow = a;
          if (a === 'list') {
+            // Object.assign(this.$data, this.$options.data());
             // this.reset();
             this.colinfo = "Produk";
             this.isEdit = false;
             this.getProducts();
          }
          if (a === 'edit') {
+            this.isEdit = true;
             this.getProduct(x);
             this.colinfo = "Edit";
-            this.isEdit = true;
          }
          if (a === 'listx') {
-            this.getDetails(x);
+            // this.getDetails(x);
+            this._product_id = x;
+            this.getBuyHub();
             this.colinfo = "Detil";
             this.isEdit = false;
          }
+         this.colshow = a;
       },
       toIdr: function(e) {
          return formatCurrency(e, 'id', 'IDR');
@@ -749,7 +852,7 @@ export default {
          this.getProducts();
       },
       getProduct: function(id) {
-         xaxios.get("inventory/product/"+id).then((r) => {
+         xaxios.get("inventory/product/"+id, {s: 'true'}).then((r) => {
             this.product = r.data;
             this.id = this.product?.id;
             this.quantity = this.product?.quantity ? parseFloat(this.product?.quantity) : null;
@@ -845,6 +948,57 @@ export default {
                this.weight_kg = parseFloat(e?.buy_details?.weight_kg_per_unit);
             }
          })
+      },
+      getBuyHub: function() {
+         xaxios.get(`inventory/buy-hub?product_id=${this._product_id ? this._product_id : 0}&status=${this.__status ? this.__status : ''}&q=${this._q ? this._q : ''}&page=${this._page}&per_page=${this._pageSize}&order=${this._order}`).then((r) => {
+            this.hubs = r.data.items;
+            this._totalPages = r.data.total_pages;
+            this._totalItems = r.data.total_items;
+         })
+      },
+      _clickCallback: function(pageNum) {
+         this._page = pageNum;
+         this.getBuyHub();
+      },
+      changeStatus: function(id, event) {
+         const dialog = createConfirmDialog(ModalDialog);
+         dialog.onConfirm(() => {
+            this.isConfirmed = true;
+            let status = event.target.parentElement.previousSibling.children[0].children[0].value;
+            xaxios.post(`inventory/buy-hub-status?id=${id}&status=${status}`).then((r) => {
+               this.getBuyHub();
+               this.toast.success("Berhasil mengubah status", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+            }).catch((err) => {
+               this.toast.error("Gagal mengubah status", {
+                  position: "bottom-right",
+                  timeout: 1000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+               });
+            });
+         });
+         dialog.reveal();
       }
    }
 }

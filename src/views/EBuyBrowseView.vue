@@ -152,13 +152,13 @@
                         <td><span class="is-capitalized">{{ i.unit?.unit }}</span></td>
                         <td><span class="is-capitalized">{{ parseFloat(i.buy_product_hub?.buy_details?.quantity_per_unit) }}</span></td>
                         <td>{{ parseFloat(i.weight_kg) }} KG</td>
-                        <td><span class="has-text-weight-semibold">{{ parseFloat(i.quantity) }}</span></td>
+                        <td><span class="has-text-weight-semibold">{{ parseFloat(i.buy_product_hub?.quantity) }}</span></td>
                         <td><span>{{ i?.min_buy }}</span></td>
                         <td><span v-if="i.price_sell">{{ toIdr(i.price_sell) }}</span><span v-else>{{ toIdr(0) }}</span></td>
                         <td>
                            <div class="field has-addons is-pulled-right is-block" style="width: 100%;">
                               <p class="control">
-                                 <input :disabled="store?.userInfo?.branch_id == null" class="input is-small has-text-centered has-text-weight-bold" ref="item" v-on:change="uItems(i.id)" :product_id="i.id" :buy_product_hub_id="i.buy_product_hub_id" :buy_header_id="i.buy_header_id" :buy_details_id="i?.buy_product_hub?.buy_details_id" :stock="i.quantity" type="number" :min="i?.min_buy ? parseInt(i?.min_buy) : 0" :max="parseFloat(i.quantity)" :value="i?.sell_temp ? i?.sell_temp?.quantity : parseFloat(0)">
+                                 <input :disabled="store?.userInfo?.branch_id == null" class="input is-small has-text-centered has-text-weight-bold" ref="item" v-on:change="uItems(i.id)" :product_id="i.id" :buy_product_hub_id="i.buy_product_hub_id" :buy_header_id="i.buy_header_id" :buy_details_id="i?.buy_product_hub?.buy_details_id" :stock="i.buy_product_hub?.quantity" type="number" :min="i?.min_buy ? parseInt(i?.min_buy) : 0" :max="parseFloat(i.buy_product_hub?.quantity)" :value="i?.sell_temp ? i?.sell_temp?.quantity : parseFloat(0)">
                               </p>
                            </div>
                         </td>
