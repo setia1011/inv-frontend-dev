@@ -891,7 +891,7 @@ export default {
          d['min_buy'] = f['v_min_buy'] ? f['v_min_buy'] : null;
          d['status'] = f['v_status'];
          d['level'] = f['v_level'];
-         xaxios.patch("inventory/product/", d).then((r) => {
+         xaxios.patch("inventory/product", d).then((r) => {
             this.toast.success("Berhasil update produk", {
                position: "bottom-right",
                timeout: 1000,

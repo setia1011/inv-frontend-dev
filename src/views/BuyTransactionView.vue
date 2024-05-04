@@ -343,7 +343,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">Diskon</label>
+                           <label class="label">Diskon (Nominal)</label>
                            <p class="control is-expanded is-relative">
                               <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"
@@ -362,7 +362,7 @@
                      </div>
                      <div class="column is-full-mobile is-full-tablet is-half-desktop is-one-quarter-widescreen pb-1 pt-1">
                         <div class="field">
-                           <label class="label">PPN</label>
+                           <label class="label">PPN (Nominal)</label>
                            <p class="control is-expanded is-relative">
                               <loading class="loading" v-model:active="isEditHeaderLoading"
                               :can-cancel="false"

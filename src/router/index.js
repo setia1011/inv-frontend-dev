@@ -149,7 +149,13 @@ const routes = [
         name: 'reportSell',
         meta: { layout: First, 'par': 'Laporan', 'name': 'Penjualan' },
         component: () => import('../views/ReportSellView.vue')
-    }
+    },
+    {
+        path: '/report-profit',
+        name: 'reportStock',
+        meta: { layout: First, 'par': 'Laporan', 'name': 'Laba' },
+        component: () => import('../views/ReportProfitView.vue')
+    },
 ];
 
 const router = createRouter({

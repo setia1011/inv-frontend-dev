@@ -464,7 +464,7 @@ background-color: #f0f0f06c;
    border-bottom: 1px dotted hsla(0, 29%, 25%, 0.24);
 }
 
-.box {
-   //box-shadow: .5px .5px .5px .5px hsl(0deg, 0%, 71%);
-}
+/* .box {
+   box-shadow: .5px .5px .5px .5px hsl(0deg, 0%, 71%);
+} */
  </style>

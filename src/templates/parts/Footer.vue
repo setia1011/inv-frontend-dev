@@ -4,7 +4,7 @@
             <div class="content">
                 <div class="columns is-mobile">
                     <div class="column is-half">
-                        <p>by <a href="https://codex.id" target="_blank" class="has-text-info"><u>Codex</u></a></p>
+                        <p><a href="https://techack.id" target="_blank" class="has-text-info"><u><i class="fa-solid fa-terminal"></i></u></a></p>
                     </div>
                     <div class="column is-half">
                         <!-- <a class="is-pulled-right" href="https://bulma.io">

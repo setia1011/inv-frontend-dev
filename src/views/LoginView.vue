@@ -48,7 +48,7 @@
         <div class="container is-max-desktop">
             <div class="columns is-mobile m-0 p-0" style="position: fixed; bottom: 0; left: 50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); flex: auto; width: 100%;">
                 <div class="column is-three-quarters-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd m-auto">
-                    <p style="padding-top: 17px; border-top: 1px solid hsl(153deg 9.91% 81.81% / 45%);">by <a href="https://codex.id" target="_blank" class="has-text-info"><u>Codex</u></a></p>
+                    <p style="padding-top: 17px; border-top: 1px solid hsl(153deg 9.91% 81.81% / 45%);"><a href="https://techack.id" target="_blank" class="has-text-info"><u><i class="fa-solid fa-terminal"></i></u></a></p>
                 </div>
             </div>
         </div>

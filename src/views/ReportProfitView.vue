@@ -104,7 +104,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
-   name: 'ReportStock',
+   name: 'ReportProfit',
    components: {
       Loading,
       VChart,
@@ -203,7 +203,17 @@ export default {
                legend: {
                   show: true,
                   top: '0',
-                  right: '0'
+                  right: '0',
+                  // data: [
+                  //    { name: 'Nilai Pembelian' },
+                  //    { name: 'Nilai Penjualan' },
+                  //    {
+                  //       name: 'Laba',
+                  //       itemStyle: {
+                  //          color: ''
+                  //       }
+                  //    }
+                  // ]
                },
                xAxis: {
                   type: 'category',
@@ -249,13 +259,15 @@ export default {
                   {
                      name: 'Laba',
                      type: 'bar',
-                     data: profit_loss.map(item => {
-                     return {
-                        value: item,
-                        itemStyle: {
-                           color: item[1] > 0 ? '#A3C754' : '#C754A3'
-                        }
-                     }}),
+                     data: profit_loss,
+                     // data: profit_loss.map(item => {
+                     //    return {
+                     //       value: item,
+                     //       itemStyle: {
+                     //          color: item[1] > 0 ? '#A3C754' : '#C754A3'
+                     //       }
+                     //    }
+                     // }),
                      color: '',
                      lineStyle: {
                         type: 'dashed'
