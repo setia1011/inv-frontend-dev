@@ -20,8 +20,8 @@
                    </template>
                    <template v-else>
                        <li>
-                           <a class="menu-has-sub has-text-grey-lighter" ref="sl" :sl="index" v-on:click="Tes($event, index)">
-                               <i class="fa-light fa-map-pin icon-menu-parent fa-rotate-270"></i> {{ item.label }} 
+                           <a class="menu-has-sub has-text-grey-lighter" ref="sl" :sl="index" v-on:click="Tes($event, index)" style="z-index: 1;">
+                               <i class="fa-light fa-map-pin icon-menu-parent fa-rotate-270" style="margin-right: .3rem !important;"></i> {{ item.label }} 
                                <span class="is-pulled-right" style="line-height: 30px; margin-top: -4px;">
                                    <i class="fa-solid fa-angle-right hidex"></i>
                                    <i class="fa-solid fa-angle-down showx"></i>
@@ -36,9 +36,16 @@
                            <ul class="menu-has-sub-list">
                                <template v-for="(i, x) in item.children" :key="x">
                                    <li class="p-1">
-                                       <router-link :to="i.to" class="p-0 has-text-grey-light">
-                                           <i class="fa-solid fa-check"></i> {{ i.label }}
-                                       </router-link>
+                                        <router-link :to="i.to" class="p-0 has-text-grey-light">
+                                            <article class="media">
+                                                <div class="media-left" style="padding-left: 0rem; margin-right: .27rem;"><i class="fa-solid fa-check"></i></div>
+                                                <div class="media-content p-0">
+                                                    <div class="content p-0">
+                                                        {{ i.label }}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </router-link>
                                    </li>
                                </template>
                            </ul>

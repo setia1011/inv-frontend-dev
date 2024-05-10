@@ -10,7 +10,7 @@
                 <div class="mt-6 mb-4 is-size-6"><i class="fa-thin fa-arrow-right-long"></i> Please use your credential <i>(<u>username</u>, <u>password</u>)</i> to access</div>
                 <div class="field">
                     <p class="control has-icons-left has-icons-right">
-                        <input class="input" type="text" v-model="username" placeholder="Username">
+                        <input class="input" type="text" v-model="username" placeholder="Username" v-on:keyup.enter="enterUserLogin">
                         <span class="icon is-small is-left">
                             <i class="fa-regular fa-user-alien"></i>
                         </span>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="field">
                     <p class="control has-icons-left">
-                        <input class="input" type="password" v-model="password" placeholder="Password">
+                        <input class="input" type="password" v-model="password" placeholder="Password" v-on:keyup.enter="enterUserLogin">
                         <span class="icon is-small is-left">
                             <i class="fa-sharp fa-solid fa-key"></i>
                         </span>
@@ -78,6 +78,9 @@ export default {
     mounted() {
     },
     methods: {
+        enterUserLogin: function() {
+            this.userLogin();
+        },
         async userLogin() {
             if (this.username && this.password) {
                 let lg = this.$refs.lg;
